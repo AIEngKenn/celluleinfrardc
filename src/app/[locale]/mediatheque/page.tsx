@@ -77,7 +77,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
                 {item.image && (
                   <Image
                     src={urlFor(item.image).width(600).height(600).url()}
-                    alt={item.title[locale] || item.title.fr || 'Photo'}
+                    alt={item.title[locale as 'fr' | 'en'] || item.title.fr || 'Photo'}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />

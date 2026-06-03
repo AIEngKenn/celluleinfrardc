@@ -130,8 +130,8 @@ export interface News {
   titleEn: string;
   excerptFr: string;
   excerptEn: string;
-  contentFr: Record<string, unknown>[]; // Portable Text
-  contentEn: Record<string, unknown>[]; // Portable Text
+  contentFr: { _type: string; [key: string]: unknown }[]; // Portable Text
+  contentEn: { _type: string; [key: string]: unknown }[]; // Portable Text
   publishedAt: string;
   category: NewsCategory;
   featured: boolean;

@@ -1,119 +1,179 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
-import { MapPin, Calendar, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { MapPin, ArrowRight } from 'lucide-react';
 
-// Placeholder data
 const projects = [
   {
     id: 1,
-    titleFr: "Réhabilitation de la Route Nationale N°1",
-    titleEn: "Rehabilitation of National Road N°1",
-    province: "Kinshasa",
-    status: "En cours",
+    titleFr: 'Réhabilitation de la Route Nationale N°1',
+    titleEn: 'Rehabilitation of National Road N°1',
+    province: 'Kinshasa',
+    statusFr: 'En cours',
+    statusEn: 'In progress',
     budget: 45000000,
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop',
+    sectorFr: 'Transport',
+    sectorEn: 'Transport',
+    featured: true,
   },
   {
     id: 2,
-    titleFr: "Construction du Barrage Hydroélectrique Inga 3",
-    titleEn: "Construction of Inga 3 Hydroelectric Dam",
-    province: "Kongo Central",
-    status: "En préparation",
+    titleFr: 'Construction du Barrage Hydroélectrique Inga 3',
+    titleEn: 'Construction of Inga 3 Hydroelectric Dam',
+    province: 'Kongo Central',
+    statusFr: 'En préparation',
+    statusEn: 'In preparation',
     budget: 120000000,
-    image:
-      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=600&fit=crop",
+    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=600&fit=crop',
+    sectorFr: 'Énergie',
+    sectorEn: 'Energy',
   },
   {
     id: 3,
     titleFr: "Modernisation de l'Aéroport International de Kinshasa",
-    titleEn: "Modernization of Kinshasa International Airport",
-    province: "Kinshasa",
-    status: "En cours",
+    titleEn: 'Modernization of Kinshasa International Airport',
+    province: 'Kinshasa',
+    statusFr: 'En cours',
+    statusEn: 'In progress',
     budget: 85000000,
-    image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop",
+    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop',
+    sectorFr: 'Transport aérien',
+    sectorEn: 'Air transport',
   },
 ];
 
+function statusClass(status: string) {
+  if (status.toLowerCase().includes('cours') || status.toLowerCase().includes('progress'))
+    return 'ci-badge ci-badge--blue';
+  if (status.toLowerCase().includes('achev') || status.toLowerCase().includes('complet'))
+    return 'ci-badge ci-badge--green';
+  return 'ci-badge ci-badge--yellow';
+}
+
 export function FeaturedProjects() {
-  const t = useTranslations("home.sections");
   const locale = useLocale();
+  const isFr = locale === 'fr';
+  const [featured, ...rest] = projects;
 
   return (
-    <section className="bg-gray-50 py-16 sm:py-20">
-      <div className="container-wide">
-        {/* Section Header */}
-        <div className="mb-12 flex items-center justify-between">
+    <section className="ci-section" style={{ background: 'var(--ci-bg-subtle)' }}>
+      <div className="ci-container">
+        {/* Header */}
+        <div className="ci-section-header">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              {t("featuredProjects")}
+            <span className="ci-eyebrow">{isFr ? 'Projets phares' : 'Featured projects'}</span>
+            <h2 className="ci-section-title">
+              {isFr ? 'Projets structurants' : 'Structural projects'}
             </h2>
-            <p className="mt-2 text-lg text-gray-600">
-              {locale === "fr"
-                ? "Projets majeurs transformant les infrastructures de la RDC"
-                : "Major projects transforming DRC infrastructure"}
-            </p>
           </div>
-          <Link
-            href={`/${locale}/projets`}
-            className="hidden sm:flex items-center gap-2 text-rdc-blue hover:text-rdc-blue/80 font-medium transition-colors"
-          >
-            {locale === "fr" ? "Voir tous les projets" : "View all projects"}
-            <ArrowRight className="h-5 w-5" />
+          <Link href={`/${locale}/projets`} className="ci-view-all">
+            {isFr ? 'Tous les projets' : 'All projects'}
+            <ArrowRight size={14} />
           </Link>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
+        {/* Editorial layout: large featured + stack */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '1px',
+            background: 'var(--ci-border)',
+          }}
+        >
+          <div
+            style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1px' }}
+            className="lg:grid-cols-[2fr_1fr]"
+          >
+            {/* Main featured */}
             <Link
-              key={project.id}
-              href={`/${locale}/projets/${project.id}`}
-              className="group overflow-hidden rounded-lg bg-white shadow-md transition-all hover:shadow-xl"
+              href={`/${locale}/projets/${featured.id}`}
+              className="ci-project-card"
+              style={{ gridRow: 'span 2', display: 'flex', flexDirection: 'column' }}
             >
-              {/* Image */}
-              <div className="aspect-video w-full overflow-hidden bg-gray-200">
+              <div className="ci-project-card-img" style={{ flex: 1 }}>
                 <img
-                  src={project.image}
-                  alt={locale === "fr" ? project.titleFr : project.titleEn}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  src={featured.image}
+                  alt={isFr ? featured.titleFr : featured.titleEn}
+                  loading="lazy"
                 />
               </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="mb-3 flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin className="h-4 w-4" />
-                  <span>{project.province}</span>
+              <div className="ci-project-card-body">
+                <div className="ci-project-card-meta">
+                  <MapPin size={12} />
+                  <span>{featured.province}</span>
+                  <span style={{ color: 'var(--ci-border-strong)' }}>·</span>
+                  <span>{isFr ? featured.sectorFr : featured.sectorEn}</span>
                 </div>
-                <h3 className="mb-2 text-xl font-semibold text-gray-900 group-hover:text-rdc-blue transition-colors">
-                  {locale === "fr" ? project.titleFr : project.titleEn}
+                <h3 className="ci-project-card-title" style={{ fontSize: '1.25rem' }}>
+                  {isFr ? featured.titleFr : featured.titleEn}
                 </h3>
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex rounded-full bg-rdc-blue/10 px-3 py-1 text-xs font-medium text-rdc-blue">
-                    {project.status}
+                <div className="ci-project-card-footer">
+                  <span className={statusClass(isFr ? featured.statusFr : featured.statusEn)}>
+                    {isFr ? featured.statusFr : featured.statusEn}
                   </span>
-                  <span className="text-sm font-semibold text-gray-900">
-                    ${(project.budget / 1000000).toFixed(1)}M
+                  <span
+                    style={{
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      color: 'var(--ci-text-primary)',
+                    }}
+                  >
+                    ${(featured.budget / 1000000).toFixed(0)}M
                   </span>
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
 
-        {/* Mobile View All Link */}
-        <div className="mt-8 flex justify-center sm:hidden">
-          <Link
-            href={`/${locale}/projets`}
-            className="flex items-center gap-2 text-rdc-blue hover:text-rdc-blue/80 font-medium transition-colors"
-          >
-            {locale === "fr" ? "Voir tous les projets" : "View all projects"}
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+            {/* Side stack */}
+            {rest.map((project) => (
+              <Link
+                key={project.id}
+                href={`/${locale}/projets/${project.id}`}
+                className="ci-project-card"
+                style={{ display: 'flex', flexDirection: 'row' }}
+              >
+                <div
+                  style={{
+                    width: '8rem',
+                    flexShrink: 0,
+                    overflow: 'hidden',
+                    background: 'var(--ci-bg-tinted)',
+                  }}
+                >
+                  <img
+                    src={project.image}
+                    alt={isFr ? project.titleFr : project.titleEn}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.4s',
+                    }}
+                  />
+                </div>
+                <div className="ci-project-card-body" style={{ flex: 1 }}>
+                  <div className="ci-project-card-meta">
+                    <MapPin size={11} />
+                    <span>{project.province}</span>
+                  </div>
+                  <h3 className="ci-project-card-title" style={{ fontSize: '0.9rem' }}>
+                    {isFr ? project.titleFr : project.titleEn}
+                  </h3>
+                  <span
+                    className={statusClass(
+                      isFr ? (project.statusFr ?? '') : (project.statusEn ?? '')
+                    )}
+                  >
+                    {isFr ? project.statusFr : project.statusEn}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -7,7 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "studio:dev": "cd sanity && npm run dev",
+    "studio:build": "cd sanity && npm run build",
+    "studio:deploy": "cd sanity && npm run deploy",
+    "migrate:crawl": "tsx scripts/migration/crawl.ts",
+    "migrate:transform": "tsx scripts/migration/transform.ts",
+    "migrate:import": "tsx scripts/migration/import.ts",
+    "migrate:full": "npm run migrate:crawl && npm run migrate:transform && npm run migrate:import"
   },
   "dependencies": {
     "next": "^15.0.0",
@@ -29,7 +36,9 @@
     "tailwindcss-animate": "^1.0.7",
     "date-fns": "^4.1.0",
     "zod": "^3.24.1",
-    "react-hook-form": "^7.54.2"
+    "react-hook-form": "^7.54.2",
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
@@ -43,7 +52,11 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.0.0",
     "@typescript-eslint/parser": "^8.19.1",
-    "@typescript-eslint/eslint-plugin": "^8.19.1"
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "tsx": "^4.19.2",
+    "@types/cheerio": "^0.22.35",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9"
   },
   "engines": {
     "node": ">=20.0.0",

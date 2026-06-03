@@ -37,7 +37,19 @@
     "status": "Statut",
     "location": "Localisation",
     "province": "Province",
-    "sector": "Secteur"
+    "sector": "Secteur",
+    "404": {
+      "title": "Page Non Trouvée",
+      "description": "Désolé, la page que vous recherchez n'existe pas.",
+      "backHome": "Retour à l'accueil",
+      "viewProjects": "Voir les projets"
+    },
+    "500": {
+      "title": "Erreur Serveur",
+      "description": "Désolé, une erreur s'est produite. Veuillez réessayer.",
+      "tryAgain": "Réessayer",
+      "backHome": "Retour à l'accueil"
+    }
   },
   "home": {
     "hero": {
@@ -62,59 +74,159 @@
     }
   },
   "projects": {
+    "meta": {
+      "title": "Projets d'Infrastructures - Cellule Infrastructures RDC",
+      "description": "Découvrez tous les projets d'infrastructures en cours et réalisés à travers la RDC"
+    },
     "title": "Projets d'Infrastructures",
+    "subtitle": "Découvrez l'ensemble de nos projets d'infrastructures à travers la RDC",
     "allProjects": "Tous les Projets",
-    "byProvince": "Par Province",
-    "byStatus": "Par Statut",
-    "bySector": "Par Secteur",
+    "backToProjects": "Retour aux projets",
+    "resultsCount": "{count} projet(s) trouvé(s)",
+    "noResults": "Aucun projet trouvé",
+    "clearFilters": "Effacer les filtres",
+    "filters": {
+      "province": "Province",
+      "status": "Statut",
+      "sector": "Secteur",
+      "allProvinces": "Toutes les provinces",
+      "allStatuses": "Tous les statuts",
+      "allSectors": "Tous les secteurs"
+    },
     "status": {
       "preparation": "En Préparation",
       "ongoing": "En Cours",
-      "completed": "Terminés"
+      "completed": "Terminé",
+      "suspended": "Suspendu"
     },
-    "details": {
-      "overview": "Aperçu",
-      "objectives": "Objectifs",
-      "budget": "Budget",
-      "funding": "Source de Financement",
-      "timeline": "Calendrier",
-      "progress": "Avancement",
-      "documents": "Documents",
-      "gallery": "Galerie",
-      "relatedNews": "Actualités Liées",
-      "relatedProcurement": "Appels d'Offres Liés"
-    }
+    "sectors": {
+      "roads": "Routes",
+      "bridges": "Ponts",
+      "water": "Eau",
+      "electricity": "Électricité",
+      "schools": "Écoles",
+      "hospitals": "Hôpitaux",
+      "ports": "Ports",
+      "airports": "Aéroports",
+      "railways": "Chemins de fer",
+      "telecommunications": "Télécommunications",
+      "other": "Autre"
+    },
+    "description": "Description",
+    "location": "Localisation",
+    "province": "Province",
+    "sector": "Secteur",
+    "budget": "Budget",
+    "startDate": "Date de début",
+    "endDate": "Date de fin prévue",
+    "progress": "Avancement",
+    "completion": "Réalisation",
+    "complete": "réalisé",
+    "keyInfo": "Informations Clés",
+    "gallery": "Galerie Photos",
+    "documents": "Documents",
+    "download": "Télécharger",
+    "relatedNews": "Actualités Liées",
+    "relatedProcurement": "Appels d'Offres Liés",
+    "closingDate": "Date de clôture"
   },
   "news": {
+    "meta": {
+      "title": "Actualités - Cellule Infrastructures RDC",
+      "description": "Toutes les actualités et informations sur les projets d'infrastructures en RDC"
+    },
     "title": "Actualités",
+    "subtitle": "Restez informé de toutes les actualités de la Cellule Infrastructures",
     "latest": "Dernières Actualités",
     "featured": "À la Une",
     "archive": "Archives",
-    "relatedArticles": "Articles Connexes"
+    "backToNews": "Retour aux actualités",
+    "resultsCount": "{count} article(s) trouvé(s)",
+    "noResults": "Aucune actualité trouvée",
+    "viewAll": "Voir toutes les actualités",
+    "allCategories": "Toutes les catégories",
+    "relatedArticles": "Articles Connexes",
+    "relatedProjects": "Projets Liés",
+    "gallery": "Galerie Photos",
+    "moreInCategory": "Plus dans cette catégorie"
   },
   "procurement": {
+    "meta": {
+      "title": "Appels d'Offres - Cellule Infrastructures RDC",
+      "description": "Consultez tous les appels d'offres et opportunités de marchés publics"
+    },
     "title": "Appels d'Offres",
-    "open": "Opportunités Ouvertes",
-    "closed": "Opportunités Fermées",
-    "awarded": "Contrats Attribués",
-    "deadline": "Date Limite",
+    "subtitle": "Consultez toutes les opportunités de marchés publics",
+    "tabs": {
+      "open": "Ouvert",
+      "closed": "Fermé"
+    },
+    "backToProcurement": "Retour aux appels d'offres",
     "reference": "Référence",
-    "details": "Détails de l'Opportunité",
-    "documents": "Documents",
-    "howToApply": "Comment Postuler"
+    "openingDate": "Date d'ouverture",
+    "closingDate": "Date de clôture",
+    "viewDetails": "Voir les détails",
+    "documentsAvailable": "{count} document(s) disponible(s)",
+    "relatedProjects": "Projets Liés",
+    "categories": {
+      "works": "Travaux",
+      "supplies": "Fournitures",
+      "services": "Services",
+      "consultancy": "Consultance",
+      "recruitment": "Recrutement"
+    },
+    "urgent": "Urgent",
+    "closed": "Fermé",
+    "daysRemaining": "{days} jour(s) restant(s)",
+    "noOpenProcurement": "Aucun appel d'offres ouvert pour le moment",
+    "noClosedProcurement": "Aucun appel d'offres fermé",
+    "activeNotice": "Appels d'offres actifs",
+    "activeNoticeDescription": "Consultez les documents et soumettez votre offre avant la date limite",
+    "description": "Description",
+    "tenderDocuments": "Documents d'appel d'offres",
+    "timeline": "Calendrier",
+    "estimatedBudget": "Budget Estimé",
+    "needHelp": "Besoin d'aide ?",
+    "needHelpDescription": "Contactez-nous pour toute question concernant cet appel d'offres",
+    "contactUs": "Nous Contacter",
+    "urgentDeadline": "Date limite proche !",
+    "urgentDeadlineDescription": "Il ne reste que {days} jour(s) pour soumettre votre offre",
+    "opportunityClosed": "Opportunité fermée"
   },
   "publications": {
-    "title": "Publications",
-    "types": {
-      "reports": "Rapports",
-      "studies": "Études",
-      "environmental": "Documents Environnementaux",
-      "social": "Documents Sociaux",
-      "technical": "Rapports Techniques",
-      "institutional": "Rapports Institutionnels"
+    "meta": {
+      "title": "Publications - Cellule Infrastructures RDC",
+      "description": "Accédez à toutes nos publications, rapports, études et documents officiels"
     },
-    "viewPDF": "Voir le PDF",
-    "relatedPublications": "Publications Connexes"
+    "title": "Publications",
+    "subtitle": "Accédez à nos rapports, études et documents officiels",
+    "allTypes": "Tous les types",
+    "resultsCount": "{count} publication(s) trouvée(s)",
+    "noResults": "Aucune publication trouvée",
+    "viewAll": "Voir toutes les publications",
+    "view": "Consulter",
+    "backToPublications": "Retour aux publications",
+    "types": {
+      "annual-report": "Rapport Annuel",
+      "technical-report": "Rapport Technique",
+      "feasibility-study": "Étude de Faisabilité",
+      "environmental-study": "Étude Environnementale",
+      "law-decree": "Loi/Décret",
+      "guide": "Guide",
+      "newsletter": "Newsletter",
+      "brochure": "Brochure",
+      "other": "Autre"
+    },
+    "about": "À propos de cette publication",
+    "document": "Document",
+    "download": "Télécharger",
+    "quickActions": "Actions Rapides",
+    "downloadPDF": "Télécharger le PDF",
+    "openInNewTab": "Ouvrir dans un nouvel onglet",
+    "information": "Informations",
+    "type": "Type",
+    "publishedDate": "Date de publication",
+    "filename": "Nom du fichier"
   },
   "media": {
     "title": "Médiathèque",
@@ -125,11 +237,39 @@
     "viewGallery": "Voir la Galerie"
   },
   "geomatics": {
+    "meta": {
+      "title": "Géomatique - Carte des Infrastructures RDC",
+      "description": "Visualisez tous les projets d'infrastructures sur une carte interactive"
+    },
     "title": "Carte des Infrastructures",
+    "subtitle": "Visualisez tous nos projets sur une carte interactive",
     "filterByProvince": "Filtrer par Province",
     "filterByStatus": "Filtrer par Statut",
     "filterBySector": "Filtrer par Secteur",
-    "viewProject": "Voir le Projet"
+    "filters": "Filtres",
+    "all": "Tous",
+    "allSectors": "Tous les secteurs",
+    "status": {
+      "preparation": "En Préparation",
+      "ongoing": "En Cours",
+      "completed": "Terminé",
+      "suspended": "Suspendu"
+    },
+    "sectors": {
+      "roads": "Routes",
+      "bridges": "Ponts",
+      "water": "Eau",
+      "electricity": "Électricité",
+      "schools": "Écoles",
+      "hospitals": "Hôpitaux",
+      "ports": "Ports",
+      "airports": "Aéroports"
+    },
+    "projectsShown": "{count} projet(s) affiché(s)",
+    "viewProject": "Voir le projet",
+    "legend": "Légende",
+    "aboutMap": "À propos de la carte",
+    "mapDescription": "Cette carte interactive présente tous les projets d'infrastructures en cours et réalisés à travers la RDC. Utilisez les filtres pour afficher les projets par province, statut ou secteur."
   },
   "complaints": {
     "title": "Plaintes & Réclamations",
@@ -146,19 +286,37 @@
     }
   },
   "contact": {
+    "meta": {
+      "title": "Contactez-Nous - Cellule Infrastructures RDC",
+      "description": "Contactez la Cellule Infrastructures pour toute question ou demande d'information"
+    },
     "title": "Contactez-Nous",
-    "address": "Adresse",
-    "phone": "Téléphone",
-    "email": "Email",
-    "hours": "Heures d'Ouverture",
+    "subtitle": "Nous sommes à votre écoute pour toute question ou demande d'information",
     "form": {
-      "name": "Nom Complet",
+      "title": "Envoyez-nous un message",
+      "firstName": "Prénom",
+      "lastName": "Nom",
       "email": "Adresse Email",
+      "phone": "Téléphone",
       "subject": "Sujet",
       "message": "Message",
-      "send": "Envoyer",
+      "send": "Envoyer le message",
+      "submit": "Envoyer",
+      "requiredFields": "* Champs obligatoires",
       "success": "Message envoyé avec succès",
       "error": "Erreur lors de l'envoi du message"
+    },
+    "info": {
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email",
+      "hours": "Heures d'Ouverture",
+      "workdays": "Lundi - Vendredi"
+    },
+    "complaints": {
+      "title": "Plaintes & Réclamations",
+      "description": "Vous avez une plainte ou une réclamation concernant un projet ?",
+      "button": "Soumettre une plainte"
     }
   },
   "footer": {

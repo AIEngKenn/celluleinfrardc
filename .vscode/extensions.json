@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "styled-components.vscode-styled-components",
+    "sanity-io.vscode-sanity",
+    "mattpocock.ts-error-translator",
+    "yoavbls.pretty-ts-errors",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-french",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

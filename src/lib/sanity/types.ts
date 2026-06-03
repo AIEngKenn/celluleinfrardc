@@ -1,0 +1,313 @@
+/**
+ * TypeScript types for Sanity content
+ */
+
+// ============================================================================
+// BASE TYPES
+// ============================================================================
+
+export interface SanityImage {
+  asset: {
+    _id: string;
+    url: string;
+    metadata?: {
+      lqip?: string;
+      dimensions?: {
+        width: number;
+        height: number;
+        aspectRatio: number;
+      };
+    };
+  };
+  alt?: string;
+  caption?: string;
+}
+
+export interface SanityFile {
+  asset: {
+    _id: string;
+    url: string;
+    size?: number;
+    originalFilename?: string;
+  };
+}
+
+export interface SanityDocument {
+  titleFr: string;
+  titleEn: string;
+  file: SanityFile;
+}
+
+export interface GeoPoint {
+  _type: 'geopoint';
+  lat: number;
+  lng: number;
+  alt?: number;
+}
+
+// ============================================================================
+// PROVINCE & CATEGORY
+// ============================================================================
+
+export interface Province {
+  _id: string;
+  nameFr: string;
+  nameEn: string;
+  slug: string;
+  projectCount?: number;
+}
+
+export interface NewsCategory {
+  _id: string;
+  nameFr: string;
+  nameEn: string;
+  slug: string;
+  newsCount?: number;
+}
+
+// ============================================================================
+// PROJECT
+// ============================================================================
+
+export type ProjectStatus = 'preparation' | 'ongoing' | 'completed' | 'suspended';
+
+export type ProjectSector =
+  | 'roads'
+  | 'bridges'
+  | 'water'
+  | 'electricity'
+  | 'schools'
+  | 'hospitals'
+  | 'ports'
+  | 'airports'
+  | 'railways'
+  | 'telecommunications'
+  | 'other';
+
+export interface Project {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
+  slug: string;
+  titleFr: string;
+  titleEn: string;
+  descriptionFr: string;
+  descriptionEn: string;
+  province: Province;
+  status: ProjectStatus;
+  sector: ProjectSector;
+  budget: number;
+  startDate?: string;
+  endDate?: string;
+  progress: number;
+  location?: GeoPoint;
+  featured: boolean;
+  mainImage?: SanityImage;
+  gallery?: SanityImage[];
+  documents?: SanityDocument[];
+  relatedNews?: NewsPreview[];
+  relatedProcurement?: ProcurementPreview[];
+}
+
+export interface ProjectPreview {
+  _id: string;
+  titleFr: string;
+  titleEn: string;
+  slug: string;
+  mainImage?: SanityImage;
+}
+
+// ============================================================================
+// NEWS
+// ============================================================================
+
+export interface News {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
+  slug: string;
+  titleFr: string;
+  titleEn: string;
+  excerptFr: string;
+  excerptEn: string;
+  contentFr: any[]; // Portable Text
+  contentEn: any[]; // Portable Text
+  publishedAt: string;
+  category: NewsCategory;
+  featured: boolean;
+  mainImage?: SanityImage;
+  gallery?: SanityImage[];
+  relatedProjects?: ProjectPreview[];
+}
+
+export interface NewsPreview {
+  _id: string;
+  titleFr: string;
+  titleEn: string;
+  slug: string;
+  publishedAt: string;
+  mainImage?: SanityImage;
+}
+
+// ============================================================================
+// PROCUREMENT
+// ============================================================================
+
+export type ProcurementCategory = 'works' | 'supplies' | 'services' | 'consultancy' | 'recruitment';
+
+export type ProcurementStatus = 'open' | 'closed' | 'awarded' | 'cancelled';
+
+export interface Procurement {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
+  slug: string;
+  reference: string;
+  titleFr: string;
+  titleEn: string;
+  descriptionFr: string;
+  descriptionEn: string;
+  category: ProcurementCategory;
+  openingDate: string;
+  closingDate: string;
+  budget?: number;
+  status: ProcurementStatus;
+  attachments?: SanityDocument[];
+  relatedProjects?: ProjectPreview[];
+}
+
+export interface ProcurementPreview {
+  _id: string;
+  titleFr: string;
+  titleEn: string;
+  slug: string;
+  reference: string;
+  closingDate: string;
+}
+
+// ============================================================================
+// PUBLICATION
+// ============================================================================
+
+export type PublicationType =
+  | 'annual-report'
+  | 'technical-report'
+  | 'feasibility-study'
+  | 'environmental-study'
+  | 'law-decree'
+  | 'guide'
+  | 'newsletter'
+  | 'brochure'
+  | 'other';
+
+export interface Publication {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
+  slug: string;
+  titleFr: string;
+  titleEn: string;
+  descriptionFr: string;
+  descriptionEn: string;
+  publicationType: PublicationType;
+  publishedAt: string;
+  coverImage?: SanityImage;
+  pdfFile: SanityFile;
+}
+
+// ============================================================================
+// SEARCH RESULTS
+// ============================================================================
+
+export interface SearchResult {
+  _id: string;
+  _type: 'project' | 'news' | 'publication';
+  titleFr: string;
+  titleEn: string;
+  slug: string;
+}
+
+export interface GlobalSearchResults {
+  projects: SearchResult[];
+  news: SearchResult[];
+  publications: SearchResult[];
+}
+
+// ============================================================================
+// STATISTICS
+// ============================================================================
+
+export interface SiteStatistics {
+  totalProjects: number;
+  ongoingProjects: number;
+  completedProjects: number;
+  totalBudget: number;
+  provinces: number;
+  publications: number;
+  activeProcurement: number;
+}
+
+// ============================================================================
+// MAP DATA
+// ============================================================================
+
+export interface ProjectMapData {
+  _id: string;
+  titleFr: string;
+  titleEn: string;
+  slug: string;
+  location: GeoPoint;
+  status: ProjectStatus;
+  sector: ProjectSector;
+  province: {
+    nameFr: string;
+    nameEn: string;
+  };
+  mainImage?: {
+    asset: {
+      url: string;
+    };
+  };
+}
+
+// ============================================================================
+// UTILITY TYPES
+// ============================================================================
+
+export type Locale = 'fr' | 'en';
+
+export interface LocalizedContent {
+  titleFr: string;
+  titleEn: string;
+  descriptionFr?: string;
+  descriptionEn?: string;
+}
+
+// Helper function to get localized text
+export function getLocalizedText<T extends LocalizedContent>(
+  content: T,
+  locale: Locale,
+  field: keyof T
+): string {
+  const localizedField = `${String(field)}${locale === 'fr' ? 'Fr' : 'En'}` as keyof T;
+  return (content[localizedField] as string) || '';
+}
+
+// Format currency for RDC
+export function formatCurrency(amount: number, locale: Locale = 'fr'): string {
+  return new Intl.NumberFormat(locale === 'fr' ? 'fr-CD' : 'en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+// Format date
+export function formatDate(date: string, locale: Locale = 'fr'): string {
+  return new Intl.DateTimeFormat(locale === 'fr' ? 'fr-FR' : 'en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(date));
+}

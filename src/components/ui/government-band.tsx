@@ -1,21 +1,19 @@
 /**
  * Government Signature Band
- * Full-width RDC color stripe (Blue, Yellow, Red)
- * Appears above the footer on every page
+ * Full-width RDC tricolour stripe — appears above every footer.
  */
-
 export function GovernmentBand() {
   return (
     <div
-      className="w-full"
+      className="w-full flex"
       role="presentation"
-      aria-label="RDC Government Colors"
+      aria-hidden="true"
     >
-      <div className="flex h-2">
-        <div className="flex-1 bg-rdc-blue" />
-        <div className="flex-1 bg-rdc-yellow" />
-        <div className="flex-1 bg-rdc-red" />
-      </div>
+      <div className="flex-1 h-3" style={{ background: '#007FFF' }} />
+      <div className="flex-1 h-3" style={{ background: '#F7D618' }} />
+      <div className="flex-1 h-3" style={{ background: '#CE1021' }} />
     </div>
   );
+}
+
 }

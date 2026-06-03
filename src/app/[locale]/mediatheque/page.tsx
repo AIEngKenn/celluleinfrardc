@@ -87,11 +87,11 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 transition-opacity group-hover:opacity-100">
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="mb-2 line-clamp-2 font-semibold text-white">
-                      {item.title[locale] || item.title.fr}
+                      {item.title[locale as 'fr' | 'en'] || item.title.fr}
                     </h3>
                     {item.caption && (
                       <p className="mb-3 line-clamp-1 text-sm text-gray-200">
-                        {item.caption[locale] || item.caption.fr}
+                        {item.caption[locale as 'fr' | 'en'] || item.caption.fr}
                       </p>
                     )}
                     <div className="flex gap-2">
@@ -141,7 +141,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
                   {item.thumbnail ? (
                     <Image
                       src={urlFor(item.thumbnail).width(800).height(450).url()}
-                      alt={item.title[locale] || item.title.fr || 'Video'}
+                      alt={item.title[locale as 'fr' | 'en'] || item.title.fr || 'Video'}
                       fill
                       className="object-cover"
                     />
@@ -175,11 +175,11 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
 
                 <div className="p-4">
                   <h3 className="mb-2 line-clamp-2 font-semibold text-gray-900">
-                    {item.title[locale] || item.title.fr}
+                    {item.title[locale as 'fr' | 'en'] || item.title.fr}
                   </h3>
                   {item.caption && (
                     <p className="mb-3 line-clamp-2 text-sm text-gray-600">
-                      {item.caption[locale] || item.caption.fr}
+                      {item.caption[locale as 'fr' | 'en'] || item.caption.fr}
                     </p>
                   )}
                   {item.videoUrl && (

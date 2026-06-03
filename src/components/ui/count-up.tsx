@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
 interface CountUpProps {
   end: number;
@@ -8,11 +8,7 @@ interface CountUpProps {
   decimals?: number;
 }
 
-export default function CountUp({
-  end,
-  duration = 2,
-  decimals = 0,
-}: CountUpProps) {
+export default function CountUp({ end, duration = 2, decimals = 0 }: CountUpProps) {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
@@ -24,16 +20,17 @@ export default function CountUp({
           setHasStarted(true);
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const el = ref.current;
+    if (el) {
+      observer.observe(el);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (el) {
+        observer.unobserve(el);
       }
     };
   }, [hasStarted]);

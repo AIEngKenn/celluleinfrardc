@@ -14,7 +14,7 @@ export const client = createClient({
  * Fetch data from Sanity with optional params
  * Uses ISR (revalidate) for production performance
  */
-export async function sanityFetch<T = any>({
+export async function sanityFetch<T = unknown>({
   query,
   params = {},
   revalidate = 3600, // 1 hour default

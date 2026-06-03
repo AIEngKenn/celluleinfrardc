@@ -363,13 +363,18 @@
     "resetView": "Reset View"
   },
   "complaints": {
+    "meta": {
+      "title": "Complaints & Suggestions - Cellule Infrastructures RDC",
+      "description": "Submit or track a complaint about infrastructure projects"
+    },
     "title": "Complaints & Suggestions",
     "description": "Submit a complaint or track your submission",
     "submit": "Submit a Complaint",
     "track": "Track a Complaint",
     "trackingNumber": "Tracking Number",
+    "trackingNumberPlaceholder": "Enter your tracking number",
+    "trackButton": "Search",
     "category": "Complaint Category",
-    "description": "Description",
     "submitComplaint": "Submit Complaint",
     "trackComplaint": "Track Complaint",
     "status": {
@@ -387,6 +392,7 @@
       "other": "Other"
     },
     "form": {
+      "title": "Complaint Form",
       "personalInfo": "Personal Information",
       "complaintDetails": "Complaint Details",
       "firstName": "First Name",
@@ -396,10 +402,13 @@
       "subject": "Subject",
       "message": "Message",
       "attachments": "Attachments",
-      "submit": "Submit",
-      "success": "Complaint submitted successfully",
-      "error": "Error submitting complaint"
-    }
+      "submit": "Submit Complaint",
+      "anonymous": "Submit anonymously",
+      "requiredFields": "* Required fields"
+    },
+    "success": "Your complaint has been submitted successfully",
+    "successDescription": "Your tracking number is:",
+    "error": "An error occurred while submitting your complaint"
   },
   "contact": {
     "title": "Contact Us",
@@ -460,9 +469,14 @@
     "placeholder": "Search projects, news, documents...",
     "results": "Search Results",
     "noResults": "No results found for \"{query}\"",
+    "noResultsDescription": "Try different keywords or browse by category",
     "suggestions": "Suggestions",
     "recent": "Recent Searches",
-    "resultCount": "{count} results found",
+    "resultCount": "{count} result(s) found",
+    "enterQuery": "Enter a search term",
+    "enterQueryDescription": "Search across projects, news, procurement and publications",
+    "searchFor": "Search for \"{query}\"",
+    "allResults": "{count} total result(s)",
     "categories": {
       "all": "All",
       "projects": "Projects",

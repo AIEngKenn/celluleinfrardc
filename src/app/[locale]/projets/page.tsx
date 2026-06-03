@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
@@ -7,8 +6,9 @@ import type { Project, Province } from '@/lib/sanity/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { MapPin, TrendingUp } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
+import { ProjectFilters } from '@/components/projects/project-filters';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -66,73 +66,36 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
         locale={locale}
       />
       <div className="ci-container ci-section--sm">
-        {/* Filters */}
-        <div className="mb-8 rounded-lg bg-white p-6 shadow-sm">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {/* Province Filter */}
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                {t('filters.province')}
-              </label>
-              <select
-                className="w-full rounded-md border border-gray-300 px-3 py-2"
-                value={province || ''}
-                onChange={(e) => {
-                  const url = new URL(window.location.href);
-                  if (e.target.value) {
-                    url.searchParams.set('province', e.target.value);
-                  } else {
-                    url.searchParams.delete('province');
-                  }
-                  window.location.href = url.toString();
-                }}
-              >
-                <option value="">{t('filters.allProvinces')}</option>
-                {provinces.map((p) => (
-                  <option key={p._id} value={p.slug}>
-                    {locale === 'fr' ? p.nameFr : p.nameEn}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Status Filter */}
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                {t('filters.status')}
-              </label>
-              <select
-                className="w-full rounded-md border border-gray-300 px-3 py-2"
-                value={status || ''}
-              >
-                <option value="">{t('filters.allStatuses')}</option>
-                <option value="preparation">{t('status.preparation')}</option>
-                <option value="ongoing">{t('status.ongoing')}</option>
-                <option value="completed">{t('status.completed')}</option>
-                <option value="suspended">{t('status.suspended')}</option>
-              </select>
-            </div>
-
-            {/* Sector Filter */}
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                {t('filters.sector')}
-              </label>
-              <select
-                className="w-full rounded-md border border-gray-300 px-3 py-2"
-                value={sector || ''}
-              >
-                <option value="">{t('filters.allSectors')}</option>
-                <option value="roads">{t('sectors.roads')}</option>
-                <option value="bridges">{t('sectors.bridges')}</option>
-                <option value="water">{t('sectors.water')}</option>
-                <option value="electricity">{t('sectors.electricity')}</option>
-                <option value="schools">{t('sectors.schools')}</option>
-                <option value="hospitals">{t('sectors.hospitals')}</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        {/* Filters — Client Component */}
+        <ProjectFilters
+          provinces={provinces}
+          currentProvince={province}
+          currentStatus={status}
+          currentSector={sector}
+          locale={locale}
+          labels={{
+            province: t('filters.province'),
+            status: t('filters.status'),
+            sector: t('filters.sector'),
+            allProvinces: t('filters.allProvinces'),
+            allStatuses: t('filters.allStatuses'),
+            allSectors: t('filters.allSectors'),
+            statusOptions: [
+              { value: 'preparation', label: t('status.preparation') },
+              { value: 'ongoing', label: t('status.ongoing') },
+              { value: 'completed', label: t('status.completed') },
+              { value: 'suspended', label: t('status.suspended') },
+            ],
+            sectorOptions: [
+              { value: 'roads', label: t('sectors.roads') },
+              { value: 'bridges', label: t('sectors.bridges') },
+              { value: 'water', label: t('sectors.water') },
+              { value: 'electricity', label: t('sectors.electricity') },
+              { value: 'schools', label: t('sectors.schools') },
+              { value: 'hospitals', label: t('sectors.hospitals') },
+            ],
+          }}
+        />
 
         {/* Results Count */}
         <div className="mb-6">

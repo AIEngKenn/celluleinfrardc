@@ -272,18 +272,53 @@
     "mapDescription": "Cette carte interactive présente tous les projets d'infrastructures en cours et réalisés à travers la RDC. Utilisez les filtres pour afficher les projets par province, statut ou secteur."
   },
   "complaints": {
+    "meta": {
+      "title": "Plaintes & Réclamations - Cellule Infrastructures RDC",
+      "description": "Soumettez ou suivez une plainte concernant les projets d'infrastructures"
+    },
     "title": "Plaintes & Réclamations",
+    "description": "Signalez un problème ou suivez l'état d'une plainte existante",
     "submit": "Soumettre une Plainte",
     "track": "Suivre une Plainte",
+    "submitComplaint": "Soumettre une Plainte",
+    "trackComplaint": "Suivre une Plainte",
     "trackingNumber": "Numéro de Suivi",
+    "trackingNumberPlaceholder": "Entrez votre numéro de suivi",
+    "trackButton": "Rechercher",
     "category": "Catégorie de Plainte",
+    "categories": {
+      "quality": "Qualité des travaux",
+      "delay": "Retard de livraison",
+      "corruption": "Corruption / Mauvaise gestion",
+      "environment": "Impact environnemental",
+      "safety": "Sécurité",
+      "other": "Autre"
+    },
+    "form": {
+      "title": "Formulaire de Plainte",
+      "personalInfo": "Informations Personnelles",
+      "complaintDetails": "Détails de la Plainte",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse Email",
+      "phone": "Téléphone",
+      "subject": "Sujet",
+      "message": "Description de la plainte",
+      "attachments": "Pièces jointes",
+      "submit": "Soumettre la plainte",
+      "anonymous": "Soumettre anonymement",
+      "requiredFields": "* Champs obligatoires"
+    },
     "description": "Description",
     "status": {
       "received": "Reçue",
       "processing": "En Traitement",
       "resolved": "Résolue",
       "closed": "Fermée"
-    }
+    },
+    "success": "Votre plainte a été soumise avec succès",
+    "successDescription": "Votre numéro de suivi est :",
+    "error": "Une erreur est survenue lors de la soumission"
   },
   "contact": {
     "meta": {
@@ -339,11 +374,18 @@
     }
   },
   "search": {
+    "title": "Recherche",
     "placeholder": "Rechercher des projets, actualités, documents...",
     "results": "Résultats de Recherche",
     "noResults": "Aucun résultat trouvé pour \"{query}\"",
+    "noResultsDescription": "Essayez d'autres mots-clés ou naviguez par catégorie",
     "suggestions": "Suggestions",
     "recent": "Recherches Récentes",
+    "resultCount": "{count} résultat(s) trouvé(s)",
+    "enterQuery": "Entrez un terme de recherche",
+    "enterQueryDescription": "Recherchez parmi les projets, actualités, appels d'offres et publications",
+    "searchFor": "Rechercher \"{query}\"",
+    "allResults": "{count} résultat(s) au total",
     "categories": {
       "all": "Tout",
       "projects": "Projets",
@@ -351,6 +393,12 @@
       "procurement": "Appels d'Offres",
       "publications": "Publications",
       "media": "Médias"
+    },
+    "filters": {
+      "type": "Type",
+      "date": "Date",
+      "province": "Province",
+      "status": "Statut"
     }
   },
   "accessibility": {

@@ -402,6 +402,77 @@ export const globalSearchQuery = groq`
   }
 `;
 
+export const fullSearchQuery = groq`
+  {
+    "projects": *[_type == "project" && (
+      titleFr match $searchTerm ||
+      titleEn match $searchTerm ||
+      descriptionFr match $searchTerm ||
+      descriptionEn match $searchTerm
+    )] | order(_score desc) [0...12] {
+      _id,
+      _type,
+      titleFr,
+      titleEn,
+      descriptionFr,
+      descriptionEn,
+      "slug": slug.current,
+      status,
+      sector,
+      province->{ nameFr, nameEn },
+      mainImage{ asset->{ url }, alt }
+    },
+    "news": *[_type == "news" && (
+      titleFr match $searchTerm ||
+      titleEn match $searchTerm ||
+      excerptFr match $searchTerm ||
+      excerptEn match $searchTerm
+    )] | order(_score desc) [0...12] {
+      _id,
+      _type,
+      titleFr,
+      titleEn,
+      excerptFr,
+      excerptEn,
+      "slug": slug.current,
+      publishedAt,
+      mainImage{ asset->{ url }, alt }
+    },
+    "procurement": *[_type == "procurement" && (
+      titleFr match $searchTerm ||
+      titleEn match $searchTerm ||
+      descriptionFr match $searchTerm ||
+      descriptionEn match $searchTerm ||
+      reference match $searchTerm
+    )] | order(_score desc) [0...12] {
+      _id,
+      _type,
+      titleFr,
+      titleEn,
+      "slug": slug.current,
+      reference,
+      status,
+      closingDate,
+      category
+    },
+    "publications": *[_type == "publication" && (
+      titleFr match $searchTerm ||
+      titleEn match $searchTerm ||
+      descriptionFr match $searchTerm ||
+      descriptionEn match $searchTerm
+    )] | order(_score desc) [0...12] {
+      _id,
+      _type,
+      titleFr,
+      titleEn,
+      "slug": slug.current,
+      publicationType,
+      publishedAt,
+      coverImage{ asset->{ url } }
+    }
+  }
+`;
+
 // ============================================================================
 // STATISTICS QUERIES
 // ============================================================================

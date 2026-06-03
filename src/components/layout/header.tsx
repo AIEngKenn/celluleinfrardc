@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { Menu, X, Search, Globe } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { GlobalSearch } from '@/components/global-search';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -80,13 +81,7 @@ export function Header() {
 
         {/* Right side actions */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
-          <button
-            type="button"
-            className="rounded-md p-2 text-gray-700 transition-colors hover:bg-gray-100"
-            aria-label="Search"
-          >
-            <Search className="h-5 w-5" />
-          </button>
+          <GlobalSearch />
           <button
             type="button"
             onClick={toggleLanguage}

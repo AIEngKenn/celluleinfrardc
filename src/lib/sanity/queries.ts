@@ -442,3 +442,128 @@ export const projectsMapDataQuery = groq`
     }
   }
 `;
+
+// ============================================================================
+// MEDIA QUERIES (for Media Center)
+// ============================================================================
+
+export const mediaGalleryQuery = groq`
+  *[_type == "media"] | order(date desc) {
+    _id,
+    _createdAt,
+    type,
+    title,
+    caption,
+    image{
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      },
+      alt
+    },
+    thumbnail{
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      },
+      alt
+    },
+    videoUrl,
+    date,
+    project->{
+      _id,
+      titleFr,
+      titleEn,
+      "slug": slug.current
+    },
+    album->{
+      _id,
+      titleFr,
+      titleEn
+    }
+  }
+`;
+
+export const mediaAlbumsQuery = groq`
+  *[_type == "mediaAlbum"] | order(date desc) {
+    _id,
+    _createdAt,
+    title,
+    description,
+    "slug": slug.current,
+    coverImage{
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      },
+      alt
+    },
+    date,
+    "itemCount": count(*[_type == "media" && references(^._id)])
+  }
+`;
+
+export const albumBySlugQuery = groq`
+  *[_type == "mediaAlbum" && slug.current == $slug][0] {
+    _id,
+    _createdAt,
+    title,
+    description,
+    "slug": slug.current,
+    coverImage{
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      },
+      alt
+    },
+    date,
+    "items": *[_type == "media" && references(^._id)] | order(date desc) {
+      _id,
+      _createdAt,
+      type,
+      title,
+      caption,
+      image{
+        asset->{
+          _id,
+          url,
+          metadata {
+            lqip,
+            dimensions
+          }
+        },
+        alt
+      },
+      thumbnail{
+        asset->{
+          _id,
+          url,
+          metadata {
+            lqip,
+            dimensions
+          }
+        },
+        alt
+      },
+      videoUrl,
+      date
+    }
+  }
+`;

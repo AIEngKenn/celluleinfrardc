@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "Cellule Infrastructures - Democratic Republic of Congo",
-    "description": "Official platform of the Infrastructure Unit of the DRC. Information on infrastructure projects, procurement, publications and news."
+    "title": "Infrastructure Unit - Democratic Republic of Congo",
+    "description": "Official platform of the DRC Infrastructure Unit. Information on infrastructure projects, procurement, publications and news."
   },
   "nav": {
     "home": "Home",
@@ -22,9 +22,9 @@
     "share": "Share",
     "search": "Search",
     "filter": "Filter",
-    "sort": "Sort",
+    "sort": "Sort by",
     "loading": "Loading...",
-    "error": "Error",
+    "error": "An error occurred",
     "noResults": "No results found",
     "backToHome": "Back to Home",
     "publishedOn": "Published on",
@@ -37,11 +37,33 @@
     "status": "Status",
     "location": "Location",
     "province": "Province",
-    "sector": "Sector"
+    "sector": "Sector",
+    "all": "All",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "yes": "Yes",
+    "no": "No",
+    "404": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "backHome": "Back to Home",
+      "viewProjects": "View Projects"
+    },
+    "500": {
+      "title": "Server Error",
+      "description": "An unexpected error occurred. Please try again later.",
+      "tryAgain": "Try Again",
+      "backHome": "Back to Home"
+    }
   },
   "home": {
     "hero": {
-      "title": "Building the Future of DRC",
+      "title": "Building the Future of the DRC",
       "subtitle": "Transparency, innovation and excellence in national infrastructure development",
       "cta1": "Explore Projects",
       "cta2": "View Opportunities"
@@ -63,129 +85,318 @@
   },
   "projects": {
     "title": "Infrastructure Projects",
+    "description": "Explore infrastructure projects across the Democratic Republic of Congo",
     "allProjects": "All Projects",
     "byProvince": "By Province",
     "byStatus": "By Status",
     "bySector": "By Sector",
+    "filterByProvince": "Filter by province",
+    "filterByStatus": "Filter by status",
+    "filterBySector": "Filter by sector",
+    "allProvinces": "All Provinces",
+    "allStatuses": "All Statuses",
+    "allSectors": "All Sectors",
+    "projectCount": "{count} projects",
     "status": {
       "preparation": "In Preparation",
       "ongoing": "Ongoing",
-      "completed": "Completed"
+      "completed": "Completed",
+      "suspended": "Suspended"
+    },
+    "sectors": {
+      "roads": "Roads",
+      "bridges": "Bridges",
+      "buildings": "Buildings",
+      "water": "Water",
+      "energy": "Energy",
+      "health": "Health",
+      "education": "Education",
+      "telecom": "Telecommunications",
+      "other": "Other"
     },
     "details": {
       "overview": "Overview",
+      "description": "Description",
       "objectives": "Objectives",
+      "keyInfo": "Key Information",
       "budget": "Budget",
-      "funding": "Funding Source",
+      "totalBudget": "Total Budget",
+      "funding": "Funding",
+      "fundingSource": "Funding Source",
       "timeline": "Timeline",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "expectedEndDate": "Expected End Date",
+      "duration": "Duration",
       "progress": "Progress",
-      "documents": "Documents",
-      "gallery": "Gallery",
+      "completion": "Completion",
+      "documents": "Project Documents",
+      "downloadDocument": "Download Document",
+      "gallery": "Photo Gallery",
+      "images": "Images",
+      "location": "Location",
+      "viewOnMap": "View on Map",
       "relatedNews": "Related News",
-      "relatedProcurement": "Related Procurement"
+      "relatedProcurement": "Related Procurement",
+      "noDocuments": "No documents available",
+      "noImages": "No images available",
+      "noRelatedNews": "No related news",
+      "noRelatedProcurement": "No related procurement"
+    },
+    "map": {
+      "title": "Project Location",
+      "loading": "Loading map..."
     }
   },
   "news": {
     "title": "News",
+    "description": "Latest news and updates on DRC infrastructure",
     "latest": "Latest News",
     "featured": "Featured",
-    "archive": "Archive",
-    "relatedArticles": "Related Articles"
+    "archive": "News Archive",
+    "allCategories": "All Categories",
+    "filterByCategory": "Filter by category",
+    "relatedArticles": "Related Articles",
+    "readArticle": "Read Article",
+    "publishedBy": "Published by",
+    "in": "in",
+    "categories": {
+      "announcements": "Announcements",
+      "events": "Events",
+      "inaugurations": "Inaugurations",
+      "reports": "Reports",
+      "press": "Press Releases",
+      "other": "Other"
+    },
+    "details": {
+      "content": "Article Content",
+      "gallery": "Photo Gallery",
+      "relatedProjects": "Related Projects",
+      "shareArticle": "Share this article",
+      "noImages": "No images available",
+      "noRelatedProjects": "No related projects"
+    }
   },
   "procurement": {
     "title": "Procurement",
+    "description": "Current procurement opportunities for infrastructure projects",
     "open": "Open Opportunities",
     "closed": "Closed Opportunities",
     "awarded": "Awarded Contracts",
     "deadline": "Deadline",
-    "reference": "Reference",
-    "details": "Opportunity Details",
-    "documents": "Documents",
-    "howToApply": "How to Apply"
+    "closingDate": "Closing Date",
+    "reference": "Reference Number",
+    "referenceNumber": "Reference",
+    "budget": "Estimated Budget",
+    "category": "Category",
+    "type": "Type",
+    "openCount": "{count} open opportunities",
+    "closedCount": "{count} closed opportunities",
+    "urgentDeadline": "Urgent: Closes soon!",
+    "daysRemaining": "{days} days remaining",
+    "closed": "Closed",
+    "details": {
+      "overview": "Opportunity Overview",
+      "description": "Description",
+      "requirements": "Requirements",
+      "budget": "Budget",
+      "timeline": "Timeline",
+      "publishedDate": "Published",
+      "closingDate": "Closing Date",
+      "estimatedStartDate": "Estimated Start",
+      "documents": "Procurement Documents",
+      "downloadDocument": "Download Document",
+      "howToApply": "How to Apply",
+      "contactInfo": "Contact Information",
+      "relatedProject": "Related Project",
+      "relatedProjects": "Related Projects",
+      "noDocuments": "No documents available",
+      "noRelatedProjects": "No related project"
+    },
+    "categories": {
+      "works": "Works",
+      "goods": "Goods",
+      "services": "Services",
+      "consulting": "Consulting",
+      "other": "Other"
+    }
   },
   "publications": {
     "title": "Publications",
+    "description": "Technical reports, studies and official documents",
+    "allPublications": "All Publications",
+    "byType": "By Type",
+    "filterByType": "Filter by type",
+    "allTypes": "All Types",
+    "publicationCount": "{count} publications",
+    "viewPDF": "View PDF",
+    "downloadPDF": "Download PDF",
+    "fileSize": "File Size",
+    "pages": "pages",
     "types": {
-      "reports": "Reports",
-      "studies": "Studies",
+      "reports": "Annual Reports",
+      "studies": "Technical Studies",
       "environmental": "Environmental Documents",
       "social": "Social Documents",
       "technical": "Technical Reports",
-      "institutional": "Institutional Reports"
+      "institutional": "Institutional Reports",
+      "other": "Other Documents"
     },
-    "viewPDF": "View PDF",
-    "relatedPublications": "Related Publications"
+    "details": {
+      "overview": "Overview",
+      "description": "Description",
+      "metadata": "Metadata",
+      "publicationDate": "Publication Date",
+      "author": "Author",
+      "publisher": "Publisher",
+      "language": "Language",
+      "format": "Format",
+      "relatedPublications": "Related Publications",
+      "viewDocument": "View Document",
+      "downloadDocument": "Download Document",
+      "quickActions": "Quick Actions",
+      "print": "Print",
+      "share": "Share",
+      "noRelatedPublications": "No related publications"
+    }
   },
   "media": {
     "title": "Media Center",
+    "description": "Photo and video gallery of infrastructure projects",
     "photos": "Photos",
     "videos": "Videos",
     "albums": "Albums",
     "gallery": "Gallery",
-    "viewGallery": "View Gallery"
+    "viewGallery": "View Gallery",
+    "allMedia": "All Media",
+    "byType": "By Type",
+    "byProject": "By Project",
+    "lightbox": {
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close",
+      "of": "of"
+    }
   },
   "geomatics": {
     "title": "Infrastructure Map",
+    "description": "Interactive map of infrastructure projects in the DRC",
     "filterByProvince": "Filter by Province",
     "filterByStatus": "Filter by Status",
     "filterBySector": "Filter by Sector",
-    "viewProject": "View Project"
+    "viewProject": "View Project",
+    "allProvinces": "All Provinces",
+    "allStatuses": "All Statuses",
+    "allSectors": "All Sectors",
+    "legend": "Legend",
+    "projectsFound": "{count} projects found",
+    "selectedProject": "Selected Project",
+    "closeDetails": "Close Details",
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "resetView": "Reset View"
   },
   "complaints": {
-    "title": "Complaints",
+    "title": "Complaints & Suggestions",
+    "description": "Submit a complaint or track your submission",
     "submit": "Submit a Complaint",
     "track": "Track a Complaint",
     "trackingNumber": "Tracking Number",
     "category": "Complaint Category",
     "description": "Description",
+    "submitComplaint": "Submit Complaint",
+    "trackComplaint": "Track Complaint",
     "status": {
       "received": "Received",
-      "processing": "Processing",
+      "processing": "In Progress",
       "resolved": "Resolved",
       "closed": "Closed"
+    },
+    "categories": {
+      "quality": "Work Quality",
+      "delay": "Delays",
+      "corruption": "Corruption",
+      "environment": "Environment",
+      "safety": "Safety",
+      "other": "Other"
+    },
+    "form": {
+      "personalInfo": "Personal Information",
+      "complaintDetails": "Complaint Details",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "attachments": "Attachments",
+      "submit": "Submit",
+      "success": "Complaint submitted successfully",
+      "error": "Error submitting complaint"
     }
   },
   "contact": {
     "title": "Contact Us",
+    "description": "Contact the DRC Infrastructure Unit",
+    "getInTouch": "Get in Touch",
+    "contactInfo": "Contact Information",
     "address": "Address",
+    "addressValue": "Avenue du Port, Kinshasa, DRC",
     "phone": "Phone",
+    "phoneValue": "+243 XX XXX XXXX",
     "email": "Email",
+    "emailValue": "contact@celluleinfra.cd",
     "hours": "Office Hours",
+    "hoursValue": "Monday - Friday: 8:00 AM - 4:00 PM",
+    "complaints": "Complaints",
+    "complaintsDescription": "Submit a complaint or suggestion",
+    "submitComplaint": "Submit a Complaint",
     "form": {
-      "name": "Full Name",
+      "title": "Send us a Message",
+      "firstName": "First Name",
+      "lastName": "Last Name",
       "email": "Email Address",
+      "phone": "Phone Number",
       "subject": "Subject",
       "message": "Message",
-      "send": "Send",
+      "send": "Send Message",
+      "sending": "Sending...",
       "success": "Message sent successfully",
       "error": "Error sending message"
     }
   },
   "footer": {
     "about": "About",
+    "aboutText": "The Infrastructure Unit is responsible for coordinating and monitoring infrastructure projects in the Democratic Republic of Congo.",
     "quickLinks": "Quick Links",
     "resources": "Resources",
+    "legal": "Legal",
     "contact": "Contact",
     "followUs": "Follow Us",
     "newsletter": {
       "title": "Newsletter",
-      "description": "Subscribe to receive our news",
+      "description": "Subscribe to receive our latest news",
       "placeholder": "Your email address",
-      "subscribe": "Subscribe"
+      "subscribe": "Subscribe",
+      "success": "Successfully subscribed",
+      "error": "Error subscribing"
     },
-    "copyright": "© {year} Cellule Infrastructures - Democratic Republic of Congo. All rights reserved.",
+    "copyright": "© {year} Infrastructure Unit - Democratic Republic of Congo. All rights reserved.",
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
-      "accessibility": "Accessibility"
+      "accessibility": "Accessibility",
+      "sitemap": "Sitemap"
     }
   },
   "search": {
+    "title": "Search",
     "placeholder": "Search projects, news, documents...",
     "results": "Search Results",
     "noResults": "No results found for \"{query}\"",
     "suggestions": "Suggestions",
     "recent": "Recent Searches",
+    "resultCount": "{count} results found",
     "categories": {
       "all": "All",
       "projects": "Projects",
@@ -193,12 +404,22 @@
       "procurement": "Procurement",
       "publications": "Publications",
       "media": "Media"
+    },
+    "filters": {
+      "type": "Type",
+      "date": "Date",
+      "province": "Province",
+      "status": "Status"
     }
   },
   "accessibility": {
     "skipToContent": "Skip to main content",
+    "skipToNav": "Skip to navigation",
     "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "close": "Close",
-    "openInNewTab": "Opens in new tab"
+    "openInNewTab": "Opens in new tab",
+    "externalLink": "External link"
   }
 }

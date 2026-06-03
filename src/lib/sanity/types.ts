@@ -271,6 +271,54 @@ export interface ProjectMapData {
 }
 
 // ============================================================================
+// MEDIA
+// ============================================================================
+
+export type MediaType = 'image' | 'video';
+
+export interface MediaItem {
+  _id: string;
+  _createdAt: string;
+  type: MediaType;
+  title: {
+    fr: string;
+    en: string;
+  };
+  caption?: {
+    fr: string;
+    en: string;
+  };
+  image?: SanityImage;
+  thumbnail?: SanityImage;
+  videoUrl?: string;
+  date?: string;
+  project?: ProjectPreview;
+  album?: {
+    _id: string;
+    titleFr: string;
+    titleEn: string;
+  };
+}
+
+export interface MediaAlbum {
+  _id: string;
+  _createdAt: string;
+  title: {
+    fr: string;
+    en: string;
+  };
+  description?: {
+    fr: string;
+    en: string;
+  };
+  slug: string;
+  coverImage?: SanityImage;
+  date?: string;
+  itemCount?: number;
+  items?: MediaItem[];
+}
+
+// ============================================================================
 // UTILITY TYPES
 // ============================================================================
 

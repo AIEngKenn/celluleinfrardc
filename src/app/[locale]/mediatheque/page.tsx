@@ -214,7 +214,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
                   {album.coverImage ? (
                     <Image
                       src={urlFor(album.coverImage).width(800).height(450).url()}
-                      alt={album.title[locale] || album.title.fr || 'Album'}
+                      alt={album.title[locale as 'fr' | 'en'] || album.title.fr || 'Album'}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -234,11 +234,11 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
 
                 <div className="p-4">
                   <h3 className="mb-2 font-semibold text-gray-900">
-                    {album.title[locale] || album.title.fr}
+                    {album.title[locale as 'fr' | 'en'] || album.title.fr}
                   </h3>
                   {album.description && (
                     <p className="mb-3 line-clamp-2 text-sm text-gray-600">
-                      {album.description[locale] || album.description.fr}
+                      {album.description[locale as 'fr' | 'en'] || album.description.fr}
                     </p>
                   )}
                   {album.date && (

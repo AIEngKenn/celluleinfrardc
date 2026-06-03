@@ -85,6 +85,7 @@ export function LatestNews() {
           <Link href={`/${locale}/actualites/${featured.id}`} className="ci-news-featured">
             {featured.image && (
               <div className="ci-news-featured-img">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={featured.image}
                   alt={isFr ? featured.titleFr : featured.titleEn}

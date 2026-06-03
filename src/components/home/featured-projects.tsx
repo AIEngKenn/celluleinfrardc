@@ -105,6 +105,7 @@ export function FeaturedProjects() {
               style={{ gridRow: 'span 2', display: 'flex', flexDirection: 'column' }}
             >
               <div className="ci-project-card-img" style={{ flex: 1 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={featured.image}
                   alt={isFr ? featured.titleFr : featured.titleEn}
@@ -154,6 +155,7 @@ export function FeaturedProjects() {
                     background: 'var(--ci-bg-tinted)',
                   }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={project.image}
                     alt={isFr ? project.titleFr : project.titleEn}

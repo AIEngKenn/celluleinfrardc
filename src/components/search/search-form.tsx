@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, useRef, FormEvent } from 'react';
 import { Search } from 'lucide-react';
 
@@ -13,7 +13,6 @@ interface Props {
 export function SearchForm({ defaultValue = '', locale, placeholder }: Props) {
   const [value, setValue] = useState(defaultValue);
   const router = useRouter();
-  const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleSubmit(e: FormEvent) {

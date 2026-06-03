@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import { motion } from 'framer-motion';
 import { MapPin, ArrowRight } from 'lucide-react';
 
 const projects = [
@@ -61,7 +62,13 @@ export function FeaturedProjects() {
     <section className="ci-section" style={{ background: 'var(--ci-bg-subtle)' }}>
       <div className="ci-container">
         {/* Header */}
-        <div className="ci-section-header">
+        <motion.div
+          className="ci-section-header"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+        >
           <div>
             <span className="ci-eyebrow">{isFr ? 'Projets phares' : 'Featured projects'}</span>
             <h2 className="ci-section-title">
@@ -72,10 +79,14 @@ export function FeaturedProjects() {
             {isFr ? 'Tous les projets' : 'All projects'}
             <ArrowRight size={14} />
           </Link>
-        </div>
+        </motion.div>
 
         {/* Editorial layout: large featured + stack */}
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr',
@@ -174,7 +185,7 @@ export function FeaturedProjects() {
               </Link>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

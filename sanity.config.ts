@@ -1,23 +1,18 @@
-import { defineConfig } from "sanity";
-import { structureTool } from "sanity/structure";
-import { visionTool } from "@sanity/vision";
-import { schemaTypes } from "./schemas";
+import { defineConfig } from 'sanity';
+import { structureTool } from 'sanity/structure';
+import { visionTool } from '@sanity/vision';
+import { schemaTypes } from './sanity/schemas';
 
 export default defineConfig({
-  name: "default",
-  title: "Cellule Infrastructures RDC",
+  name: 'default',
+  title: 'Cellule Infrastructures RDC',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5sq6qhs4',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
 
   plugins: [structureTool(), visionTool()],
 
   schema: {
     types: schemaTypes,
-  },
-
-  // French interface
-  studio: {
-    components: {},
   },
 });

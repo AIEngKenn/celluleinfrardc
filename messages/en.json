@@ -86,6 +86,23 @@
   "projects": {
     "title": "Infrastructure Projects",
     "description": "Explore infrastructure projects across the Democratic Republic of Congo",
+    "meta": {
+      "title": "Infrastructure Projects — Cellule Infrastructures DRC",
+      "description": "Explore all infrastructure projects across the DRC"
+    },
+    "subtitle": "Explore all our infrastructure projects across the Democratic Republic of Congo",
+    "backToProjects": "Back to Projects",
+    "resultsCount": "{count} project(s) found",
+    "noResults": "No projects found",
+    "clearFilters": "Clear filters",
+    "filters": {
+      "province": "Province",
+      "status": "Status",
+      "sector": "Sector",
+      "allProvinces": "All Provinces",
+      "allStatuses": "All Statuses",
+      "allSectors": "All Sectors"
+    },
     "allProjects": "All Projects",
     "byProvince": "By Province",
     "byStatus": "By Status",
@@ -151,6 +168,15 @@
   "news": {
     "title": "News",
     "description": "Latest news and updates on DRC infrastructure",
+    "meta": {
+      "title": "News — Cellule Infrastructures DRC",
+      "description": "All news and updates on DRC infrastructure projects"
+    },
+    "subtitle": "Stay informed on all Cellule Infrastructures news",
+    "backToNews": "Back to News",
+    "resultsCount": "{count} article(s) found",
+    "noResults": "No news found",
+    "viewAll": "View all news",
     "latest": "Latest News",
     "featured": "Featured",
     "archive": "News Archive",
@@ -180,6 +206,25 @@
   "procurement": {
     "title": "Procurement",
     "description": "Current procurement opportunities for infrastructure projects",
+    "meta": {
+      "title": "Procurement — Cellule Infrastructures DRC",
+      "description": "View all procurement opportunities and public tenders"
+    },
+    "subtitle": "View all public procurement opportunities",
+    "tabs": {
+      "open": "Open",
+      "closed": "Closed"
+    },
+    "backToProcurement": "Back to Procurement",
+    "openingDate": "Opening date",
+    "viewDetails": "View details",
+    "documentsAvailable": "{count} document(s) available",
+    "noOpenProcurement": "No open procurement at the moment",
+    "noClosedProcurement": "No closed procurement",
+    "activeNotice": "Active tenders",
+    "activeNoticeDescription": "Review documents and submit your bid before the deadline",
+    "urgent": "Urgent",
+    "relatedProjects": "Related Projects",
     "open": "Open Opportunities",
     "closed": "Closed Opportunities",
     "awarded": "Awarded Contracts",
@@ -224,6 +269,27 @@
   "publications": {
     "title": "Publications",
     "description": "Technical reports, studies and official documents",
+    "meta": {
+      "title": "Publications — Cellule Infrastructures DRC",
+      "description": "Access all our publications, reports, studies and official documents"
+    },
+    "subtitle": "Access our reports, studies and official documents",
+    "allTypes": "All types",
+    "resultsCount": "{count} publication(s) found",
+    "noResults": "No publications found",
+    "viewAll": "View all publications",
+    "view": "View",
+    "backToPublications": "Back to Publications",
+    "about": "About this publication",
+    "document": "Document",
+    "download": "Download",
+    "quickActions": "Quick Actions",
+    "downloadPDF": "Download PDF",
+    "openInNewTab": "Open in new tab",
+    "information": "Information",
+    "type": "Type",
+    "publishedDate": "Publication date",
+    "filename": "File name",
     "allPublications": "All Publications",
     "byType": "By Type",
     "filterByType": "Filter by type",

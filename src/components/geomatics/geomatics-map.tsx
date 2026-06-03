@@ -134,7 +134,7 @@ export default function GeomaticsMap({ projects }: GeomaticsMapProps) {
   return (
     <div className="relative h-[calc(100vh-200px)] min-h-[600px]">
       {/* Filters */}
-      <div className="absolute left-4 top-4 z-[1000] max-w-xs rounded-lg bg-white p-4 shadow-lg">
+      <div className="absolute left-4 top-4 z-10 max-w-xs rounded-lg bg-white p-4 shadow-lg">
         <h3 className="mb-3 font-bold text-gray-900">{t('filters')}</h3>
 
         <div className="space-y-3">

@@ -2,17 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { sanityFetch } from '@/lib/sanity/client';
 import { projectsMapDataQuery } from '@/lib/sanity/queries';
 import type { ProjectMapData } from '@/lib/sanity/types';
-import dynamic from 'next/dynamic';
-
-// Dynamically import the map component (client-side only)
-const GeomaticsMap = dynamic(() => import('@/components/geomatics/geomatics-map'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-[calc(100vh-200px)] min-h-[600px] animate-pulse items-center justify-center rounded-lg bg-gray-200">
-      <p className="text-gray-500">Loading map...</p>
-    </div>
-  ),
-});
+import GeomaticsMapLoader from '@/components/geomatics/geomatics-map-loader';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -50,7 +40,7 @@ export default async function GeomaticsPage({ params }: Props) {
 
       {/* Map */}
       <div className="container mx-auto px-4 py-8">
-        <GeomaticsMap projects={projects} />
+        <GeomaticsMapLoader projects={projects} />
       </div>
 
       {/* Info Section */}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -79,8 +80,8 @@ export function Header() {
             </span>
             <span>
               {isFr
-                ? 'Site officiel · Gouvernement de la République Démocratique du Congo'
-                : 'Official website · Government of the Democratic Republic of Congo'}
+                ? 'Ministère des Infrastructures et Travaux Publics'
+                : 'Ministry of Infrastructure and Public Works'}
             </span>
           </div>
           <div className="ci-banner-right">
@@ -195,21 +196,31 @@ export function Header() {
                       {label}
                       <ChevronDown className="ci-nav-chevron" aria-hidden="true" />
                     </Link>
-                    {activeDropdown === item.href && (
-                      <ul className="ci-dropdown" role="menu">
-                        {item.children.map((child) => (
-                          <li key={child.href} role="none">
-                            <Link
-                              href={`/${locale}${child.href}`}
-                              className="ci-dropdown-item"
-                              role="menuitem"
-                            >
-                              {isFr ? child.labelFr : child.labelEn}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <AnimatePresence>
+                      {activeDropdown === item.href && (
+                        <motion.ul
+                          key={`dd-${item.href}`}
+                          initial={{ opacity: 0, y: 4, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                          transition={{ duration: 0.15, ease: 'easeOut' }}
+                          className="ci-dropdown"
+                          role="menu"
+                        >
+                          {item.children.map((child) => (
+                            <li key={child.href} role="none">
+                              <Link
+                                href={`/${locale}${child.href}`}
+                                className="ci-dropdown-item"
+                                role="menuitem"
+                              >
+                                {isFr ? child.labelFr : child.labelEn}
+                              </Link>
+                            </li>
+                          ))}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
                   </li>
                 );
               }
@@ -230,52 +241,68 @@ export function Header() {
       </nav>
 
       {/* ── Mobile drawer ── */}
-      {mobileOpen && (
-        <div className="ci-mobile-drawer lg:hidden" aria-modal="true" role="dialog">
-          <nav aria-label="Menu mobile">
-            <ul role="list" className="ci-mobile-nav">
-              {navItems.map((item) => {
-                const label = isFr ? item.labelFr : item.labelEn;
-                const active = isActive(item.href);
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={`/${locale}${item.href}`}
-                      className={cn('ci-mobile-link', active && 'ci-mobile-link--active')}
-                      onClick={() => setMobileOpen(false)}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-drawer"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="ci-mobile-drawer lg:hidden"
+            aria-modal="true"
+            role="dialog"
+          >
+            <nav aria-label="Menu mobile">
+              <ul role="list" className="ci-mobile-nav">
+                {navItems.map((item, i) => {
+                  const label = isFr ? item.labelFr : item.labelEn;
+                  const active = isActive(item.href);
+                  return (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.04, duration: 0.2 }}
                     >
-                      {label}
-                    </Link>
-                    {item.children && (
-                      <ul className="ci-mobile-sub">
-                        {item.children.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={`/${locale}${child.href}`}
-                              className="ci-mobile-sub-link"
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              {isFr ? child.labelFr : child.labelEn}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="ci-mobile-footer">
-              <a
-                href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
-                className="ci-mobile-lang"
-              >
-                {isFr ? 'Switch to English' : 'Passer en Français'}
-              </a>
-            </div>
-          </nav>
-        </div>
-      )}
+                      <Link
+                        href={`/${locale}${item.href}`}
+                        className={cn('ci-mobile-link', active && 'ci-mobile-link--active')}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {label}
+                      </Link>
+                      {item.children && (
+                        <ul className="ci-mobile-sub">
+                          {item.children.map((child) => (
+                            <li key={child.href}>
+                              <Link
+                                href={`/${locale}${child.href}`}
+                                className="ci-mobile-sub-link"
+                                onClick={() => setMobileOpen(false)}
+                              >
+                                {isFr ? child.labelFr : child.labelEn}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </motion.li>
+                  );
+                })}
+              </ul>
+              <div className="ci-mobile-footer">
+                <a
+                  href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
+                  className="ci-mobile-lang"
+                >
+                  {isFr ? 'Switch to English' : 'Passer en Français'}
+                </a>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

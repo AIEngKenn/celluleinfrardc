@@ -220,9 +220,9 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
 
         {/* Empty State */}
         {currentProcurement.length === 0 && (
-          <div className="py-12 text-center">
-            <FileText className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-            <p className="text-lg text-gray-500">
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <FileText className="mb-4 h-16 w-16 text-gray-300" />
+            <p className="text-lg font-medium text-gray-500">
               {tab === 'open' ? t('noOpenProcurement') : t('noClosedProcurement')}
             </p>
           </div>

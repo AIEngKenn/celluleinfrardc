@@ -8,13 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MapPin, Calendar, TrendingUp, Download, ArrowLeft, Building2, Clock } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Leaflet map (client-side only)
-const ProjectMap = dynamic(() => import('@/components/projects/project-map'), {
-  ssr: false,
-  loading: () => <div className="h-96 animate-pulse rounded-lg bg-gray-200" />,
-});
+import { ProjectMap } from '@/components/projects/project-map-loader';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;

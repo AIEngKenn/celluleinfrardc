@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "title": "Cellule Infrastructures - République Démocratique du Congo",
+    "description": "Plateforme officielle de la Cellule Infrastructures de la RDC. Informations sur les projets d'infrastructures, appels d'offres, publications et actualités."
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "projects": "Projets",
+    "news": "Actualités",
+    "procurement": "Appels d'Offres",
+    "publications": "Publications",
+    "media": "Médiathèque",
+    "geomatics": "Géomatique",
+    "complaints": "Plaintes & Réclamations",
+    "contact": "Contact"
+  },
+  "common": {
+    "readMore": "Lire la suite",
+    "viewAll": "Voir tout",
+    "download": "Télécharger",
+    "share": "Partager",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "noResults": "Aucun résultat trouvé",
+    "backToHome": "Retour à l'accueil",
+    "publishedOn": "Publié le",
+    "updatedOn": "Mis à jour le",
+    "category": "Catégorie",
+    "categories": "Catégories",
+    "tags": "Tags",
+    "author": "Auteur",
+    "date": "Date",
+    "status": "Statut",
+    "location": "Localisation",
+    "province": "Province",
+    "sector": "Secteur"
+  },
+  "home": {
+    "hero": {
+      "title": "Construire l'Avenir de la RDC",
+      "subtitle": "Transparence, innovation et excellence dans le développement des infrastructures nationales",
+      "cta1": "Explorer les Projets",
+      "cta2": "Voir les Opportunités"
+    },
+    "stats": {
+      "projects": "Projets",
+      "provinces": "Provinces",
+      "budget": "Budget Investi",
+      "completed": "Projets Terminés"
+    },
+    "sections": {
+      "featuredProjects": "Projets Phares",
+      "latestNews": "Dernières Actualités",
+      "procurement": "Appels d'Offres en Cours",
+      "publications": "Publications Récentes",
+      "media": "Galerie Média",
+      "partners": "Nos Partenaires"
+    }
+  },
+  "projects": {
+    "title": "Projets d'Infrastructures",
+    "allProjects": "Tous les Projets",
+    "byProvince": "Par Province",
+    "byStatus": "Par Statut",
+    "bySector": "Par Secteur",
+    "status": {
+      "preparation": "En Préparation",
+      "ongoing": "En Cours",
+      "completed": "Terminés"
+    },
+    "details": {
+      "overview": "Aperçu",
+      "objectives": "Objectifs",
+      "budget": "Budget",
+      "funding": "Source de Financement",
+      "timeline": "Calendrier",
+      "progress": "Avancement",
+      "documents": "Documents",
+      "gallery": "Galerie",
+      "relatedNews": "Actualités Liées",
+      "relatedProcurement": "Appels d'Offres Liés"
+    }
+  },
+  "news": {
+    "title": "Actualités",
+    "latest": "Dernières Actualités",
+    "featured": "À la Une",
+    "archive": "Archives",
+    "relatedArticles": "Articles Connexes"
+  },
+  "procurement": {
+    "title": "Appels d'Offres",
+    "open": "Opportunités Ouvertes",
+    "closed": "Opportunités Fermées",
+    "awarded": "Contrats Attribués",
+    "deadline": "Date Limite",
+    "reference": "Référence",
+    "details": "Détails de l'Opportunité",
+    "documents": "Documents",
+    "howToApply": "Comment Postuler"
+  },
+  "publications": {
+    "title": "Publications",
+    "types": {
+      "reports": "Rapports",
+      "studies": "Études",
+      "environmental": "Documents Environnementaux",
+      "social": "Documents Sociaux",
+      "technical": "Rapports Techniques",
+      "institutional": "Rapports Institutionnels"
+    },
+    "viewPDF": "Voir le PDF",
+    "relatedPublications": "Publications Connexes"
+  },
+  "media": {
+    "title": "Médiathèque",
+    "photos": "Photos",
+    "videos": "Vidéos",
+    "albums": "Albums",
+    "gallery": "Galerie",
+    "viewGallery": "Voir la Galerie"
+  },
+  "geomatics": {
+    "title": "Carte des Infrastructures",
+    "filterByProvince": "Filtrer par Province",
+    "filterByStatus": "Filtrer par Statut",
+    "filterBySector": "Filtrer par Secteur",
+    "viewProject": "Voir le Projet"
+  },
+  "complaints": {
+    "title": "Plaintes & Réclamations",
+    "submit": "Soumettre une Plainte",
+    "track": "Suivre une Plainte",
+    "trackingNumber": "Numéro de Suivi",
+    "category": "Catégorie de Plainte",
+    "description": "Description",
+    "status": {
+      "received": "Reçue",
+      "processing": "En Traitement",
+      "resolved": "Résolue",
+      "closed": "Fermée"
+    }
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email",
+    "hours": "Heures d'Ouverture",
+    "form": {
+      "name": "Nom Complet",
+      "email": "Adresse Email",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer",
+      "success": "Message envoyé avec succès",
+      "error": "Erreur lors de l'envoi du message"
+    }
+  },
+  "footer": {
+    "about": "À Propos",
+    "quickLinks": "Liens Rapides",
+    "resources": "Ressources",
+    "contact": "Contact",
+    "followUs": "Suivez-Nous",
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Inscrivez-vous pour recevoir nos actualités",
+      "placeholder": "Votre adresse email",
+      "subscribe": "S'abonner"
+    },
+    "copyright": "© {year} Cellule Infrastructures - République Démocratique du Congo. Tous droits réservés.",
+    "links": {
+      "privacy": "Politique de Confidentialité",
+      "terms": "Conditions d'Utilisation",
+      "accessibility": "Accessibilité"
+    }
+  },
+  "search": {
+    "placeholder": "Rechercher des projets, actualités, documents...",
+    "results": "Résultats de Recherche",
+    "noResults": "Aucun résultat trouvé pour \"{query}\"",
+    "suggestions": "Suggestions",
+    "recent": "Recherches Récentes",
+    "categories": {
+      "all": "Tout",
+      "projects": "Projets",
+      "news": "Actualités",
+      "procurement": "Appels d'Offres",
+      "publications": "Publications",
+      "media": "Médias"
+    }
+  },
+  "accessibility": {
+    "skipToContent": "Aller au contenu principal",
+    "menu": "Menu",
+    "close": "Fermer",
+    "openInNewTab": "Ouvre dans un nouvel onglet"
+  }
+}

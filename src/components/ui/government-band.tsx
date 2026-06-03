@@ -6,7 +6,11 @@
 
 export function GovernmentBand() {
   return (
-    <div className="w-full" role="presentation" aria-label="RDC Government Colors">
+    <div
+      className="w-full"
+      role="presentation"
+      aria-label="RDC Government Colors"
+    >
       <div className="flex h-2">
         <div className="flex-1 bg-rdc-blue" />
         <div className="flex-1 bg-rdc-yellow" />

@@ -1,9 +1,17 @@
-import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
-import { Facebook, Twitter, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  Facebook,
+  Twitter,
+  Youtube,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 
 export function Footer() {
-  const t = useTranslations('footer');
+  const t = useTranslations("footer");
   const locale = useLocale();
   const currentYear = new Date().getFullYear();
 
@@ -23,9 +31,9 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-4">
-              {locale === 'fr'
+              {locale === "fr"
                 ? "Plateforme officielle de transparence et d'information sur les infrastructures de la RDC."
-                : 'Official platform for transparency and information on DRC infrastructure.'}
+                : "Official platform for transparency and information on DRC infrastructure."}
             </p>
             <div className="flex gap-4">
               <a
@@ -62,7 +70,7 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
-              {t('quickLinks')}
+              {t("quickLinks")}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -70,7 +78,7 @@ export function Footer() {
                   href={`/${locale}/projets`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Projets' : 'Projects'}
+                  {locale === "fr" ? "Projets" : "Projects"}
                 </Link>
               </li>
               <li>
@@ -78,7 +86,7 @@ export function Footer() {
                   href={`/${locale}/actualites`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Actualités' : 'News'}
+                  {locale === "fr" ? "Actualités" : "News"}
                 </Link>
               </li>
               <li>
@@ -86,7 +94,7 @@ export function Footer() {
                   href={`/${locale}/appels-offres`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Appels d\'Offres' : 'Procurement'}
+                  {locale === "fr" ? "Appels d'Offres" : "Procurement"}
                 </Link>
               </li>
               <li>
@@ -103,7 +111,7 @@ export function Footer() {
           {/* Resources */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
-              {t('resources')}
+              {t("resources")}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -111,7 +119,7 @@ export function Footer() {
                   href={`/${locale}/mediatheque`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Médiathèque' : 'Media Center'}
+                  {locale === "fr" ? "Médiathèque" : "Media Center"}
                 </Link>
               </li>
               <li>
@@ -119,7 +127,7 @@ export function Footer() {
                   href={`/${locale}/geomatique`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Géomatique' : 'Geomatics'}
+                  {locale === "fr" ? "Géomatique" : "Geomatics"}
                 </Link>
               </li>
               <li>
@@ -127,7 +135,7 @@ export function Footer() {
                   href={`/${locale}/plaintes`}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {locale === 'fr' ? 'Plaintes' : 'Complaints'}
+                  {locale === "fr" ? "Plaintes" : "Complaints"}
                 </Link>
               </li>
               <li>
@@ -144,7 +152,7 @@ export function Footer() {
           {/* Contact Info */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
-              {t('contact')}
+              {t("contact")}
             </h3>
             <ul className="space-y-3">
               <li className="flex gap-2 text-sm text-gray-400">
@@ -167,26 +175,26 @@ export function Footer() {
         <div className="mt-12 border-t border-gray-800 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-400">
-              {t('copyright', { year: currentYear })}
+              {t("copyright", { year: currentYear })}
             </p>
             <div className="flex gap-6">
               <Link
                 href={`/${locale}/confidentialite`}
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
-                {t('links.privacy')}
+                {t("links.privacy")}
               </Link>
               <Link
                 href={`/${locale}/conditions`}
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
-                {t('links.terms')}
+                {t("links.terms")}
               </Link>
               <Link
                 href={`/${locale}/accessibilite`}
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
-                {t('links.accessibility')}
+                {t("links.accessibility")}
               </Link>
             </div>
           </div>

@@ -1,18 +1,18 @@
-import { useTranslations } from 'next-intl';
-import { HeroCarousel } from '@/components/home/hero-carousel';
-import { StatsSection } from '@/components/home/stats-section';
-import { FeaturedProjects } from '@/components/home/featured-projects';
-import { LatestNews } from '@/components/home/latest-news';
-import { CurrentProcurement } from '@/components/home/current-procurement';
-import { RecentPublications } from '@/components/home/recent-publications';
-import { MediaPreview } from '@/components/home/media-preview';
-import { PartnersSection } from '@/components/home/partners-section';
-import { GovernmentBand } from '@/components/ui/government-band';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
+import { useTranslations } from "next-intl";
+import { HeroCarousel } from "@/components/home/hero-carousel";
+import { StatsSection } from "@/components/home/stats-section";
+import { FeaturedProjects } from "@/components/home/featured-projects";
+import { LatestNews } from "@/components/home/latest-news";
+import { CurrentProcurement } from "@/components/home/current-procurement";
+import { RecentPublications } from "@/components/home/recent-publications";
+import { MediaPreview } from "@/components/home/media-preview";
+import { PartnersSection } from "@/components/home/partners-section";
+import { GovernmentBand } from "@/components/ui/government-band";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export default function HomePage() {
-  const t = useTranslations('home');
+  const t = useTranslations("home");
 
   return (
     <>

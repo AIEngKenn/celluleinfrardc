@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "next": "^15.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "next-intl": "^3.25.1",
     "@sanity/client": "^6.24.1",
     "@sanity/image-url": "^1.1.0",
@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "@types/react": "^19.0.6",
-    "@types/react-dom": "^19.0.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "@types/leaflet": "^1.9.14",
     "typescript": "^5.7.2",
     "tailwindcss": "^3.4.17",

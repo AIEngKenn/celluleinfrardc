@@ -7,6 +7,7 @@ import type { SchemaTypeDefinition } from 'sanity';
 export default defineConfig({
   name: 'default',
   title: 'Cellule Infrastructures RDC',
+  basePath: '/studio',
 
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5sq6qhs4',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',

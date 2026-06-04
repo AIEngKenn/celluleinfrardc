@@ -3,42 +3,42 @@
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
-import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
+// Placeholder data
 const mediaItems = [
   {
     id: 1,
-    image: PLACEHOLDER_IMAGES.media[0],
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop',
     titleFr: 'Construction de la route RN1',
     titleEn: 'RN1 road construction',
   },
   {
     id: 2,
-    image: PLACEHOLDER_IMAGES.media[1],
+    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop',
     titleFr: 'Barrage hydroélectrique',
     titleEn: 'Hydroelectric dam',
   },
   {
     id: 3,
-    image: PLACEHOLDER_IMAGES.media[2],
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
     titleFr: 'Développement urbain',
     titleEn: 'Urban development',
   },
   {
     id: 4,
-    image: PLACEHOLDER_IMAGES.media[3],
+    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop',
     titleFr: 'Infrastructure moderne',
     titleEn: 'Modern infrastructure',
   },
   {
     id: 5,
-    image: PLACEHOLDER_IMAGES.media[4],
+    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop',
     titleFr: 'Projet de construction',
     titleEn: 'Construction project',
   },
   {
     id: 6,
-    image: PLACEHOLDER_IMAGES.media[5],
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop',
     titleFr: 'Chantier en cours',
     titleEn: 'Ongoing construction',
   },

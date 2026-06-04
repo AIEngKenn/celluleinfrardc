@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Projet routier">
-  <rect width="800" height="600" fill="#0a2540"/>
-  <path d="M0 380 Q200 320 400 360 T800 340 L800 600 L0 600 Z" fill="#142d4a"/>
-  <path d="M0 420 L800 400 L800 480 L0 500 Z" fill="#3d4f63"/>
-  <path d="M0 450 L800 440" stroke="#f7d618" stroke-width="4" stroke-dasharray="40 30"/>
-  <rect x="80" y="180" width="60" height="200" fill="#1e3a5f" opacity="0.6"/>
-  <rect x="600" y="200" width="70" height="180" fill="#1e3a5f" opacity="0.5"/>
-</svg>

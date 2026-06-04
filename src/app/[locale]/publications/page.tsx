@@ -7,7 +7,6 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, FileText, Download, Eye } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
-import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -110,13 +109,15 @@ export default async function PublicationsPage({ params, searchParams }: Props) 
                 className="overflow-hidden transition-shadow hover:shadow-lg"
               >
                 {/* Cover Image */}
-                <div className="aspect-[3/4] overflow-hidden bg-gray-200">
-                  <img
-                    src={sanityImageUrl(publication.coverImage)}
-                    alt={title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                {publication.coverImage && (
+                  <div className="aspect-[3/4] overflow-hidden bg-gray-200">
+                    <img
+                      src={publication.coverImage.asset.url}
+                      alt={title}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
 
                 <div className="p-6">
                   <div className="mb-3 flex items-center gap-2">

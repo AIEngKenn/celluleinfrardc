@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Projet énergétique">
-  <rect width="800" height="600" fill="#0f3d5c"/>
-  <path d="M0 400 L800 360 L800 600 L0 600 Z" fill="#007fff" opacity="0.7"/>
-  <path d="M280 120 L280 420 L520 420 L520 120 Z" fill="#1a3348"/>
-  <rect x="300" y="180" width="200" height="16" fill="#4a6a82" opacity="0.5"/>
-  <rect x="300" y="260" width="200" height="16" fill="#4a6a82" opacity="0.4"/>
-</svg>

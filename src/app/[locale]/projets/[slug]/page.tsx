@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MapPin, Calendar, TrendingUp, Download, ArrowLeft, Building2, Clock } from 'lucide-react';
 import { ProjectMap } from '@/components/projects/project-map-loader';
-import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -34,7 +33,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title,
       description,
-      images: [sanityImageUrl(project.mainImage)],
+      images: project.mainImage ? [project.mainImage.asset.url] : [],
     },
   };
 }
@@ -60,43 +59,45 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen">
       {/* Hero Image */}
-      <div className="relative h-96 bg-gray-900">
-        <img
-          src={sanityImageUrl(project.mainImage)}
-          alt={project.mainImage?.alt || title}
-          className="h-full w-full object-cover opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8">
-          <div className="container mx-auto">
-            <Link
-              href={`/${locale}/projets`}
-              className="mb-4 inline-flex items-center gap-2 text-white hover:underline"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t('backToProjects')}
-            </Link>
-            <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">{title}</h1>
-            <div className="flex flex-wrap items-center gap-3">
-              <Badge
-                variant={
-                  project.status === 'completed'
-                    ? 'default'
-                    : project.status === 'ongoing'
-                      ? 'secondary'
-                      : 'outline'
-                }
-                className="bg-white/90"
+      {project.mainImage && (
+        <div className="relative h-96 bg-gray-900">
+          <img
+            src={project.mainImage.asset.url}
+            alt={project.mainImage.alt || title}
+            className="h-full w-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-8">
+            <div className="container mx-auto">
+              <Link
+                href={`/${locale}/projets`}
+                className="mb-4 inline-flex items-center gap-2 text-white hover:underline"
               >
-                {t(`status.${project.status}`)}
-              </Badge>
-              <span className="text-lg font-semibold text-white">
-                {project.progress}% {t('complete')}
-              </span>
+                <ArrowLeft className="h-4 w-4" />
+                {t('backToProjects')}
+              </Link>
+              <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">{title}</h1>
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge
+                  variant={
+                    project.status === 'completed'
+                      ? 'default'
+                      : project.status === 'ongoing'
+                        ? 'secondary'
+                        : 'outline'
+                  }
+                  className="bg-white/90"
+                >
+                  {t(`status.${project.status}`)}
+                </Badge>
+                <span className="text-lg font-semibold text-white">
+                  {project.progress}% {t('complete')}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -133,7 +134,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                       className="aspect-video overflow-hidden rounded-lg bg-gray-200"
                     >
                       <img
-                        src={sanityImageUrl(image)}
+                        src={image.asset.url}
                         alt={image.caption || `${title} - Image ${index + 1}`}
                         className="h-full w-full cursor-pointer object-cover transition-transform hover:scale-105"
                       />
@@ -189,13 +190,15 @@ export default async function ProjectDetailPage({ params }: Props) {
                       href={`/${locale}/actualites/${news.slug}`}
                       className="flex gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
                     >
-                      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
-                        <img
-                          src={sanityImageUrl(news.mainImage)}
-                          alt=""
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
+                      {news.mainImage && (
+                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
+                          <img
+                            src={news.mainImage.asset.url}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      )}
                       <div className="flex-1">
                         <h3 className="mb-1 font-semibold text-gray-900">
                           {locale === 'fr' ? news.titleFr : news.titleEn}

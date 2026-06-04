@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, X } from 'lucide-react';
 import type { ProjectMapData } from '@/lib/sanity/types';
-import { sanityImageUrl } from '@/lib/placeholder-images';
 
 // Fix for default marker icons in Leaflet
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -205,13 +204,15 @@ export default function GeomaticsMap({ projects }: GeomaticsMapProps) {
             </button>
           </div>
 
-          <div className="mb-3 aspect-video overflow-hidden rounded-lg bg-gray-200">
-            <img
-              src={sanityImageUrl(selectedProject.mainImage)}
-              alt=""
-              className="h-full w-full object-cover"
-            />
-          </div>
+          {selectedProject.mainImage && (
+            <div className="mb-3 aspect-video overflow-hidden rounded-lg bg-gray-200">
+              <img
+                src={selectedProject.mainImage.asset.url}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
 
           <div className="mb-4 space-y-2">
             <div className="flex items-center gap-2 text-sm">

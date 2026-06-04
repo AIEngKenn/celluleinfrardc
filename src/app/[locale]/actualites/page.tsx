@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
-import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -96,13 +95,15 @@ export default async function NewsPage({ params, searchParams }: Props) {
             return (
               <Link key={article._id} href={`/${locale}/actualites/${article.slug}`}>
                 <Card className="group h-full overflow-hidden transition-shadow hover:shadow-lg">
-                  <div className="aspect-video overflow-hidden bg-gray-200">
-                    <img
-                      src={sanityImageUrl(article.mainImage)}
-                      alt={article.mainImage?.alt || title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
+                  {article.mainImage && (
+                    <div className="aspect-video overflow-hidden bg-gray-200">
+                      <img
+                        src={article.mainImage.asset.url}
+                        alt={article.mainImage.alt || title}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
                   <div className="p-6">
                     <div className="mb-3 flex items-center gap-2">
                       {article.featured && (

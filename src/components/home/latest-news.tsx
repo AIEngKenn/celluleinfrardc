@@ -5,7 +5,6 @@ import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
-import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
 const news = [
   {
@@ -15,7 +14,7 @@ const news = [
     date: '2024-05-15',
     categoryFr: 'Projets',
     categoryEn: 'Projects',
-    image: PLACEHOLDER_IMAGES.newsFeatured,
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop',
     featured: true,
   },
   {
@@ -25,7 +24,7 @@ const news = [
     date: '2024-05-10',
     categoryFr: 'Financement',
     categoryEn: 'Financing',
-    image: PLACEHOLDER_IMAGES.newsFinancing,
+    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop',
   },
   {
     id: 3,

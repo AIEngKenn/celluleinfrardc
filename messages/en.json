@@ -345,7 +345,12 @@
     }
   },
   "geomatics": {
+    "meta": {
+      "title": "Geomatics - DRC Infrastructure Map",
+      "description": "Visualize all infrastructure projects on an interactive map"
+    },
     "title": "Infrastructure Map",
+    "subtitle": "Visualize all our projects on an interactive map",
     "description": "Interactive map of infrastructure projects in the DRC",
     "filterByProvince": "Filter by Province",
     "filterByStatus": "Filter by Status",
@@ -360,7 +365,9 @@
     "closeDetails": "Close Details",
     "zoomIn": "Zoom In",
     "zoomOut": "Zoom Out",
-    "resetView": "Reset View"
+    "resetView": "Reset View",
+    "aboutMap": "About the Map",
+    "mapDescription": "This interactive map shows all infrastructure projects underway and completed across the DRC. Use the filters to display projects by province, status or sector."
   },
   "complaints": {
     "meta": {
@@ -411,21 +418,28 @@
     "error": "An error occurred while submitting your complaint"
   },
   "contact": {
+    "meta": {
+      "title": "Contact Us - Cellule Infrastructures DRC",
+      "description": "Contact the DRC Infrastructure Unit for any questions or information"
+    },
     "title": "Contact Us",
+    "subtitle": "We are here for any questions or information requests",
     "description": "Contact the DRC Infrastructure Unit",
     "getInTouch": "Get in Touch",
     "contactInfo": "Contact Information",
-    "address": "Address",
-    "addressValue": "Avenue du Port, Kinshasa, DRC",
-    "phone": "Phone",
-    "phoneValue": "+243 XX XXX XXXX",
-    "email": "Email",
-    "emailValue": "contact@celluleinfra.cd",
-    "hours": "Office Hours",
-    "hoursValue": "Monday - Friday: 8:00 AM - 4:00 PM",
-    "complaints": "Complaints",
-    "complaintsDescription": "Submit a complaint or suggestion",
     "submitComplaint": "Submit a Complaint",
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Office Hours",
+      "workdays": "Monday - Friday"
+    },
+    "complaints": {
+      "title": "Complaints & Claims",
+      "description": "Do you have a complaint about a project?",
+      "button": "Submit a Complaint"
+    },
     "form": {
       "title": "Send us a Message",
       "firstName": "First Name",
@@ -435,6 +449,8 @@
       "subject": "Subject",
       "message": "Message",
       "send": "Send Message",
+      "submit": "Send",
+      "requiredFields": "* Required fields",
       "sending": "Sending...",
       "success": "Message sent successfully",
       "error": "Error sending message"

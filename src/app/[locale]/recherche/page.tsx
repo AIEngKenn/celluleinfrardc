@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { Search, FolderOpen, Newspaper, FileText, ShoppingCart, ArrowRight } from 'lucide-react';
 import { sanityFetch } from '@/lib/sanity/client';
@@ -69,6 +69,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
 
 export default async function RecherchePage({ params, searchParams }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const { q } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'search' });
 

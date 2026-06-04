@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch, urlFor } from '@/lib/sanity/client';
 import { projectBySlugQuery } from '@/lib/sanity/queries';
@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'projects' });
 
   const project = await sanityFetch<Project>({

@@ -230,6 +230,7 @@
   },
   "media": {
     "title": "Médiathèque",
+    "description": "Explorez notre galerie de photos et vidéos des projets d'infrastructures",
     "photos": "Photos",
     "videos": "Vidéos",
     "albums": "Albums",

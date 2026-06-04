@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { sanityFetch } from '@/lib/sanity/client';
 import { projectsMapDataQuery } from '@/lib/sanity/queries';
 import type { ProjectMapData } from '@/lib/sanity/types';
@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function GeomaticsPage({ params }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'geomatics' });
 
   // Fetch all projects with location data

@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { HeroCarousel } from '@/components/home/hero-carousel';
 import { StatsSection } from '@/components/home/stats-section';
 import { FeaturedProjects } from '@/components/home/featured-projects';
@@ -8,8 +8,13 @@ import { RecentPublications } from '@/components/home/recent-publications';
 import { MediaPreview } from '@/components/home/media-preview';
 import { PartnersSection } from '@/components/home/partners-section';
 
-export default function HomePage() {
-  const t = useTranslations('home');
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
   return (
     <>

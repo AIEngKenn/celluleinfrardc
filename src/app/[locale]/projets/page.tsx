@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
 import { projectsListQuery, provincesListQuery } from '@/lib/sanity/queries';
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectsPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const { province, status, sector } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'projects' });
 

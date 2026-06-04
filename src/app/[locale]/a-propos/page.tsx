@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PageHeader } from '@/components/ui/page-header';
 import { Building2, Users, Globe, FileCheck } from 'lucide-react';
 
@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const isFr = locale === 'fr';
 
   const missions = [

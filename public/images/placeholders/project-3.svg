@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Projet aéroportuaire">
+  <rect width="800" height="600" fill="#1a3d5c"/>
+  <ellipse cx="400" cy="480" rx="380" ry="80" fill="#2d4a62"/>
+  <path d="M100 480 L700 480" stroke="#e2e8f0" stroke-width="3"/>
+  <path d="M200 480 L550 300" stroke="#94a3b8" stroke-width="2" stroke-dasharray="20 15"/>
+  <rect x="320" y="120" width="160" height="40" fill="#0a2540" opacity="0.8" rx="4"/>
+  <polygon points="400,80 420,140 380,140" fill="#007fff" opacity="0.6"/>
+</svg>

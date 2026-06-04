@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calendar, FileText, Download, ArrowLeft } from 'lucide-react';
+import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title,
       description,
-      images: publication.coverImage ? [publication.coverImage.asset.url] : [],
+      images: [sanityImageUrl(publication.coverImage)],
     },
   };
 }
@@ -137,11 +138,9 @@ export default async function PublicationDetailPage({ params }: Props) {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Cover Image */}
-            {publication.coverImage && (
-              <Card className="overflow-hidden">
-                <img src={publication.coverImage.asset.url} alt={title} className="h-auto w-full" />
-              </Card>
-            )}
+            <Card className="overflow-hidden">
+              <img src={sanityImageUrl(publication.coverImage)} alt={title} className="h-auto w-full" />
+            </Card>
 
             {/* Quick Actions */}
             <Card className="p-6">

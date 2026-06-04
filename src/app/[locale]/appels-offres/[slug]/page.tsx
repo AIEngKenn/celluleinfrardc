@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calendar, FileText, Download, ArrowLeft, AlertCircle, Clock } from 'lucide-react';
+import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -166,15 +167,13 @@ export default async function ProcurementDetailPage({ params }: Props) {
                       href={`/${locale}/projets/${project.slug}`}
                       className="flex items-center gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
                     >
-                      {project.mainImage && (
-                        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
-                          <img
-                            src={project.mainImage.asset.url}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                      )}
+                      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
+                        <img
+                          src={sanityImageUrl(project.mainImage)}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
                       <div>
                         <h3 className="font-semibold text-gray-900">
                           {locale === 'fr' ? project.titleFr : project.titleEn}

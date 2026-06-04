@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin, TrendingUp } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { ProjectFilters } from '@/components/projects/project-filters';
+import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -108,15 +109,13 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
           {filteredProjects.map((project) => (
             <Link key={project._id} href={`/${locale}/projets/${project.slug}`}>
               <Card className="h-full transition-shadow hover:shadow-lg">
-                {project.mainImage && (
-                  <div className="aspect-video overflow-hidden rounded-t-lg bg-gray-200">
-                    <img
-                      src={project.mainImage.asset.url}
-                      alt={project.mainImage.alt || ''}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                )}
+                <div className="aspect-video overflow-hidden rounded-t-lg bg-gray-200">
+                  <img
+                    src={sanityImageUrl(project.mainImage)}
+                    alt={project.mainImage?.alt || ''}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
                 <div className="p-6">
                   <div className="mb-3 flex items-center gap-2">
                     <Badge

@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
 const slides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop',
+    image: PLACEHOLDER_IMAGES.hero[0],
     eyebrowFr: 'Infrastructure Routière',
     eyebrowEn: 'Road Infrastructure',
     titleFr: 'Moderniser les routes pour connecter la nation',
@@ -22,7 +23,7 @@ const slides = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=1080&fit=crop',
+    image: PLACEHOLDER_IMAGES.hero[1],
     eyebrowFr: 'Énergie Hydroélectrique',
     eyebrowEn: 'Hydroelectric Energy',
     titleFr: "Investir dans l'énergie propre pour l'avenir",
@@ -35,7 +36,7 @@ const slides = [
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop',
+    image: PLACEHOLDER_IMAGES.hero[2],
     eyebrowFr: 'Développement Urbain',
     eyebrowEn: 'Urban Development',
     titleFr: 'Construire des villes inclusives et durables',

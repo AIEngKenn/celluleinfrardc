@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { MapPin, ArrowRight } from 'lucide-react';
+import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
 const projects = [
   {
@@ -14,7 +15,7 @@ const projects = [
     statusFr: 'En cours',
     statusEn: 'In progress',
     budget: 45000000,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop',
+    image: PLACEHOLDER_IMAGES.projectFeatured,
     sectorFr: 'Transport',
     sectorEn: 'Transport',
     featured: true,
@@ -27,7 +28,7 @@ const projects = [
     statusFr: 'En préparation',
     statusEn: 'In preparation',
     budget: 120000000,
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=600&fit=crop',
+    image: PLACEHOLDER_IMAGES.projectEnergy,
     sectorFr: 'Énergie',
     sectorEn: 'Energy',
   },
@@ -39,7 +40,7 @@ const projects = [
     statusFr: 'En cours',
     statusEn: 'In progress',
     budget: 85000000,
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop',
+    image: PLACEHOLDER_IMAGES.projectAirport,
     sectorFr: 'Transport aérien',
     sectorEn: 'Air transport',
   },

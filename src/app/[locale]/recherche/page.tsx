@@ -6,6 +6,7 @@ import { fullSearchQuery } from '@/lib/sanity/queries';
 import { PageHeader } from '@/components/ui/page-header';
 import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '@/components/search/search-form';
+import { sanityImageUrl } from '@/lib/placeholder-images';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -211,13 +212,11 @@ export default async function RecherchePage({ params, searchParams }: Props) {
                       href={`/${locale}/projets/${item.slug}`}
                       className="flex items-start gap-4 p-4 transition-colors hover:bg-gray-50"
                     >
-                      {item.mainImage && (
-                        <img
-                          src={item.mainImage.asset.url}
-                          alt={item.mainImage.alt || ''}
-                          className="h-16 w-24 flex-shrink-0 rounded object-cover"
-                        />
-                      )}
+                      <img
+                        src={sanityImageUrl(item.mainImage)}
+                        alt={item.mainImage?.alt || ''}
+                        className="h-16 w-24 flex-shrink-0 rounded object-cover"
+                      />
                       <div className="min-w-0 flex-1">
                         <p className="line-clamp-1 font-semibold text-gray-900">
                           {locale === 'fr' ? item.titleFr : item.titleEn}
@@ -268,13 +267,11 @@ export default async function RecherchePage({ params, searchParams }: Props) {
                       href={`/${locale}/actualites/${item.slug}`}
                       className="flex items-start gap-4 p-4 transition-colors hover:bg-gray-50"
                     >
-                      {item.mainImage && (
-                        <img
-                          src={item.mainImage.asset.url}
-                          alt={item.mainImage.alt || ''}
-                          className="h-16 w-24 flex-shrink-0 rounded object-cover"
-                        />
-                      )}
+                      <img
+                        src={sanityImageUrl(item.mainImage)}
+                        alt={item.mainImage?.alt || ''}
+                        className="h-16 w-24 flex-shrink-0 rounded object-cover"
+                      />
                       <div className="min-w-0 flex-1">
                         <p className="line-clamp-1 font-semibold text-gray-900">
                           {locale === 'fr' ? item.titleFr : item.titleEn}
@@ -378,13 +375,11 @@ export default async function RecherchePage({ params, searchParams }: Props) {
                       href={`/${locale}/publications/${item.slug}`}
                       className="flex items-start gap-4 p-4 transition-colors hover:bg-gray-50"
                     >
-                      {item.coverImage && (
-                        <img
-                          src={item.coverImage.asset.url}
-                          alt=""
-                          className="h-16 w-12 flex-shrink-0 rounded object-cover"
-                        />
-                      )}
+                      <img
+                        src={sanityImageUrl(item.coverImage)}
+                        alt=""
+                        className="h-16 w-12 flex-shrink-0 rounded object-cover"
+                      />
                       <div className="min-w-0 flex-1">
                         <p className="line-clamp-1 font-semibold text-gray-900">
                           {locale === 'fr' ? item.titleFr : item.titleEn}

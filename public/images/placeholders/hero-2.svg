@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="Énergie hydroélectrique">
+  <defs>
+    <linearGradient id="sky2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f3d5c"/>
+      <stop offset="100%" stop-color="#0a2540"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#007fff"/>
+      <stop offset="100%" stop-color="#0057b8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky2)"/>
+  <path d="M0 600 L400 520 L800 560 L1200 500 L1600 540 L1920 480 L1920 1080 L0 1080 Z" fill="#0d2840"/>
+  <path d="M0 680 L1920 620 L1920 1080 L0 1080 Z" fill="url(#water)" opacity="0.85"/>
+  <path d="M600 200 L600 680 L1100 680 L1100 200 Z" fill="#2d4a62" opacity="0.9"/>
+  <path d="M620 220 L620 660 L1080 660 L1080 220 Z" fill="#1a3348"/>
+  <rect x="640" y="280" width="420" height="24" fill="#4a6a82" opacity="0.6"/>
+  <rect x="640" y="380" width="420" height="24" fill="#4a6a82" opacity="0.5"/>
+  <rect x="640" y="480" width="420" height="24" fill="#4a6a82" opacity="0.4"/>
+  <ellipse cx="850" cy="750" rx="200" ry="40" fill="#fff" opacity="0.08"/>
+  <circle cx="1500" cy="250" r="120" fill="#f7d618" opacity="0.12"/>
+</svg>

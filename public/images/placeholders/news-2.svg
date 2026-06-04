@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Actualité financement">
+  <rect width="800" height="600" fill="#0a2540"/>
+  <rect x="120" y="100" width="560" height="400" fill="#1e3a5f" rx="8"/>
+  <rect x="160" y="160" width="200" height="12" fill="#007fff" opacity="0.6"/>
+  <rect x="160" y="200" width="480" height="8" fill="#4a6a82"/>
+  <rect x="160" y="230" width="420" height="8" fill="#4a6a82" opacity="0.7"/>
+  <rect x="160" y="260" width="450" height="8" fill="#4a6a82" opacity="0.5"/>
+  <rect x="160" y="380" width="120" height="40" fill="#007fff" rx="4"/>
+</svg>

@@ -99,8 +99,8 @@ export default async function LocaleLayout({
           <Header />
           <main id="main-content" tabIndex={-1}>
             {children}
+            <GovernmentBand />
           </main>
-          <GovernmentBand />
           <Footer />
         </NextIntlClientProvider>
       </body>

@@ -133,6 +133,7 @@
 
   p {
     max-width: 70ch;
+    margin-inline: auto;
   }
 
   /* Only apply blue colour in body text, not in components or buttons */

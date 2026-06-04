@@ -159,14 +159,14 @@ export default async function RecherchePage({ params, searchParams }: Props) {
 
         {/* No results state */}
         {q && results && totalCount === 0 && (
-          <div className="py-8 text-center">
-            <Search className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+          <div className="flex flex-col items-center py-8">
+            <Search className="mb-4 h-16 w-16 text-gray-300" />
             <p className="mb-2 text-xl font-semibold text-gray-700">
               {t('noResults', { query: q })}
             </p>
             <p className="mb-8 text-gray-500">{t('noResultsDescription')}</p>
 
-            <div className="mx-auto grid max-w-xl grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid max-w-xl grid-cols-2 gap-4 md:grid-cols-4">
               {categoryLinks.map((cat) => {
                 const Icon = cat.icon;
                 return (

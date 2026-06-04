@@ -4,10 +4,14 @@
  */
 export function GovernmentBand() {
   return (
-    <div className="mx-auto flex w-full" role="presentation" aria-hidden="true">
-      <div className="h-1.5 flex-1" style={{ background: '#007FFF' }} />
-      <div className="h-1.5 flex-1" style={{ background: '#F7D618' }} />
-      <div className="h-1.5 flex-1" style={{ background: '#CE1021' }} />
-    </div>
+    <div
+      className="h-1.5 w-full border-0"
+      style={{
+        background:
+          'linear-gradient(to right, #007FFF 33.333%, #F7D618 33.333% 66.666%, #CE1021 66.666%)',
+      }}
+      role="presentation"
+      aria-hidden="true"
+    />
   );
 }

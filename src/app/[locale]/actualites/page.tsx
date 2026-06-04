@@ -147,7 +147,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
 
         {/* Empty State */}
         {news.length === 0 && (
-          <div className="py-12 text-center">
+          <div className="flex flex-col items-center py-12">
             <p className="text-lg text-gray-500">{t('noResults')}</p>
             <Button variant="outline" className="mt-4" asChild>
               <Link href={`/${locale}/actualites`}>{t('viewAll')}</Link>

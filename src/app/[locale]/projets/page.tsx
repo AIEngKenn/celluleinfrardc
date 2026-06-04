@@ -169,7 +169,7 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (
-          <div className="py-12 text-center">
+          <div className="flex flex-col items-center py-12">
             <p className="text-lg text-gray-500">{t('noResults')}</p>
             <Button variant="outline" className="mt-4" asChild>
               <Link href={`/${locale}/projets`}>{t('clearFilters')}</Link>

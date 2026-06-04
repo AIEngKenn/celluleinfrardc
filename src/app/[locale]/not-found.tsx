@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import Link from 'next/link';
 import {
   Home,
@@ -11,12 +11,8 @@ import {
   Search,
 } from 'lucide-react';
 
-interface Props {
-  params: Promise<{ locale: string }>;
-}
-
-export async function generateMetadata({ params }: Props) {
-  const { locale } = await params;
+export async function generateMetadata() {
+  const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'common' });
 
   return {
@@ -24,9 +20,8 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function NotFound({ params }: Props) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+export default async function NotFound() {
+  const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: 'common' });
   const isFr = locale === 'fr';
 

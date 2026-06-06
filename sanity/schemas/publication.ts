@@ -40,18 +40,20 @@ export default defineType({
       rows: 4,
     }),
     defineField({
-      name: "type",
+      name: "publicationType",
       title: "Type de document",
       type: "string",
       options: {
         list: [
-          { title: "Rapport", value: "report" },
-          { title: "Étude", value: "study" },
-          { title: "Document environnemental", value: "environmental" },
-          { title: "Document social", value: "social" },
-          { title: "Rapport technique", value: "technical" },
-          { title: "Rapport institutionnel", value: "institutional" },
+          { title: "Rapport annuel", value: "annual-report" },
+          { title: "Rapport technique", value: "technical-report" },
+          { title: "Étude de faisabilité", value: "feasibility-study" },
+          { title: "Étude environnementale", value: "environmental-study" },
+          { title: "Loi / décret", value: "law-decree" },
           { title: "Guide", value: "guide" },
+          { title: "Newsletter", value: "newsletter" },
+          { title: "Brochure", value: "brochure" },
+          { title: "Autre", value: "other" },
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -100,7 +102,7 @@ export default defineType({
     select: {
       title: "titleFr",
       media: "coverImage",
-      subtitle: "type",
+      subtitle: "publicationType",
     },
   },
   orderings: [

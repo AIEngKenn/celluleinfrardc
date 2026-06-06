@@ -1,19 +1,23 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
-import { projectsListQuery, provincesListQuery } from '@/lib/sanity/queries';
+import { projectsPaginatedQuery, provincesListQuery } from '@/lib/sanity/queries';
 import type { Project, Province } from '@/lib/sanity/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, TrendingUp } from 'lucide-react';
+import { ArrowRight, Building2, MapPin, TrendingUp } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { ProjectFilters } from '@/components/projects/project-filters';
+import { Pagination } from '@/components/ui/pagination';
+import { pageWindow } from '@/lib/content-cleanup';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ province?: string; status?: string; sector?: string }>;
+  searchParams: Promise<{ province?: string; status?: string; sector?: string; page?: string }>;
 }
+
+const PAGE_SIZE = 9;
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -28,13 +32,21 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProjectsPage({ params, searchParams }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { province, status, sector } = await searchParams;
+  const { province, status, sector, page: pageParam } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'projects' });
+  const { page, start, end } = pageWindow(pageParam, PAGE_SIZE);
 
   // Fetch all projects and provinces
-  const [projects, provinces] = await Promise.all([
-    sanityFetch<Project[]>({
-      query: projectsListQuery,
+  const [projectResult, provinces] = await Promise.all([
+    sanityFetch<{ items: Project[]; total: number }>({
+      query: projectsPaginatedQuery,
+      params: {
+        province: province || null,
+        status: status || null,
+        sector: sector || null,
+        start,
+        end,
+      },
       tags: ['project'],
     }),
     sanityFetch<Province[]>({
@@ -42,21 +54,7 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
       tags: ['province'],
     }),
   ]);
-
-  // Filter projects based on search params
-  let filteredProjects = projects;
-
-  if (province) {
-    filteredProjects = filteredProjects.filter((p) => p.province.slug === province);
-  }
-
-  if (status) {
-    filteredProjects = filteredProjects.filter((p) => p.status === status);
-  }
-
-  if (sector) {
-    filteredProjects = filteredProjects.filter((p) => p.sector === sector);
-  }
+  const filteredProjects = projectResult.items;
 
   return (
     <div>
@@ -100,25 +98,32 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">{t('resultsCount', { count: filteredProjects.length })}</p>
+          <p className="text-gray-600">{t('resultsCount', { count: projectResult.total })}</p>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => (
-            <Link key={project._id} href={`/${locale}/projets/${project.slug}`}>
-              <Card className="h-full transition-shadow hover:shadow-lg">
+        <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
+          {filteredProjects.map((project) => {
+            const projectTitle = locale === 'fr' ? project.titleFr : project.titleEn;
+            return (
+            <Link key={project._id} href={`/${locale}/projets/${project.slug}`} className="group">
+              <Card className="grid h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-xl md:grid-cols-[14rem_1fr]">
                 {project.mainImage && (
-                  <div className="aspect-video overflow-hidden rounded-t-lg bg-gray-200">
+                  <div className="relative min-h-56 overflow-hidden bg-gray-200">
                     <img
                       src={project.mainImage.asset.url}
-                      alt={project.mainImage.alt || ''}
-                      className="h-full w-full object-cover"
+                      alt={project.mainImage.alt || projectTitle}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
                 )}
+                {!project.mainImage && (
+                  <div className="flex min-h-56 items-center justify-center bg-gradient-to-br from-rdc-blue/10 to-rdc-blue/5 text-rdc-blue">
+                    <Building2 className="h-14 w-14" />
+                  </div>
+                )}
                 <div className="p-6">
-                  <div className="mb-3 flex items-center gap-2">
+                  <div className="mb-3 flex flex-wrap items-center gap-2">
                     <Badge
                       variant={
                         project.status === 'completed'
@@ -130,18 +135,31 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
                     >
                       {t(`status.${project.status}`)}
                     </Badge>
-                    <span className="text-sm text-gray-500">{project.progress}%</span>
+                    <Badge variant="outline">{t(`sectors.${project.sector}`)}</Badge>
                   </div>
 
-                  <h3 className="mb-2 line-clamp-2 text-xl font-semibold text-gray-900">
-                    {locale === 'fr' ? project.titleFr : project.titleEn}
+                  <h3 className="mb-3 line-clamp-3 text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue">
+                    {projectTitle}
                   </h3>
 
-                  <p className="mb-4 line-clamp-3 text-gray-600">
+                  <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">
                     {locale === 'fr' ? project.descriptionFr : project.descriptionEn}
                   </p>
 
-                  <div className="space-y-2 text-sm text-gray-500">
+                  <div className="mb-5">
+                    <div className="mb-2 flex items-center justify-between text-xs font-medium text-gray-500">
+                      <span>{t('progress')}</span>
+                      <span>{project.progress}%</span>
+                    </div>
+                    <div className="h-2.5 rounded-full bg-gray-100">
+                      <div
+                        className="h-2.5 rounded-full bg-rdc-blue"
+                        style={{ width: `${project.progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 border-t border-gray-100 pt-4 text-sm text-gray-500">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
                       <span>
@@ -161,10 +179,15 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
                       </div>
                     )}
                   </div>
+                  <div className="mt-5 flex items-center text-sm font-semibold text-rdc-blue">
+                    {t('viewDetails')}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
                 </div>
               </Card>
             </Link>
-          ))}
+            );
+          })}
         </div>
 
         {/* Empty State */}
@@ -176,6 +199,15 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
             </Button>
           </div>
         )}
+
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={projectResult.total}
+          basePath={`/${locale}/projets`}
+          searchParams={{ province, status, sector }}
+          labels={{ previous: 'Précédent', next: 'Suivant', page: 'Page' }}
+        />
       </div>
     </div>
   );

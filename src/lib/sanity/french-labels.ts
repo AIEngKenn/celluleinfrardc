@@ -69,7 +69,7 @@ export const frenchLabels = {
     titleField: "Titre",
     slug: "Identifiant URL",
     description: "Description",
-    type: "Type de document",
+    publicationType: "Type de document",
     publishedAt: "Date de publication",
     pdfFile: "Fichier PDF",
     coverImage: "Image de couverture",

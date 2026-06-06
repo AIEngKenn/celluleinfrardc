@@ -12,6 +12,7 @@
 
   /* Authority navy — used for header nav background and strong accents */
   --ci-navy: #0a2540;
+  --ci-brand-blue: #17418a;
 
   /* Text scale */
   --ci-text-primary: #111827;
@@ -324,6 +325,198 @@
   .ci-card--featured {
     border-left: 4px solid var(--ci-blue);
   }
+
+  .ci-article-body {
+    color: var(--ci-text-secondary);
+    font-size: clamp(1rem, 0.95rem + 0.18vw, 1.125rem);
+    line-height: 1.85;
+  }
+
+  .ci-article-body > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .ci-article-body p {
+    margin: 0;
+  }
+
+  .ci-article-body h2,
+  .ci-article-body h3,
+  .ci-article-body h4 {
+    margin-top: 2rem;
+    color: var(--ci-text-primary);
+    line-height: 1.25;
+  }
+
+  .ci-article-body h2 {
+    font-size: var(--ci-step-3);
+  }
+
+  .ci-article-body h3 {
+    font-size: var(--ci-step-2);
+  }
+
+  .ci-article-body ul,
+  .ci-article-body ol {
+    margin-left: 1.25rem;
+    padding-left: 1rem;
+  }
+
+  .ci-article-body ul {
+    list-style: disc;
+  }
+
+  .ci-article-body ol {
+    list-style: decimal;
+  }
+
+  .ci-article-body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .ci-pagination {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--ci-border);
+    padding-top: 1.5rem;
+  }
+
+  .ci-pagination-pages {
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  @media (min-width: 640px) {
+    .ci-pagination-pages {
+      display: flex;
+    }
+  }
+
+  .ci-pagination-arrow,
+  .ci-pagination-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--ci-border);
+    background: white;
+    color: var(--ci-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      color 0.15s,
+      border-color 0.15s,
+      background 0.15s;
+  }
+
+  .ci-pagination-arrow {
+    padding: 0 0.9rem;
+  }
+
+  .ci-pagination-arrow:hover,
+  .ci-pagination-page:hover,
+  .ci-pagination-page-active {
+    border-color: var(--ci-blue);
+    background: var(--ci-blue);
+    color: white;
+    text-decoration: none;
+  }
+
+  .ci-pagination-disabled {
+    pointer-events: none;
+    opacity: 0.45;
+  }
+
+  .ci-pagination-gap {
+    color: var(--ci-text-muted);
+    padding: 0 0.35rem;
+  }
+
+  .ci-share-panel {
+    border: 1px solid var(--ci-border);
+    background: white;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.05);
+  }
+
+  .ci-share-eyebrow {
+    margin: 0 0 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ci-blue);
+  }
+
+  .ci-share-title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .ci-share-actions,
+  .ci-share-grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .ci-share-actions {
+    grid-template-columns: 1fr;
+    margin-bottom: 0.75rem;
+  }
+
+  .ci-share-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ci-share-primary,
+  .ci-share-copy,
+  .ci-share-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border: 1px solid var(--ci-border);
+    padding: 0.65rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .ci-share-primary {
+    border-color: var(--ci-blue);
+    background: var(--ci-blue);
+    color: white;
+  }
+
+  .ci-share-copy,
+  .ci-share-link {
+    background: var(--ci-bg-subtle);
+    color: var(--ci-text-secondary);
+  }
+
+  .ci-share-copy:hover,
+  .ci-share-link:hover {
+    border-color: var(--ci-blue);
+    color: var(--ci-blue);
+    text-decoration: none;
+  }
+
+  .ci-share-url {
+    margin: 0.9rem 0 0;
+    overflow-wrap: anywhere;
+    border-top: 1px solid var(--ci-border);
+    padding-top: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--ci-text-muted);
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -551,7 +744,7 @@
 
   /* ── Navigation bar ── */
   .ci-nav {
-    background: var(--ci-navy);
+    background: var(--ci-brand-blue);
     display: none;
   }
   @media (min-width: 1024px) {
@@ -715,8 +908,8 @@
      FOOTER
   ───────────────────────────────────────────────────────── */
   .ci-footer {
-    background: var(--ci-navy);
-    color: #94a3b8;
+    background: var(--ci-brand-blue);
+    color: #dbeafe;
   }
   .ci-footer-main {
     max-width: var(--ci-max-width);
@@ -774,13 +967,13 @@
   }
   .ci-footer-logo-sub {
     font-size: 0.7rem;
-    color: #64748b;
+    color: #bfdbfe;
     line-height: 1.2;
   }
   .ci-footer-desc {
     font-size: 0.8125rem;
     line-height: 1.7;
-    color: #64748b;
+    color: #dbeafe;
     max-width: 36ch;
     margin-bottom: 1.5rem;
   }
@@ -794,8 +987,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1e3a5f;
-    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.12);
+    color: #dbeafe;
     text-decoration: none;
     transition:
       background 0.2s,
@@ -827,7 +1020,7 @@
   }
   .ci-footer-link {
     font-size: 0.8125rem;
-    color: #64748b;
+    color: #dbeafe;
     text-decoration: none;
     transition: color 0.15s;
   }
@@ -849,18 +1042,18 @@
     align-items: flex-start;
     gap: 0.5rem;
     font-size: 0.8125rem;
-    color: #64748b;
+    color: #dbeafe;
   }
   .ci-footer-contact-list .ci-footer-link {
-    color: #64748b;
+    color: #dbeafe;
   }
   .ci-footer-contact-list .ci-footer-link:hover {
     color: white;
   }
 
   .ci-footer-bottom {
-    background: #060f1d;
-    border-top: 1px solid #1e2d3d;
+    background: #12336d;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
   .ci-footer-bottom-inner {
     max-width: var(--ci-max-width);
@@ -880,12 +1073,12 @@
   }
   .ci-footer-bottom p {
     font-size: 0.75rem;
-    color: #475569;
+    color: #bfdbfe;
     max-width: none;
   }
   .ci-footer-bottom-right {
     font-size: 0.7rem;
-    color: #334155;
+    color: #93c5fd;
     font-style: italic;
   }
 
@@ -915,6 +1108,9 @@
     color: var(--ci-text-secondary);
     max-width: 60ch;
     font-weight: 400;
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
   }
 
   /* ─────────────────────────────────────────────────────────

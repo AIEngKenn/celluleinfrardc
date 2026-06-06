@@ -1,14 +1,15 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
-import { sanityFetch, urlFor } from '@/lib/sanity/client';
-import { projectBySlugQuery } from '@/lib/sanity/queries';
+import { sanityFetch } from '@/lib/sanity/client';
+import { moreProjectsQuery, projectBySlugQuery } from '@/lib/sanity/queries';
 import type { Project } from '@/lib/sanity/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MapPin, Calendar, TrendingUp, Download, ArrowLeft, Building2, Clock } from 'lucide-react';
 import { ProjectMap } from '@/components/projects/project-map-loader';
+import { SharePanel } from '@/components/share/share-panel';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -43,11 +44,18 @@ export default async function ProjectDetailPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'projects' });
 
-  const project = await sanityFetch<Project>({
-    query: projectBySlugQuery,
-    params: { slug },
-    tags: [`project:${slug}`],
-  });
+  const [project, moreProjects] = await Promise.all([
+    sanityFetch<Project>({
+      query: projectBySlugQuery,
+      params: { slug },
+      tags: [`project:${slug}`],
+    }),
+    sanityFetch<Project[]>({
+      query: moreProjectsQuery,
+      params: { slug },
+      tags: ['project'],
+    }),
+  ]);
 
   if (!project) {
     notFound();
@@ -55,6 +63,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   const title = locale === 'fr' ? project.titleFr : project.titleEn;
   const description = locale === 'fr' ? project.descriptionFr : project.descriptionEn;
+  const documents = project.documents?.filter((doc) => doc.file?.asset?.url) ?? [];
 
   return (
     <div className="min-h-screen">
@@ -145,14 +154,14 @@ export default async function ProjectDetailPage({ params }: Props) {
             )}
 
             {/* Documents */}
-            {project.documents && project.documents.length > 0 && (
+            {documents.length > 0 && (
               <Card className="p-6">
                 <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('documents')}</h2>
                 <div className="space-y-3">
-                  {project.documents.map((doc, index) => (
+                  {documents.map((doc, index) => (
                     <a
                       key={index}
-                      href={doc.file.asset.url}
+                      href={doc.file.asset?.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
@@ -163,7 +172,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                           <p className="font-medium text-gray-900">
                             {locale === 'fr' ? doc.titleFr : doc.titleEn}
                           </p>
-                          {doc.file.asset.size && (
+                          {doc.file.asset?.size && (
                             <p className="text-sm text-gray-500">
                               {(doc.file.asset.size / 1024 / 1024).toFixed(2)} MB
                             </p>
@@ -219,6 +228,12 @@ export default async function ProjectDetailPage({ params }: Props) {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            <SharePanel
+              title={title}
+              description={description}
+              path={`/${locale}/projets/${project.slug}`}
+              locale={locale}
+            />
             {/* Key Information */}
             <Card className="p-6">
               <h3 className="mb-4 text-lg font-bold text-gray-900">{t('keyInfo')}</h3>
@@ -334,6 +349,48 @@ export default async function ProjectDetailPage({ params }: Props) {
             )}
           </div>
         </div>
+
+        {moreProjects.length > 0 && (
+          <section className="mt-12">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {locale === 'fr' ? 'Autres projets' : 'More projects'}
+              </h2>
+              <Link href={`/${locale}/projets`} className="text-sm font-semibold text-rdc-blue">
+                {t('viewAll')}
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {moreProjects.map((item) => (
+                <Link key={item._id} href={`/${locale}/projets/${item.slug}`} className="group">
+                  <Card className="h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-lg">
+                    {item.mainImage ? (
+                      <div className="aspect-video overflow-hidden bg-gray-100">
+                        <img
+                          src={item.mainImage.asset.url}
+                          alt={item.mainImage.alt || ''}
+                          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex aspect-video items-center justify-center bg-rdc-blue/5 text-rdc-blue">
+                        <Building2 className="h-10 w-10" />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <Badge variant="outline" className="mb-3">
+                        {t(`status.${item.status}`)}
+                      </Badge>
+                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
+                        {locale === 'fr' ? item.titleFr : item.titleEn}
+                      </h3>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

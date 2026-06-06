@@ -81,6 +81,8 @@
     "title": "Projets d'Infrastructures",
     "subtitle": "Découvrez l'ensemble de nos projets d'infrastructures à travers la RDC",
     "allProjects": "Tous les Projets",
+    "viewAll": "Voir tous les projets",
+    "viewDetails": "Voir le projet",
     "backToProjects": "Retour aux projets",
     "resultsCount": "{count} projet(s) trouvé(s)",
     "noResults": "Aucun projet trouvé",

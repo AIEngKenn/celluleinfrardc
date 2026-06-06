@@ -36,15 +36,15 @@ export default defineType({
     defineField({
       name: "descriptionFr",
       title: "Description (Français)",
-      type: "array",
-      of: [{ type: "block" }],
+      type: "text",
+      rows: 4,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "descriptionEn",
       title: "Description (English)",
-      type: "array",
-      of: [{ type: "block" }],
+      type: "text",
+      rows: 4,
       validation: (Rule) => Rule.required(),
     }),
     defineField({

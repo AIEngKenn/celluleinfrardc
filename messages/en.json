@@ -104,6 +104,8 @@
       "allSectors": "All Sectors"
     },
     "allProjects": "All Projects",
+    "viewAll": "View all projects",
+    "viewDetails": "View project",
     "byProvince": "By Province",
     "byStatus": "By Status",
     "bySector": "By Sector",
@@ -123,12 +125,14 @@
     "sectors": {
       "roads": "Roads",
       "bridges": "Bridges",
-      "buildings": "Buildings",
       "water": "Water",
-      "energy": "Energy",
-      "health": "Health",
-      "education": "Education",
-      "telecom": "Telecommunications",
+      "electricity": "Electricity",
+      "schools": "Schools",
+      "hospitals": "Hospitals",
+      "ports": "Ports",
+      "airports": "Airports",
+      "railways": "Railways",
+      "telecommunications": "Telecommunications",
       "other": "Other"
     },
     "details": {
@@ -260,9 +264,10 @@
     },
     "categories": {
       "works": "Works",
-      "goods": "Goods",
+      "supplies": "Supplies",
       "services": "Services",
-      "consulting": "Consulting",
+      "consultancy": "Consultancy",
+      "recruitment": "Recruitment",
       "other": "Other"
     }
   },
@@ -300,13 +305,15 @@
     "fileSize": "File Size",
     "pages": "pages",
     "types": {
-      "reports": "Annual Reports",
-      "studies": "Technical Studies",
-      "environmental": "Environmental Documents",
-      "social": "Social Documents",
-      "technical": "Technical Reports",
-      "institutional": "Institutional Reports",
-      "other": "Other Documents"
+      "annual-report": "Annual Report",
+      "technical-report": "Technical Report",
+      "feasibility-study": "Feasibility Study",
+      "environmental-study": "Environmental Study",
+      "law-decree": "Law / Decree",
+      "guide": "Guide",
+      "newsletter": "Newsletter",
+      "brochure": "Brochure",
+      "other": "Other Document"
     },
     "details": {
       "overview": "Overview",

@@ -2,12 +2,13 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
-import { procurementBySlugQuery } from '@/lib/sanity/queries';
+import { moreProcurementQuery, procurementBySlugQuery } from '@/lib/sanity/queries';
 import type { Procurement } from '@/lib/sanity/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calendar, FileText, Download, ArrowLeft, AlertCircle, Clock } from 'lucide-react';
+import { SharePanel } from '@/components/share/share-panel';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -36,11 +37,18 @@ export default async function ProcurementDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: 'procurement' });
 
-  const procurement = await sanityFetch<Procurement>({
-    query: procurementBySlugQuery,
-    params: { slug },
-    tags: [`procurement:${slug}`],
-  });
+  const [procurement, moreProcurement] = await Promise.all([
+    sanityFetch<Procurement>({
+      query: procurementBySlugQuery,
+      params: { slug },
+      tags: [`procurement:${slug}`],
+    }),
+    sanityFetch<Procurement[]>({
+      query: moreProcurementQuery,
+      params: { slug },
+      tags: ['procurement'],
+    }),
+  ]);
 
   if (!procurement) {
     notFound();
@@ -56,6 +64,7 @@ export default async function ProcurementDetailPage({ params }: Props) {
   );
   const isClosed = closingDate < today;
   const isUrgent = daysRemaining <= 7 && daysRemaining > 0;
+  const attachments = procurement.attachments?.filter((doc) => doc.file?.asset?.url) ?? [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -121,14 +130,14 @@ export default async function ProcurementDetailPage({ params }: Props) {
             </Card>
 
             {/* Documents */}
-            {procurement.attachments && procurement.attachments.length > 0 && (
+            {attachments.length > 0 && (
               <Card className="p-6">
                 <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('tenderDocuments')}</h2>
                 <div className="space-y-3">
-                  {procurement.attachments.map((doc, index) => (
+                  {attachments.map((doc, index) => (
                     <a
                       key={index}
-                      href={doc.file.asset.url}
+                      href={doc.file.asset?.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
@@ -139,7 +148,7 @@ export default async function ProcurementDetailPage({ params }: Props) {
                           <p className="font-medium text-gray-900">
                             {locale === 'fr' ? doc.titleFr : doc.titleEn}
                           </p>
-                          {doc.file.asset.size && (
+                          {doc.file.asset?.size && (
                             <p className="text-sm text-gray-500">
                               {(doc.file.asset.size / 1024 / 1024).toFixed(2)} MB - PDF
                             </p>
@@ -189,6 +198,12 @@ export default async function ProcurementDetailPage({ params }: Props) {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            <SharePanel
+              title={title}
+              description={description}
+              path={`/${locale}/appels-offres/${procurement.slug}`}
+              locale={locale}
+            />
             {/* Timeline */}
             <Card className="p-6">
               <h3 className="mb-4 text-lg font-bold text-gray-900">{t('timeline')}</h3>
@@ -259,6 +274,48 @@ export default async function ProcurementDetailPage({ params }: Props) {
             </Card>
           </div>
         </div>
+
+        {moreProcurement.length > 0 && (
+          <section className="mt-12">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {locale === 'fr' ? "D'autres appels d'offres" : 'More opportunities'}
+              </h2>
+              <Link href={`/${locale}/appels-offres`} className="text-sm font-semibold text-rdc-blue">
+                {t('viewAll')}
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {moreProcurement.map((item) => {
+                const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
+                const docs = item.attachments?.filter((doc) => doc.file?.asset?.url).length ?? 0;
+                return (
+                  <Link
+                    key={item._id}
+                    href={`/${locale}/appels-offres/${item.slug}`}
+                    className="group"
+                  >
+                    <Card className="h-full border-l-4 border-l-rdc-yellow p-5 transition-shadow hover:shadow-lg">
+                      <p className="mb-2 font-mono text-xs text-gray-500">{item.reference}</p>
+                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
+                        {itemTitle}
+                      </h3>
+                      <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+                        <span>
+                          {new Date(item.closingDate).toLocaleDateString(
+                            locale === 'fr' ? 'fr-FR' : 'en-US',
+                            { year: 'numeric', month: 'short', day: 'numeric' }
+                          )}
+                        </span>
+                        <span>{docs} doc.</span>
+                      </div>
+                    </Card>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Play, Download, ExternalLink, Calendar, Folder } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PageHeader } from '@/components/ui/page-header';
 
 export async function generateMetadata({
   params,
@@ -46,12 +47,15 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
   const videos = media.filter((item) => item.type === 'video');
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="mb-4 text-4xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="text-lg text-gray-600">{t('description')}</p>
-      </div>
+    <div>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('description')}
+        breadcrumbs={[{ label: t('title') }]}
+        locale={locale}
+      />
+
+      <div className="ci-container ci-section--sm">
 
       {/* Tabs Navigation */}
       <Tabs defaultValue="photos" className="space-y-8">
@@ -73,7 +77,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
             {photos.map((item) => (
               <div
                 key={item._id}
-                className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100 transition-shadow hover:shadow-lg"
+                className="group relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-shadow hover:shadow-xl"
               >
                 {item.image && (
                   <Image
@@ -136,7 +140,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
             {videos.map((item) => (
               <div
                 key={item._id}
-                className="group relative overflow-hidden rounded-lg bg-gray-100 transition-shadow hover:shadow-lg"
+                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-xl"
               >
                 <div className="relative aspect-video">
                   {item.thumbnail ? (
@@ -209,7 +213,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
             {albums.map((album) => (
               <div
                 key={album._id}
-                className="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg"
+                className="group relative cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-xl"
               >
                 <div className="relative aspect-video">
                   {album.coverImage ? (
@@ -267,6 +271,7 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
           )}
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

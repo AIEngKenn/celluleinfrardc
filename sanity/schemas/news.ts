@@ -51,14 +51,14 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "bodyFr",
+      name: "contentFr",
       title: "Contenu (Français)",
       type: "array",
       of: [{ type: "block" }, { type: "image" }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "bodyEn",
+      name: "contentEn",
       title: "Contenu (English)",
       type: "array",
       of: [{ type: "block" }, { type: "image" }],

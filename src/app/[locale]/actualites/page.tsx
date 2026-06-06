@@ -1,18 +1,22 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
-import { newsListQuery, newsCategoriesListQuery } from '@/lib/sanity/queries';
+import { newsPaginatedQuery, newsCategoriesListQuery } from '@/lib/sanity/queries';
 import type { News, NewsCategory } from '@/lib/sanity/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
+import { Pagination } from '@/components/ui/pagination';
+import { pageWindow } from '@/lib/content-cleanup';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 }
+
+const PAGE_SIZE = 9;
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -27,13 +31,15 @@ export async function generateMetadata({ params }: Props) {
 export default async function NewsPage({ params, searchParams }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { category } = await searchParams;
+  const { category, page: pageParam } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'news' });
+  const { page, start, end } = pageWindow(pageParam, PAGE_SIZE);
 
   // Fetch all news and categories
-  const [allNews, categories] = await Promise.all([
-    sanityFetch<News[]>({
-      query: newsListQuery,
+  const [newsResult, categories] = await Promise.all([
+    sanityFetch<{ items: News[]; total: number }>({
+      query: newsPaginatedQuery,
+      params: { category: category || null, start, end },
       tags: ['news'],
     }),
     sanityFetch<NewsCategory[]>({
@@ -42,8 +48,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
     }),
   ]);
 
-  // Filter by category if specified
-  const news = category ? allNews.filter((n) => n.category.slug === category) : allNews;
+  const news = newsResult.items;
 
   return (
     <div>
@@ -94,7 +99,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
 
             return (
               <Link key={article._id} href={`/${locale}/actualites/${article.slug}`}>
-                <Card className="group h-full overflow-hidden transition-shadow hover:shadow-lg">
+                <Card className="group h-full overflow-hidden border-t-4 border-t-rdc-blue transition-shadow hover:shadow-lg">
                   {article.mainImage && (
                     <div className="aspect-video overflow-hidden bg-gray-200">
                       <img
@@ -102,6 +107,11 @@ export default async function NewsPage({ params, searchParams }: Props) {
                         alt={article.mainImage.alt || title}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
+                    </div>
+                  )}
+                  {!article.mainImage && (
+                    <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-rdc-blue/10 to-rdc-blue/5 text-rdc-blue">
+                      <Newspaper className="h-12 w-12" />
                     </div>
                   )}
                   <div className="p-6">
@@ -116,13 +126,13 @@ export default async function NewsPage({ params, searchParams }: Props) {
                       </Badge>
                     </div>
 
-                    <h3 className="mb-2 line-clamp-2 text-xl font-semibold text-gray-900 transition-colors group-hover:text-rdc-blue">
+                    <h3 className="mb-3 line-clamp-3 text-xl font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue">
                       {title}
                     </h3>
 
-                    <p className="mb-4 line-clamp-3 text-gray-600">{excerpt}</p>
+                    <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">{excerpt}</p>
 
-                    <div className="flex items-center justify-between">
+                    <div className="border-t border-gray-100 pt-4 flex items-center justify-between">
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Calendar className="h-4 w-4" />
                         <span>
@@ -154,6 +164,15 @@ export default async function NewsPage({ params, searchParams }: Props) {
             </Button>
           </div>
         )}
+
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={newsResult.total}
+          basePath={`/${locale}/actualites`}
+          searchParams={{ category }}
+          labels={{ previous: 'Précédent', next: 'Suivant', page: 'Page' }}
+        />
       </div>
     </div>
   );

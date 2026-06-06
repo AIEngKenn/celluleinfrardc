@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-06-05T13:44:45.274Z",
+  "documents": {
+    "newsCategory": 1,
+    "province": 4,
+    "news": 51,
+    "project": 31,
+    "procurement": 379,
+    "publication": 84
+  },
+  "assets": {
+    "total": 374,
+    "existing": 315,
+    "missing": 59
+  },
+  "notes": [
+    "French source content is copied into English fields as a placeholder for translation.",
+    "PDFs and images are emitted as deterministic Sanity asset references; upload assets before importing or remap these references after upload.",
+    "Budgets, project progress, and geolocation are set to conservative defaults because the old HTML does not expose structured values consistently."
+  ]
+}

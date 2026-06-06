@@ -24,7 +24,7 @@ export interface SanityImage {
 }
 
 export interface SanityFile {
-  asset: {
+  asset?: {
     _id: string;
     url: string;
     size?: number;
@@ -212,7 +212,7 @@ export interface Publication {
   publicationType: PublicationType;
   publishedAt: string;
   coverImage?: SanityImage;
-  pdfFile: SanityFile;
+  pdfFile?: SanityFile;
 }
 
 // ============================================================================

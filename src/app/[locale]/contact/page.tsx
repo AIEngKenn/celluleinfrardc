@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { PageHeader } from '@/components/ui/page-header';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -26,15 +27,14 @@ export default async function ContactPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900">{t('title')}</h1>
-          <p className="text-xl text-gray-600">{t('subtitle')}</p>
-        </div>
-      </div>
+      <PageHeader
+        title={t('title')}
+        subtitle={t('subtitle')}
+        breadcrumbs={[{ label: t('title') }]}
+        locale={locale}
+      />
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="ci-container py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Contact Form */}
           <div className="lg:col-span-2">

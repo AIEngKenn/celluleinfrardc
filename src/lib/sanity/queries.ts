@@ -199,6 +199,25 @@ export const projectsListQuery = groq`
   }
 `;
 
+export const projectsPaginatedQuery = groq`
+  {
+    "items": *[
+      _type == "project" &&
+      (!defined($province) || province->slug.current == $province) &&
+      (!defined($status) || status == $status) &&
+      (!defined($sector) || sector == $sector)
+    ] | order(featured desc, _createdAt desc) [$start...$end] {
+      ${projectFields}
+    },
+    "total": count(*[
+      _type == "project" &&
+      (!defined($province) || province->slug.current == $province) &&
+      (!defined($status) || status == $status) &&
+      (!defined($sector) || sector == $sector)
+    ])
+  }
+`;
+
 export const featuredProjectsQuery = groq`
   *[_type == "project" && featured == true] | order(_createdAt desc) [0...6] {
     ${projectFields}
@@ -231,6 +250,12 @@ export const projectBySlugQuery = groq`
   }
 `;
 
+export const moreProjectsQuery = groq`
+  *[_type == "project" && slug.current != $slug] | order(featured desc, _createdAt desc) [0...3] {
+    ${projectFields}
+  }
+`;
+
 export const projectsByProvinceQuery = groq`
   *[_type == "project" && province._ref == $provinceId] | order(_createdAt desc) {
     ${projectFields}
@@ -253,6 +278,21 @@ export const newsListQuery = groq`
   }
 `;
 
+export const newsPaginatedQuery = groq`
+  {
+    "items": *[
+      _type == "news" &&
+      (!defined($category) || category->slug.current == $category)
+    ] | order(publishedAt desc, _createdAt desc) [$start...$end] {
+      ${newsFields}
+    },
+    "total": count(*[
+      _type == "news" &&
+      (!defined($category) || category->slug.current == $category)
+    ])
+  }
+`;
+
 export const latestNewsQuery = groq`
   *[_type == "news"] | order(publishedAt desc) [0...6] {
     ${newsFields}
@@ -271,6 +311,20 @@ export const newsBySlugQuery = groq`
   }
 `;
 
+export const moreNewsQuery = groq`
+  *[_type == "news" && slug.current != $slug] | order(publishedAt desc, _createdAt desc) [0...3] {
+    _id,
+    titleFr,
+    titleEn,
+    excerptFr,
+    excerptEn,
+    "slug": slug.current,
+    publishedAt,
+    category->{ nameFr, nameEn, "slug": slug.current },
+    mainImage{ asset->{ url }, alt }
+  }
+`;
+
 export const newsByCategoryQuery = groq`
   *[_type == "news" && category._ref == $categoryId] | order(publishedAt desc) {
     ${newsFields}
@@ -284,6 +338,23 @@ export const newsByCategoryQuery = groq`
 export const procurementListQuery = groq`
   *[_type == "procurement"] | order(openingDate desc) {
     ${procurementFields}
+  }
+`;
+
+export const procurementPaginatedQuery = groq`
+  {
+    "items": *[
+      _type == "procurement" &&
+      (($tab == "open" && closingDate > now()) || ($tab == "closed" && closingDate <= now()))
+    ] | order(select($tab == "open" => closingDate, openingDate) asc) [$start...$end] {
+      ${procurementFields}
+    },
+    "total": count(*[
+      _type == "procurement" &&
+      (($tab == "open" && closingDate > now()) || ($tab == "closed" && closingDate <= now()))
+    ]),
+    "openTotal": count(*[_type == "procurement" && closingDate > now()]),
+    "closedTotal": count(*[_type == "procurement" && closingDate <= now()])
   }
 `;
 
@@ -305,6 +376,22 @@ export const procurementBySlugQuery = groq`
   }
 `;
 
+export const moreProcurementQuery = groq`
+  *[_type == "procurement" && slug.current != $slug] | order(closingDate desc, openingDate desc) [0...3] {
+    _id,
+    reference,
+    titleFr,
+    titleEn,
+    descriptionFr,
+    descriptionEn,
+    category,
+    "slug": slug.current,
+    openingDate,
+    closingDate,
+    attachments[]{ file{ asset->{ url } } }
+  }
+`;
+
 // ============================================================================
 // PUBLICATIONS QUERIES
 // ============================================================================
@@ -312,6 +399,21 @@ export const procurementBySlugQuery = groq`
 export const publicationsListQuery = groq`
   *[_type == "publication"] | order(publishedAt desc, _createdAt desc) {
     ${publicationFields}
+  }
+`;
+
+export const publicationsPaginatedQuery = groq`
+  {
+    "items": *[
+      _type == "publication" &&
+      (!defined($type) || publicationType == $type)
+    ] | order(publishedAt desc, _createdAt desc) [$start...$end] {
+      ${publicationFields}
+    },
+    "total": count(*[
+      _type == "publication" &&
+      (!defined($type) || publicationType == $type)
+    ])
   }
 `;
 
@@ -323,6 +425,12 @@ export const recentPublicationsQuery = groq`
 
 export const publicationBySlugQuery = groq`
   *[_type == "publication" && slug.current == $slug][0] {
+    ${publicationFields}
+  }
+`;
+
+export const morePublicationsQuery = groq`
+  *[_type == "publication" && slug.current != $slug] | order(publishedAt desc, _createdAt desc) [0...3] {
     ${publicationFields}
   }
 `;

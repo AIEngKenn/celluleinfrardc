@@ -1,18 +1,22 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { sanityFetch } from '@/lib/sanity/client';
-import { activeProcurementQuery, closedProcurementQuery } from '@/lib/sanity/queries';
+import { procurementPaginatedQuery } from '@/lib/sanity/queries';
 import type { Procurement } from '@/lib/sanity/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, FileText, ArrowRight, AlertCircle } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
+import { Pagination } from '@/components/ui/pagination';
+import { pageWindow } from '@/lib/content-cleanup';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tab?: 'open' | 'closed' }>;
+  searchParams: Promise<{ tab?: 'open' | 'closed'; page?: string }>;
 }
+
+const PAGE_SIZE = 10;
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -27,22 +31,22 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProcurementPage({ params, searchParams }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { tab = 'open' } = await searchParams;
+  const { tab = 'open', page: pageParam } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'procurement' });
+  const { page, start, end } = pageWindow(pageParam, PAGE_SIZE);
 
-  // Fetch open and closed procurement
-  const [openProcurement, closedProcurement] = await Promise.all([
-    sanityFetch<Procurement[]>({
-      query: activeProcurementQuery,
-      tags: ['procurement'],
-    }),
-    sanityFetch<Procurement[]>({
-      query: closedProcurementQuery,
-      tags: ['procurement'],
-    }),
-  ]);
+  const procurementResult = await sanityFetch<{
+    items: Procurement[];
+    total: number;
+    openTotal: number;
+    closedTotal: number;
+  }>({
+    query: procurementPaginatedQuery,
+    params: { tab, start, end },
+    tags: ['procurement'],
+  });
 
-  const currentProcurement = tab === 'open' ? openProcurement : closedProcurement;
+  const currentProcurement = procurementResult.items;
 
   return (
     <div>
@@ -66,7 +70,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
             >
               {t('tabs.open')}
               <span className="ml-2 inline-flex items-center justify-center rounded-full bg-rdc-blue px-2 py-1 text-xs font-bold leading-none text-white">
-                {openProcurement.length}
+                {procurementResult.openTotal}
               </span>
             </Link>
             <Link
@@ -79,14 +83,14 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
             >
               {t('tabs.closed')}
               <span className="ml-2 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 py-1 text-xs font-bold leading-none text-gray-600">
-                {closedProcurement.length}
+                {procurementResult.closedTotal}
               </span>
             </Link>
           </div>
         </div>
 
         {/* Alert for open procurements */}
-        {tab === 'open' && openProcurement.length > 0 && (
+        {tab === 'open' && procurementResult.openTotal > 0 && (
           <div className="mb-8 rounded-lg border border-rdc-yellow/30 bg-rdc-yellow/10 p-4">
             <div className="flex items-start gap-3">
               <AlertCircle className="mt-0.5 h-5 w-5 text-rdc-yellow" />
@@ -110,9 +114,11 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
               (closingDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
             );
             const isUrgent = daysRemaining <= 7 && daysRemaining > 0;
+            const availableDocuments =
+              proc.attachments?.filter((doc) => doc.file?.asset?.url).length ?? 0;
 
             return (
-              <Card key={proc._id} className="p-6 transition-shadow hover:shadow-lg">
+              <Card key={proc._id} className="border-l-4 border-l-rdc-yellow p-6 transition-shadow hover:shadow-lg">
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                   <div className="flex-1">
                     {/* Header */}
@@ -207,9 +213,9 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </Link>
-                    {proc.attachments && proc.attachments.length > 0 && (
+                    {availableDocuments > 0 && (
                       <p className="mt-2 text-center text-xs text-gray-500">
-                        {t('documentsAvailable', { count: proc.attachments.length })}
+                        {t('documentsAvailable', { count: availableDocuments })}
                       </p>
                     )}
                   </div>
@@ -228,6 +234,15 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
             </p>
           </div>
         )}
+
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={procurementResult.total}
+          basePath={`/${locale}/appels-offres`}
+          searchParams={{ tab }}
+          labels={{ previous: 'Précédent', next: 'Suivant', page: 'Page' }}
+        />
       </div>
     </div>
   );

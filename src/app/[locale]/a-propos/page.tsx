@@ -1,11 +1,22 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { PageHeader } from '@/components/ui/page-header';
 import { Building2, Users, Globe, FileCheck } from 'lucide-react';
 import { createSeoMetadata } from '@/lib/seo';
+import { sanityFetch } from '@/lib/sanity/client';
+import { aboutPageQuery } from '@/lib/sanity/queries';
+import type { AboutPageContent } from '@/lib/sanity/types';
+import { PortableText } from '@portabletext/react';
 
 interface Props {
   params: Promise<{ locale: string }>;
 }
+
+const iconMap = {
+  building: Building2,
+  file: FileCheck,
+  globe: Globe,
+  users: Users,
+};
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -28,54 +39,69 @@ export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const isFr = locale === 'fr';
+  const about = await sanityFetch<AboutPageContent | null>({
+    query: aboutPageQuery,
+    tags: ['aboutPage'],
+  });
 
-  const missions = [
+  const fallbackMissions = [
     {
-      icon: Building2,
+      icon: 'building' as const,
       titleFr: "Maîtrise d'ouvrage délégué",
       titleEn: 'Delegated project management',
-      descFr:
+      descriptionFr:
         "La CI assure la maîtrise d'ouvrage délégué de projets d'infrastructure au nom du Gouvernement de la RDC, garantissant la bonne exécution technique et financière des marchés.",
-      descEn:
+      descriptionEn:
         'CI acts as delegated project owner for infrastructure projects on behalf of the DRC Government, ensuring proper technical and financial contract execution.',
     },
     {
-      icon: FileCheck,
+      icon: 'file' as const,
       titleFr: 'Passation des marchés',
       titleEn: 'Procurement',
-      descFr:
+      descriptionFr:
         'Toutes les procédures de passation sont conduites dans la transparence, conformément aux règlements nationaux et aux exigences des bailleurs de fonds internationaux.',
-      descEn:
+      descriptionEn:
         'All procurement procedures are conducted transparently, in compliance with national regulations and international donor requirements.',
     },
     {
-      icon: Globe,
+      icon: 'globe' as const,
       titleFr: 'Partenariats internationaux',
       titleEn: 'International partnerships',
-      descFr:
+      descriptionFr:
         "La CI coordonne les financements de la Banque mondiale, de la BAD, de l'UE et d'autres partenaires techniques et financiers pour maximiser l'impact des investissements.",
-      descEn:
+      descriptionEn:
         'CI coordinates financing from the World Bank, AfDB, EU and other technical and financial partners to maximize investment impact.',
     },
     {
-      icon: Users,
+      icon: 'users' as const,
       titleFr: 'Renforcement des capacités',
       titleEn: 'Capacity building',
-      descFr:
+      descriptionFr:
         'Formation des équipes locales, transfert de compétences et développement des PME congolaises dans le secteur de la construction.',
-      descEn:
+      descriptionEn:
         'Training local teams, transferring skills and developing Congolese SMEs in the construction sector.',
     },
   ];
+  const missions = about?.missions?.length ? about.missions : fallbackMissions;
+  const organizationBody = isFr ? about?.organizationBodyFr : about?.organizationBodyEn;
+  const figures = about?.figures?.length
+    ? about.figures
+    : [
+        { value: '2004', labelFr: 'Année de création', labelEn: 'Year founded' },
+        { value: '26', labelFr: "Provinces d'intervention", labelEn: 'Provinces of operation' },
+        { value: '250+', labelFr: 'Projets gérés', labelEn: 'Projects managed' },
+        { value: '$5.2Mrd', labelFr: 'Portefeuille total', labelEn: 'Total portfolio' },
+      ];
 
   return (
     <div>
       <PageHeader
-        title={isFr ? 'À propos de la CI' : 'About CI'}
+        title={(isFr ? about?.pageTitleFr : about?.pageTitleEn) || (isFr ? 'À propos de la CI' : 'About CI')}
         subtitle={
-          isFr
+          (isFr ? about?.subtitleFr : about?.subtitleEn) ||
+          (isFr
             ? "La Cellule Infrastructures est l'agence publique mandatée par le Gouvernement de la RDC pour planifier, coordonner et superviser les grands projets d'infrastructure nationale."
-            : 'Cellule Infrastructures is the public agency mandated by the DRC Government to plan, coordinate and supervise major national infrastructure projects.'
+            : 'Cellule Infrastructures is the public agency mandated by the DRC Government to plan, coordinate and supervise major national infrastructure projects.')
         }
         breadcrumbs={[{ label: isFr ? 'À propos' : 'About' }]}
         locale={locale}
@@ -84,9 +110,13 @@ export default async function AboutPage({ params }: Props) {
       <div className="ci-container ci-section">
         {/* Mission */}
         <section style={{ marginBottom: '5rem' }}>
-          <span className="ci-eyebrow">{isFr ? 'Notre mandat' : 'Our mandate'}</span>
+          <span className="ci-eyebrow">
+            {(isFr ? about?.missionEyebrowFr : about?.missionEyebrowEn) ||
+              (isFr ? 'Notre mandat' : 'Our mandate')}
+          </span>
           <h2 className="ci-section-title" style={{ marginBottom: '3rem' }}>
-            {isFr ? 'Missions principales' : 'Core missions'}
+            {(isFr ? about?.missionTitleFr : about?.missionTitleEn) ||
+              (isFr ? 'Missions principales' : 'Core missions')}
           </h2>
           <div
             style={{
@@ -97,9 +127,12 @@ export default async function AboutPage({ params }: Props) {
             }}
           >
             {missions.map((m) => {
-              const Icon = m.icon;
+              const Icon = iconMap[m.icon || 'building'] || Building2;
+              const missionTitle = (isFr ? m.titleFr : m.titleEn) || m.titleFr || '';
+              const missionDescription =
+                (isFr ? m.descriptionFr : m.descriptionEn) || m.descriptionFr || '';
               return (
-                <div key={m.titleFr} style={{ background: 'white', padding: '2rem' }}>
+                <div key={missionTitle} style={{ background: 'white', padding: '2rem' }}>
                   <Icon size={28} style={{ color: 'var(--ci-blue)', marginBottom: '1rem' }} />
                   <h3
                     style={{
@@ -108,7 +141,7 @@ export default async function AboutPage({ params }: Props) {
                       marginBottom: '0.75rem',
                     }}
                   >
-                    {isFr ? m.titleFr : m.titleEn}
+                    {missionTitle}
                   </h3>
                   <p
                     style={{
@@ -117,7 +150,7 @@ export default async function AboutPage({ params }: Props) {
                       lineHeight: 1.7,
                     }}
                   >
-                    {isFr ? m.descFr : m.descEn}
+                    {missionDescription}
                   </p>
                 </div>
               );
@@ -131,26 +164,42 @@ export default async function AboutPage({ params }: Props) {
           className="lg:grid-cols-2"
         >
           <div>
-            <span className="ci-eyebrow">{isFr ? 'Organisation' : 'Structure'}</span>
+            <span className="ci-eyebrow">
+              {(isFr ? about?.organizationEyebrowFr : about?.organizationEyebrowEn) ||
+                (isFr ? 'Organisation' : 'Structure')}
+            </span>
             <h2 className="ci-section-title">
-              {isFr ? 'Structure de gouvernance' : 'Governance structure'}
+              {(isFr ? about?.organizationTitleFr : about?.organizationTitleEn) ||
+                (isFr ? 'Structure de gouvernance' : 'Governance structure')}
             </h2>
-            <p
-              style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8, marginBottom: '1.5rem' }}
-            >
-              {isFr
-                ? 'La Cellule Infrastructures est placée sous la tutelle du Ministère des Infrastructures et Travaux Publics. Elle est dirigée par un Coordonnateur National assisté de coordinateurs techniques spécialisés par secteur.'
-                : 'Cellule Infrastructures operates under the authority of the Ministry of Infrastructure and Public Works. It is led by a National Coordinator assisted by technical coordinators specialized by sector.'}
-            </p>
-            <p style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8 }}>
-              {isFr
-                ? 'Ses équipes intègrent des ingénieurs, des économistes, des spécialistes en passation de marchés et en sauvegarde environnementale et sociale, tous formés aux standards internationaux.'
-                : 'Its teams include engineers, economists, procurement specialists and environmental and social safeguard experts, all trained to international standards.'}
-            </p>
+            {organizationBody?.length ? (
+              <div className="ci-article-body">
+                <PortableText value={organizationBody} />
+              </div>
+            ) : (
+              <>
+                <p style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+                  {isFr
+                    ? 'La Cellule Infrastructures est placée sous la tutelle du Ministère des Infrastructures et Travaux Publics. Elle est dirigée par un Coordonnateur National assisté de coordinateurs techniques spécialisés par secteur.'
+                    : 'Cellule Infrastructures operates under the authority of the Ministry of Infrastructure and Public Works. It is led by a National Coordinator assisted by technical coordinators specialized by sector.'}
+                </p>
+                <p style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8 }}>
+                  {isFr
+                    ? 'Ses équipes intègrent des ingénieurs, des économistes, des spécialistes en passation de marchés et en sauvegarde environnementale et sociale, tous formés aux standards internationaux.'
+                    : 'Its teams include engineers, economists, procurement specialists and environmental and social safeguard experts, all trained to international standards.'}
+                </p>
+              </>
+            )}
           </div>
           <div>
-            <span className="ci-eyebrow">{isFr ? 'Chiffres clés' : 'Key figures'}</span>
-            <h2 className="ci-section-title">{isFr ? 'La CI en chiffres' : 'CI in numbers'}</h2>
+            <span className="ci-eyebrow">
+              {(isFr ? about?.figuresEyebrowFr : about?.figuresEyebrowEn) ||
+                (isFr ? 'Chiffres clés' : 'Key figures')}
+            </span>
+            <h2 className="ci-section-title">
+              {(isFr ? about?.figuresTitleFr : about?.figuresTitleEn) ||
+                (isFr ? 'La CI en chiffres' : 'CI in numbers')}
+            </h2>
             <div
               style={{
                 display: 'grid',
@@ -160,17 +209,12 @@ export default async function AboutPage({ params }: Props) {
                 border: '1px solid var(--ci-border)',
               }}
             >
-              {[
-                { num: '2004', label: isFr ? 'Année de création' : 'Year founded' },
-                { num: '26', label: isFr ? "Provinces d'intervention" : 'Provinces of operation' },
-                { num: '250+', label: isFr ? 'Projets gérés' : 'Projects managed' },
-                { num: '$5.2Mrd', label: isFr ? 'Portefeuille total' : 'Total portfolio' },
-              ].map((stat) => (
-                <div key={stat.label} style={{ background: 'white', padding: '1.5rem' }}>
+              {figures.map((stat) => (
+                <div key={`${stat.value}-${stat.labelFr}`} style={{ background: 'white', padding: '1.5rem' }}>
                   <div className="ci-stat-number" style={{ fontSize: '1.75rem' }}>
-                    {stat.num}
+                    {stat.value}
                   </div>
-                  <div className="ci-stat-label">{stat.label}</div>
+                  <div className="ci-stat-label">{isFr ? stat.labelFr : stat.labelEn || stat.labelFr}</div>
                 </div>
               ))}
             </div>

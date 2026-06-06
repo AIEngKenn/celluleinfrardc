@@ -311,6 +311,44 @@ export interface SiteSettings {
   footerDescriptionEn?: string;
 }
 
+export interface AboutMission {
+  icon?: 'building' | 'file' | 'globe' | 'users';
+  titleFr?: string;
+  titleEn?: string;
+  descriptionFr?: string;
+  descriptionEn?: string;
+}
+
+export interface AboutFigure {
+  value?: string;
+  labelFr?: string;
+  labelEn?: string;
+}
+
+export interface AboutPageContent {
+  title?: string;
+  pageTitleFr?: string;
+  pageTitleEn?: string;
+  subtitleFr?: string;
+  subtitleEn?: string;
+  missionEyebrowFr?: string;
+  missionEyebrowEn?: string;
+  missionTitleFr?: string;
+  missionTitleEn?: string;
+  missions?: AboutMission[];
+  organizationEyebrowFr?: string;
+  organizationEyebrowEn?: string;
+  organizationTitleFr?: string;
+  organizationTitleEn?: string;
+  organizationBodyFr?: { _type: string; [key: string]: unknown }[];
+  organizationBodyEn?: { _type: string; [key: string]: unknown }[];
+  figuresEyebrowFr?: string;
+  figuresEyebrowEn?: string;
+  figuresTitleFr?: string;
+  figuresTitleEn?: string;
+  figures?: AboutFigure[];
+}
+
 // ============================================================================
 // MAP DATA
 // ============================================================================

@@ -687,6 +687,42 @@ export const siteSettingsQuery = groq`
   }
 `;
 
+export const aboutPageQuery = groq`
+  *[_type == "aboutPage"][0] {
+    title,
+    pageTitleFr,
+    pageTitleEn,
+    subtitleFr,
+    subtitleEn,
+    missionEyebrowFr,
+    missionEyebrowEn,
+    missionTitleFr,
+    missionTitleEn,
+    missions[]{
+      icon,
+      titleFr,
+      titleEn,
+      descriptionFr,
+      descriptionEn
+    },
+    organizationEyebrowFr,
+    organizationEyebrowEn,
+    organizationTitleFr,
+    organizationTitleEn,
+    organizationBodyFr,
+    organizationBodyEn,
+    figuresEyebrowFr,
+    figuresEyebrowEn,
+    figuresTitleFr,
+    figuresTitleEn,
+    figures[]{
+      value,
+      labelFr,
+      labelEn
+    }
+  }
+`;
+
 // ============================================================================
 // MAP DATA QUERY (for Geomatics page)
 // ============================================================================

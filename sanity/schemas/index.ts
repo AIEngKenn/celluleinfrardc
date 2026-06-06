@@ -6,6 +6,7 @@ import publication from "./publication";
 import province from "./province";
 import homeSettings from "./homeSettings";
 import siteSettings from "./siteSettings";
+import aboutPage from "./aboutPage";
 
 export const schemaTypes = [
   // Main content
@@ -19,4 +20,5 @@ export const schemaTypes = [
   newsCategory,
   homeSettings,
   siteSettings,
+  aboutPage,
 ];

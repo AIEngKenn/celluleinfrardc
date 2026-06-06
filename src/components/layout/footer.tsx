@@ -1,11 +1,20 @@
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { Facebook, Twitter, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import type { SiteSettings } from '@/lib/sanity/types';
 
-export function Footer() {
+export function Footer({ settings }: { settings?: SiteSettings }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
   const year = new Date().getFullYear();
+  const footerDescription =
+    (isFr ? settings?.footerDescriptionFr : settings?.footerDescriptionEn) ||
+    (isFr
+      ? "Plateforme officielle de transparence et de suivi des projets d'infrastructures de la République Démocratique du Congo."
+      : 'Official transparency and project monitoring platform for infrastructure in the Democratic Republic of Congo.');
+  const address = (isFr ? settings?.addressFr : settings?.addressEn) || 'Kinshasa, RDC';
+  const email = settings?.email || 'contact@celluleinfra.cd';
+  const phone = settings?.phone || '+243 XX XXX XXXX';
 
   const sections = [
     {
@@ -58,18 +67,14 @@ export function Footer() {
                 <span className="ci-footer-logo-sub">République Démocratique du Congo</span>
               </span>
             </Link>
-            <p className="ci-footer-desc">
-              {isFr
-                ? "Plateforme officielle de transparence et de suivi des projets d'infrastructures de la République Démocratique du Congo."
-                : 'Official transparency and project monitoring platform for infrastructure in the Democratic Republic of Congo.'}
-            </p>
+            <p className="ci-footer-desc">{footerDescription}</p>
             <div className="ci-footer-social">
               {[
-                { href: '#', icon: Facebook, label: 'Facebook' },
-                { href: '#', icon: Twitter, label: 'Twitter / X' },
-                { href: '#', icon: Youtube, label: 'YouTube' },
-                { href: '#', icon: Linkedin, label: 'LinkedIn' },
-              ].map(({ href, icon: Icon, label }) => (
+                { href: settings?.facebookUrl, icon: Facebook, label: 'Facebook' },
+                { href: settings?.xUrl, icon: Twitter, label: 'Twitter / X' },
+                { href: settings?.youtubeUrl, icon: Youtube, label: 'YouTube' },
+                { href: settings?.linkedinUrl, icon: Linkedin, label: 'LinkedIn' },
+              ].filter((item) => item.href).map(({ href, icon: Icon, label }) => (
                 <a key={label} href={href} aria-label={label} className="ci-footer-social-link">
                   <Icon className="h-4 w-4" />
                 </a>
@@ -105,16 +110,16 @@ export function Footer() {
             <ul className="ci-footer-contact-list">
               <li>
                 <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>Kinshasa, RDC</span>
+                <span>{address}</span>
               </li>
               <li>
                 <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>+243 XX XXX XXXX</span>
+                <span>{phone}</span>
               </li>
               <li>
                 <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <a href="mailto:contact@celluleinfra.cd" className="ci-footer-link">
-                  contact@celluleinfra.cd
+                <a href={`mailto:${email}`} className="ci-footer-link">
+                  {email}
                 </a>
               </li>
             </ul>

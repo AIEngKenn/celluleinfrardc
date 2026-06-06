@@ -1,5 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { createSeoMetadata } from '@/lib/seo';
+import { sanityFetch } from '@/lib/sanity/client';
+import { homePageQuery } from '@/lib/sanity/queries';
+import type { HomePageData } from '@/lib/sanity/types';
 import { HeroCarousel } from '@/components/home/hero-carousel';
 import { StatsSection } from '@/components/home/stats-section';
 import { FeaturedProjects } from '@/components/home/featured-projects';
@@ -39,32 +42,42 @@ export async function generateMetadata({ params }: Props) {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const homeData = await sanityFetch<HomePageData>({
+    query: homePageQuery,
+    tags: ['homeSettings', 'project', 'news', 'procurement', 'publication', 'media'],
+  });
 
   return (
     <>
       {/* Hero Carousel - Full viewport height */}
-      <HeroCarousel />
+      <HeroCarousel slides={homeData.settings?.heroSlides} />
 
       {/* Statistics Section */}
-      <StatsSection />
+      <StatsSection stats={homeData.stats} />
 
       {/* Featured Projects */}
-      <FeaturedProjects />
+      <FeaturedProjects projects={homeData.projects} />
 
       {/* Latest News */}
-      <LatestNews />
+      <LatestNews news={homeData.news} />
 
       {/* Current Procurement */}
-      <CurrentProcurement />
+      <CurrentProcurement opportunities={homeData.procurement} />
 
       {/* Recent Publications */}
-      <RecentPublications />
+      <RecentPublications publications={homeData.publications} />
 
       {/* Media Preview */}
-      <MediaPreview />
+      <MediaPreview
+        mediaItems={homeData.media}
+        titleFr={homeData.settings?.mediaTitleFr}
+        titleEn={homeData.settings?.mediaTitleEn}
+        descriptionFr={homeData.settings?.mediaDescriptionFr}
+        descriptionEn={homeData.settings?.mediaDescriptionEn}
+      />
 
       {/* Partners */}
-      <PartnersSection />
+      <PartnersSection partners={homeData.settings?.partners} />
     </>
   );
 }

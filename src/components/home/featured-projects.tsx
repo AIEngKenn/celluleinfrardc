@@ -4,59 +4,34 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { MapPin, ArrowRight } from 'lucide-react';
-
-const projects = [
-  {
-    id: 1,
-    titleFr: 'Réhabilitation de la Route Nationale N°1',
-    titleEn: 'Rehabilitation of National Road N°1',
-    province: 'Kinshasa',
-    statusFr: 'En cours',
-    statusEn: 'In progress',
-    budget: 45000000,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop',
-    sectorFr: 'Transport',
-    sectorEn: 'Transport',
-    featured: true,
-  },
-  {
-    id: 2,
-    titleFr: 'Construction du Barrage Hydroélectrique Inga 3',
-    titleEn: 'Construction of Inga 3 Hydroelectric Dam',
-    province: 'Kongo Central',
-    statusFr: 'En préparation',
-    statusEn: 'In preparation',
-    budget: 120000000,
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&h=600&fit=crop',
-    sectorFr: 'Énergie',
-    sectorEn: 'Energy',
-  },
-  {
-    id: 3,
-    titleFr: "Modernisation de l'Aéroport International de Kinshasa",
-    titleEn: 'Modernization of Kinshasa International Airport',
-    province: 'Kinshasa',
-    statusFr: 'En cours',
-    statusEn: 'In progress',
-    budget: 85000000,
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop',
-    sectorFr: 'Transport aérien',
-    sectorEn: 'Air transport',
-  },
-];
+import type { Project } from '@/lib/sanity/types';
+import { formatCurrency } from '@/lib/sanity/types';
+import { truncateText } from '@/lib/content-cleanup';
 
 function statusClass(status: string) {
-  if (status.toLowerCase().includes('cours') || status.toLowerCase().includes('progress'))
+  if (status === 'ongoing')
     return 'ci-badge ci-badge--blue';
-  if (status.toLowerCase().includes('achev') || status.toLowerCase().includes('complet'))
+  if (status === 'completed')
     return 'ci-badge ci-badge--green';
   return 'ci-badge ci-badge--yellow';
 }
 
-export function FeaturedProjects() {
+function statusLabel(status: Project['status'], isFr: boolean) {
+  const labels = {
+    preparation: isFr ? 'En préparation' : 'In preparation',
+    ongoing: isFr ? 'En cours' : 'Ongoing',
+    completed: isFr ? 'Terminé' : 'Completed',
+    suspended: isFr ? 'Suspendu' : 'Suspended',
+  };
+  return labels[status] || status;
+}
+
+export function FeaturedProjects({ projects }: { projects?: Project[] }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
+  if (!projects?.length) return null;
   const [featured, ...rest] = projects;
+  const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
 
   return (
     <section className="ci-section" style={{ background: 'var(--ci-bg-subtle)' }}>
@@ -100,41 +75,34 @@ export function FeaturedProjects() {
           >
             {/* Main featured */}
             <Link
-              href={`/${locale}/projets/${featured.id}`}
+              href={`/${locale}/projets/${featured.slug}`}
               className="ci-project-card"
               style={{ gridRow: 'span 2', display: 'flex', flexDirection: 'column' }}
             >
               <div className="ci-project-card-img" style={{ flex: 1 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={featured.image}
-                  alt={isFr ? featured.titleFr : featured.titleEn}
-                  loading="lazy"
-                />
+                {featured.mainImage?.asset?.url && (
+                  <img src={featured.mainImage.asset.url} alt={featured.mainImage.alt || featuredTitle} loading="lazy" />
+                )}
               </div>
               <div className="ci-project-card-body">
                 <div className="ci-project-card-meta">
                   <MapPin size={12} />
-                  <span>{featured.province}</span>
+                  <span>{isFr ? featured.province.nameFr : featured.province.nameEn}</span>
                   <span style={{ color: 'var(--ci-border-strong)' }}>·</span>
-                  <span>{isFr ? featured.sectorFr : featured.sectorEn}</span>
+                  <span>{featured.sector}</span>
                 </div>
                 <h3 className="ci-project-card-title" style={{ fontSize: '1.25rem' }}>
-                  {isFr ? featured.titleFr : featured.titleEn}
+                  {truncateText(featuredTitle, 110)}
                 </h3>
                 <div className="ci-project-card-footer">
-                  <span className={statusClass(isFr ? featured.statusFr : featured.statusEn)}>
-                    {isFr ? featured.statusFr : featured.statusEn}
+                  <span className={statusClass(featured.status)}>
+                    {statusLabel(featured.status, isFr)}
                   </span>
-                  <span
-                    style={{
-                      fontSize: '0.875rem',
-                      fontWeight: 700,
-                      color: 'var(--ci-text-primary)',
-                    }}
-                  >
-                    ${(featured.budget / 1000000).toFixed(0)}M
-                  </span>
+                  {featured.budget ? (
+                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--ci-text-primary)' }}>
+                      {formatCurrency(featured.budget, locale as 'fr' | 'en')}
+                    </span>
+                  ) : null}
                 </div>
               </div>
             </Link>
@@ -142,8 +110,8 @@ export function FeaturedProjects() {
             {/* Side stack */}
             {rest.map((project) => (
               <Link
-                key={project.id}
-                href={`/${locale}/projets/${project.id}`}
+                key={project._id}
+                href={`/${locale}/projets/${project.slug}`}
                 className="ci-project-card"
                 style={{ display: 'flex', flexDirection: 'row' }}
               >
@@ -156,32 +124,25 @@ export function FeaturedProjects() {
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.image}
-                    alt={isFr ? project.titleFr : project.titleEn}
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.4s',
-                    }}
-                  />
+                  {project.mainImage?.asset?.url && (
+                    <img
+                      src={project.mainImage.asset.url}
+                      alt={project.mainImage.alt || (isFr ? project.titleFr : project.titleEn)}
+                      loading="lazy"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }}
+                    />
+                  )}
                 </div>
                 <div className="ci-project-card-body" style={{ flex: 1 }}>
                   <div className="ci-project-card-meta">
                     <MapPin size={11} />
-                    <span>{project.province}</span>
+                    <span>{isFr ? project.province.nameFr : project.province.nameEn}</span>
                   </div>
                   <h3 className="ci-project-card-title" style={{ fontSize: '0.9rem' }}>
-                    {isFr ? project.titleFr : project.titleEn}
+                    {truncateText(isFr ? project.titleFr : project.titleEn, 80)}
                   </h3>
-                  <span
-                    className={statusClass(
-                      isFr ? (project.statusFr ?? '') : (project.statusEn ?? '')
-                    )}
-                  >
-                    {isFr ? project.statusFr : project.statusEn}
+                  <span className={statusClass(project.status)}>
+                    {statusLabel(project.status, isFr)}
                   </span>
                 </div>
               </Link>

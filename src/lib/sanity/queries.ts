@@ -597,6 +597,84 @@ export const statsQuery = groq`
   }
 `;
 
+export const homePageQuery = groq`
+  {
+    "settings": *[_type == "homeSettings"][0] {
+      title,
+      heroSlides[]{
+        eyebrowFr,
+        eyebrowEn,
+        titleFr,
+        titleEn,
+        descriptionFr,
+        descriptionEn,
+        image{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
+        primaryCtaFr,
+        primaryCtaEn,
+        primaryHref,
+        secondaryCtaFr,
+        secondaryCtaEn,
+        secondaryHref
+      },
+      partners[]{
+        name,
+        url,
+        logo{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt }
+      },
+      mediaTitleFr,
+      mediaTitleEn,
+      mediaDescriptionFr,
+      mediaDescriptionEn
+    },
+    "stats": {
+      "totalProjects": count(*[_type == "project"]),
+      "ongoingProjects": count(*[_type == "project" && status == "ongoing"]),
+      "completedProjects": count(*[_type == "project" && status == "completed"]),
+      "provinces": count(*[_type == "province"]),
+      "publications": count(*[_type == "publication"]),
+      "activeProcurement": count(*[_type == "procurement" && closingDate > now()])
+    },
+    "projects": *[_type == "project"] | order(featured desc, _createdAt desc) [0...3] {
+      ${projectFields}
+    },
+    "news": *[_type == "news"] | order(publishedAt desc, _createdAt desc) [0...4] {
+      ${newsFields}
+    },
+    "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...3] {
+      ${procurementFields}
+    },
+    "publications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...4] {
+      ${publicationFields}
+    },
+    "media": *[_type == "media"] | order(date desc, _createdAt desc) [0...6] {
+      _id,
+      type,
+      title,
+      caption,
+      image{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
+      thumbnail{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
+      videoUrl,
+      date
+    }
+  }
+`;
+
+export const siteSettingsQuery = groq`
+  *[_type == "siteSettings"][0] {
+    title,
+    email,
+    phone,
+    addressFr,
+    addressEn,
+    facebookUrl,
+    xUrl,
+    youtubeUrl,
+    linkedinUrl,
+    footerDescriptionFr,
+    footerDescriptionEn
+  }
+`;
+
 // ============================================================================
 // MAP DATA QUERY (for Geomatics page)
 // ============================================================================

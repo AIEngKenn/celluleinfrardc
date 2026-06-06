@@ -4,6 +4,8 @@ import newsCategory from "./newsCategory";
 import procurement from "./procurement";
 import publication from "./publication";
 import province from "./province";
+import homeSettings from "./homeSettings";
+import siteSettings from "./siteSettings";
 
 export const schemaTypes = [
   // Main content
@@ -15,4 +17,6 @@ export const schemaTypes = [
   // Taxonomies
   province,
   newsCategory,
+  homeSettings,
+  siteSettings,
 ];

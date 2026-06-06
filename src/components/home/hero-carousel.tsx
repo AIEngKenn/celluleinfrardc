@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import type { HomeHeroSlide } from '@/lib/sanity/types';
 
-const slides = [
+const fallbackSlides: Required<Pick<HomeHeroSlide, 'titleFr' | 'image'>>[] & HomeHeroSlide[] = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop',
+    image: { asset: { _id: 'fallback-1', url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop' } },
     eyebrowFr: 'Infrastructure Routière',
     eyebrowEn: 'Road Infrastructure',
     titleFr: 'Moderniser les routes pour connecter la nation',
@@ -22,7 +23,7 @@ const slides = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=1080&fit=crop',
+    image: { asset: { _id: 'fallback-2', url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=1080&fit=crop' } },
     eyebrowFr: 'Énergie Hydroélectrique',
     eyebrowEn: 'Hydroelectric Energy',
     titleFr: "Investir dans l'énergie propre pour l'avenir",
@@ -35,7 +36,7 @@ const slides = [
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop',
+    image: { asset: { _id: 'fallback-3', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop' } },
     eyebrowFr: 'Développement Urbain',
     eyebrowEn: 'Urban Development',
     titleFr: 'Construire des villes inclusives et durables',
@@ -49,19 +50,22 @@ const slides = [
   },
 ];
 
-export function HeroCarousel() {
+export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
+  const items = slides?.filter((slide) => slide.image?.asset?.url && slide.titleFr).length
+    ? slides.filter((slide) => slide.image?.asset?.url && slide.titleFr)
+    : fallbackSlides;
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const locale = useLocale();
   const isFr = locale === 'fr';
 
   const next = useCallback(() => {
-    setCurrent((p) => (p + 1) % slides.length);
-  }, []);
+    setCurrent((p) => (p + 1) % items.length);
+  }, [items.length]);
 
   const prev = useCallback(() => {
-    setCurrent((p) => (p - 1 + slides.length) % slides.length);
-  }, []);
+    setCurrent((p) => (p - 1 + items.length) % items.length);
+  }, [items.length]);
 
   useEffect(() => {
     if (paused) return;
@@ -69,9 +73,9 @@ export function HeroCarousel() {
     return () => clearInterval(t);
   }, [paused, next]);
 
-  const slide = slides[current];
+  const slide = items[current] || items[0];
   const slideNum = String(current + 1).padStart(2, '0');
-  const totalNum = String(slides.length).padStart(2, '0');
+  const totalNum = String(items.length).padStart(2, '0');
 
   return (
     <section
@@ -81,13 +85,13 @@ export function HeroCarousel() {
       onMouseLeave={() => setPaused(false)}
     >
       {/* Background layers */}
-      {slides.map((s, i) => (
+      {items.map((s, i) => (
         <div
-          key={s.id}
+          key={`${s.titleFr}-${i}`}
           className="ci-hero-bg"
           aria-hidden="true"
           style={{
-            backgroundImage: `url(${s.image})`,
+            backgroundImage: `url(${s.image?.asset?.url})`,
             opacity: i === current ? 1 : 0,
             transition: 'opacity 1s ease',
           }}
@@ -98,15 +102,17 @@ export function HeroCarousel() {
       {/* Slide content */}
       <div className="ci-hero-content">
         <p className="ci-hero-eyebrow">{isFr ? slide.eyebrowFr : slide.eyebrowEn}</p>
-        <h1 className="ci-hero-title">{isFr ? slide.titleFr : slide.titleEn}</h1>
-        <p className="ci-hero-desc">{isFr ? slide.descriptionFr : slide.descriptionEn}</p>
+        <h1 className="ci-hero-title">{isFr ? slide.titleFr : slide.titleEn || slide.titleFr}</h1>
+        <p className="ci-hero-desc">
+          {isFr ? slide.descriptionFr : slide.descriptionEn || slide.descriptionFr}
+        </p>
         <div className="ci-hero-actions">
-          <Link href={`/${locale}${slide.cta1Href}`} className="ci-btn-primary">
-            {isFr ? 'Voir les projets' : 'View projects'}
+          <Link href={`/${locale}${slide.primaryHref || '/projets'}`} className="ci-btn-primary">
+            {(isFr ? slide.primaryCtaFr : slide.primaryCtaEn) || (isFr ? 'Voir les projets' : 'View projects')}
             <ArrowRight size={16} />
           </Link>
-          <Link href={`/${locale}${slide.cta2Href}`} className="ci-btn-outline-white">
-            {isFr ? "Appels d'offres" : 'Procurement'}
+          <Link href={`/${locale}${slide.secondaryHref || '/appels-offres'}`} className="ci-btn-outline-white">
+            {(isFr ? slide.secondaryCtaFr : slide.secondaryCtaEn) || (isFr ? "Appels d'offres" : 'Procurement')}
           </Link>
         </div>
       </div>
@@ -139,7 +145,7 @@ export function HeroCarousel() {
         </button>
 
         {/* Dot indicators */}
-        {slides.map((_, i) => (
+        {items.map((_, i) => (
           <button
             key={i}
             className={`ci-hero-dot${i === current ? 'ci-hero-dot--active' : ''}`}

@@ -5,49 +5,15 @@ import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
+import type { News } from '@/lib/sanity/types';
+import { truncateText } from '@/lib/content-cleanup';
 
-const news = [
-  {
-    id: 1,
-    titleFr: 'Lancement officiel des travaux de réhabilitation de la RN1',
-    titleEn: 'Official launch of RN1 rehabilitation works',
-    date: '2024-05-15',
-    categoryFr: 'Projets',
-    categoryEn: 'Projects',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop',
-    featured: true,
-  },
-  {
-    id: 2,
-    titleFr: "Signature d'un accord de financement pour Inga 3",
-    titleEn: 'Signing of financing agreement for Inga 3',
-    date: '2024-05-10',
-    categoryFr: 'Financement',
-    categoryEn: 'Financing',
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop',
-  },
-  {
-    id: 3,
-    titleFr: 'Visite de terrain des partenaires internationaux',
-    titleEn: 'Field visit by international partners',
-    date: '2024-05-08',
-    categoryFr: 'Partenariats',
-    categoryEn: 'Partnerships',
-  },
-  {
-    id: 4,
-    titleFr: 'Publication du rapport annuel 2023 de la Cellule Infrastructures',
-    titleEn: 'Publication of the 2023 Annual Report of Cellule Infrastructures',
-    date: '2024-04-22',
-    categoryFr: 'Publications',
-    categoryEn: 'Publications',
-  },
-];
-
-export function LatestNews() {
+export function LatestNews({ news }: { news?: News[] }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
+  if (!news?.length) return null;
   const [featured, ...rest] = news;
+  const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
 
   return (
     <section className="ci-section" style={{ background: 'white' }}>
@@ -82,20 +48,19 @@ export function LatestNews() {
           transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
         >
           {/* Featured article */}
-          <Link href={`/${locale}/actualites/${featured.id}`} className="ci-news-featured">
-            {featured.image && (
+          <Link href={`/${locale}/actualites/${featured.slug}`} className="ci-news-featured">
+            {featured.mainImage?.asset?.url && (
               <div className="ci-news-featured-img">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={featured.image}
-                  alt={isFr ? featured.titleFr : featured.titleEn}
+                  src={featured.mainImage.asset.url}
+                  alt={featured.mainImage.alt || featuredTitle}
                   loading="lazy"
                 />
               </div>
             )}
             <div className="ci-news-featured-body">
               <div className="ci-news-row-category" style={{ marginBottom: '0.75rem' }}>
-                {isFr ? featured.categoryFr : featured.categoryEn}
+                {isFr ? featured.category.nameFr : featured.category.nameEn}
               </div>
               <h3
                 style={{
@@ -107,10 +72,10 @@ export function LatestNews() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                {isFr ? featured.titleFr : featured.titleEn}
+                {truncateText(featuredTitle, 120)}
               </h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--ci-text-muted)' }}>
-                {formatDate(featured.date, locale)}
+                {formatDate(featured.publishedAt, locale)}
               </p>
             </div>
           </Link>
@@ -119,16 +84,18 @@ export function LatestNews() {
           <div>
             {rest.map((article) => (
               <Link
-                key={article.id}
-                href={`/${locale}/actualites/${article.id}`}
+                key={article._id}
+                href={`/${locale}/actualites/${article.slug}`}
                 className="ci-news-row"
               >
-                <span className="ci-news-row-date">{formatDate(article.date, locale)}</span>
+                <span className="ci-news-row-date">{formatDate(article.publishedAt, locale)}</span>
                 <div>
                   <div className="ci-news-row-category">
-                    {isFr ? article.categoryFr : article.categoryEn}
+                    {isFr ? article.category.nameFr : article.category.nameEn}
                   </div>
-                  <p className="ci-news-row-title">{isFr ? article.titleFr : article.titleEn}</p>
+                  <p className="ci-news-row-title">
+                    {truncateText(isFr ? article.titleFr : article.titleEn, 95)}
+                  </p>
                 </div>
               </Link>
             ))}

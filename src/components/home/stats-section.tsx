@@ -3,37 +3,41 @@
 import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import CountUp from '@/components/ui/count-up';
+import type { SiteStatistics } from '@/lib/sanity/types';
 
-export function StatsSection() {
+export function StatsSection({ stats }: { stats?: SiteStatistics }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
 
-  const stats = [
+  const items = [
     {
       id: 1,
-      value: 250,
+      prefix: '',
+      value: stats?.ongoingProjects ?? 0,
       suffix: '+',
       labelFr: 'Projets en cours',
       labelEn: 'Active projects',
     },
     {
       id: 2,
-      value: 26,
+      prefix: '',
+      value: stats?.provinces ?? 0,
       suffix: '',
       labelFr: 'Provinces couvertes',
       labelEn: 'Provinces covered',
     },
     {
       id: 3,
-      prefix: '$',
-      value: 5.2,
-      suffix: 'Mrd',
-      labelFr: 'Budget engagé',
-      labelEn: 'Committed budget',
+      prefix: '',
+      value: stats?.publications ?? 0,
+      suffix: '+',
+      labelFr: 'Publications',
+      labelEn: 'Publications',
     },
     {
       id: 4,
-      value: 180,
+      prefix: '',
+      value: stats?.completedProjects ?? 0,
       suffix: '+',
       labelFr: 'Projets achevés',
       labelEn: 'Completed projects',
@@ -43,7 +47,7 @@ export function StatsSection() {
   return (
     <section className="ci-stats">
       <div className="ci-stats-grid">
-        {stats.map((stat, i) => (
+        {items.map((stat, i) => (
           <motion.div
             key={stat.id}
             className="ci-stat-item"

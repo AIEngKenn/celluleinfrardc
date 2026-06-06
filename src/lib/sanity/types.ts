@@ -241,10 +241,70 @@ export interface SiteStatistics {
   totalProjects: number;
   ongoingProjects: number;
   completedProjects: number;
-  totalBudget: number;
+  totalBudget?: number;
   provinces: number;
   publications: number;
   activeProcurement: number;
+}
+
+// ============================================================================
+// HOME / SITE SETTINGS
+// ============================================================================
+
+export interface HomeHeroSlide {
+  eyebrowFr?: string;
+  eyebrowEn?: string;
+  titleFr: string;
+  titleEn?: string;
+  descriptionFr?: string;
+  descriptionEn?: string;
+  image?: SanityImage;
+  primaryCtaFr?: string;
+  primaryCtaEn?: string;
+  primaryHref?: string;
+  secondaryCtaFr?: string;
+  secondaryCtaEn?: string;
+  secondaryHref?: string;
+}
+
+export interface HomePartner {
+  name: string;
+  url?: string;
+  logo?: SanityImage;
+}
+
+export interface HomeSettings {
+  title?: string;
+  heroSlides?: HomeHeroSlide[];
+  partners?: HomePartner[];
+  mediaTitleFr?: string;
+  mediaTitleEn?: string;
+  mediaDescriptionFr?: string;
+  mediaDescriptionEn?: string;
+}
+
+export interface HomePageData {
+  settings?: HomeSettings;
+  stats: SiteStatistics;
+  projects: Project[];
+  news: News[];
+  procurement: Procurement[];
+  publications: Publication[];
+  media: MediaItem[];
+}
+
+export interface SiteSettings {
+  title?: string;
+  email?: string;
+  phone?: string;
+  addressFr?: string;
+  addressEn?: string;
+  facebookUrl?: string;
+  xUrl?: string;
+  youtubeUrl?: string;
+  linkedinUrl?: string;
+  footerDescriptionFr?: string;
+  footerDescriptionEn?: string;
 }
 
 // ============================================================================

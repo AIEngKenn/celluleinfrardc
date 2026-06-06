@@ -1,19 +1,11 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import type { HomePartner } from "@/lib/sanity/types";
 
-// Placeholder partner data
-const partners = [
-  { id: 1, name: "World Bank", logo: "/logos/worldbank.svg" },
-  { id: 2, name: "African Development Bank", logo: "/logos/afdb.svg" },
-  { id: 3, name: "European Union", logo: "/logos/eu.svg" },
-  { id: 4, name: "USAID", logo: "/logos/usaid.svg" },
-  { id: 5, name: "China Road & Bridge", logo: "/logos/crbc.svg" },
-  { id: 6, name: "French Development Agency", logo: "/logos/afd.svg" },
-];
-
-export function PartnersSection() {
+export function PartnersSection({ partners }: { partners?: HomePartner[] }) {
   const locale = useLocale();
+  if (!partners?.length) return null;
 
   return (
     <section className="bg-white py-16 sm:py-20">
@@ -33,22 +25,24 @@ export function PartnersSection() {
         {/* Partners Grid */}
         <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
           {partners.map((partner) => (
-            <div
-              key={partner.id}
+            <a
+              key={partner.name}
+              href={partner.url || '#'}
+              target={partner.url ? '_blank' : undefined}
+              rel={partner.url ? 'noopener noreferrer' : undefined}
               className="flex items-center justify-center rounded-lg bg-gray-50 p-6 grayscale hover:grayscale-0 transition-all hover:bg-white hover:shadow-lg"
             >
               <div className="flex h-16 w-full items-center justify-center">
-                {/* Placeholder for logo */}
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-400">
-                    {partner.name.charAt(0)}
+                {partner.logo?.asset?.url ? (
+                  <img src={partner.logo.asset.url} alt={partner.name} className="max-h-14 max-w-full object-contain" />
+                ) : (
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-400">{partner.name.charAt(0)}</div>
+                    <div className="text-xs text-gray-500 mt-1">{partner.name}</div>
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    {partner.name}
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

@@ -4,38 +4,13 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Calendar, FileText, ArrowRight, AlertCircle } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import type { Procurement } from "@/lib/sanity/types";
+import { cleanMigratedText, truncateText } from "@/lib/content-cleanup";
 
-// Placeholder data
-const opportunities = [
-  {
-    id: 1,
-    titleFr: "Appel d'offres pour la construction de ponts sur la RN2",
-    titleEn: "Tender for bridge construction on RN2",
-    reference: "AO-2024-001",
-    closingDate: "2024-06-30",
-    category: "Travaux",
-  },
-  {
-    id: 2,
-    titleFr: "Recrutement de consultants pour l'étude d'impact environnemental",
-    titleEn: "Recruitment of consultants for environmental impact study",
-    reference: "AO-2024-002",
-    closingDate: "2024-06-25",
-    category: "Consultance",
-  },
-  {
-    id: 3,
-    titleFr: "Fourniture d'équipements pour le projet d'électrification rurale",
-    titleEn: "Supply of equipment for rural electrification project",
-    reference: "AO-2024-003",
-    closingDate: "2024-07-10",
-    category: "Fournitures",
-  },
-];
-
-export function CurrentProcurement() {
+export function CurrentProcurement({ opportunities }: { opportunities?: Procurement[] }) {
   const t = useTranslations("home.sections");
   const locale = useLocale();
+  if (!opportunities?.length) return null;
 
   return (
     <section className="bg-gray-50 py-16 sm:py-20">
@@ -73,8 +48,8 @@ export function CurrentProcurement() {
 
             return (
               <Link
-                key={opportunity.id}
-                href={`/${locale}/appels-offres/${opportunity.id}`}
+                key={opportunity._id}
+                href={`/${locale}/appels-offres/${opportunity.slug}`}
                 className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-lg bg-white p-6 border border-gray-200 transition-all hover:shadow-lg hover:border-rdc-blue"
               >
                 <div className="flex-1">
@@ -87,10 +62,16 @@ export function CurrentProcurement() {
                     </span>
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 group-hover:text-rdc-blue transition-colors mb-2">
-                    {locale === "fr"
-                      ? opportunity.titleFr
-                      : opportunity.titleEn}
+                    {truncateText(locale === "fr" ? opportunity.titleFr : opportunity.titleEn, 120)}
                   </h3>
+                  {(opportunity.descriptionFr || opportunity.descriptionEn) && (
+                    <p className="mb-3 line-clamp-2 text-sm text-gray-600">
+                      {truncateText(
+                        cleanMigratedText(locale === "fr" ? opportunity.descriptionFr : opportunity.descriptionEn),
+                        150
+                      )}
+                    </p>
+                  )}
                   <div className="flex items-center gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />

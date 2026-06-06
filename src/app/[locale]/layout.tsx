@@ -6,6 +6,9 @@ import type { Locale } from '@/i18n';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { GovernmentBand } from '@/components/ui/government-band';
+import { sanityFetch } from '@/lib/sanity/client';
+import { siteSettingsQuery } from '@/lib/sanity/queries';
+import type { SiteSettings } from '@/lib/sanity/types';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -30,7 +33,13 @@ export default async function LocaleLayout({
 
   // Providing all messages to the client
   // side is the easiest way to get started
-  const messages = await getMessages();
+  const [messages, siteSettings] = await Promise.all([
+    getMessages(),
+    sanityFetch<SiteSettings | null>({
+      query: siteSettingsQuery,
+      tags: ['siteSettings'],
+    }),
+  ]);
 
   return (
     <NextIntlClientProvider messages={messages}>
@@ -39,7 +48,7 @@ export default async function LocaleLayout({
         {children}
         <GovernmentBand />
       </main>
-      <Footer />
+      <Footer settings={siteSettings || undefined} />
     </NextIntlClientProvider>
   );
 }

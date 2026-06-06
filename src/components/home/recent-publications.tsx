@@ -3,46 +3,13 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { FileText, Download, ArrowRight } from "lucide-react";
+import type { Publication } from "@/lib/sanity/types";
+import { cleanMigratedText, truncateText } from "@/lib/content-cleanup";
 
-// Placeholder data
-const publications = [
-  {
-    id: 1,
-    titleFr: "Rapport Annuel 2023 - Cellule Infrastructures",
-    titleEn: "2023 Annual Report - Cellule Infrastructures",
-    type: "Rapport",
-    pages: 156,
-    size: "12.5 MB",
-  },
-  {
-    id: 2,
-    titleFr: "Étude d'Impact Environnemental - Projet Inga 3",
-    titleEn: "Environmental Impact Study - Inga 3 Project",
-    type: "Environnemental",
-    pages: 320,
-    size: "28.3 MB",
-  },
-  {
-    id: 3,
-    titleFr: "Plan Stratégique de Développement des Infrastructures 2024-2028",
-    titleEn: "Strategic Infrastructure Development Plan 2024-2028",
-    type: "Planification",
-    pages: 89,
-    size: "8.7 MB",
-  },
-  {
-    id: 4,
-    titleFr: "Guide des Procédures d'Appels d'Offres",
-    titleEn: "Procurement Procedures Guide",
-    type: "Guide",
-    pages: 45,
-    size: "3.2 MB",
-  },
-];
-
-export function RecentPublications() {
+export function RecentPublications({ publications }: { publications?: Publication[] }) {
   const t = useTranslations("home.sections");
   const locale = useLocale();
+  if (!publications?.length) return null;
 
   return (
     <section className="bg-white py-16 sm:py-20">
@@ -72,8 +39,8 @@ export function RecentPublications() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {publications.map((publication) => (
             <Link
-              key={publication.id}
-              href={`/${locale}/publications/${publication.id}`}
+              key={publication._id}
+              href={`/${locale}/publications/${publication.slug}`}
               className="group flex gap-4 rounded-lg bg-white border border-gray-200 p-6 transition-all hover:shadow-lg hover:border-rdc-blue"
             >
               {/* Icon */}
@@ -86,21 +53,33 @@ export function RecentPublications() {
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="mb-2 inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
-                  {publication.type}
+                  {publication.publicationType}
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-rdc-blue transition-colors line-clamp-2">
-                  {locale === "fr" ? publication.titleFr : publication.titleEn}
+                  {truncateText(locale === "fr" ? publication.titleFr : publication.titleEn, 105)}
                 </h3>
+                <p className="mb-3 line-clamp-2 text-sm text-gray-600">
+                  {truncateText(
+                    cleanMigratedText(locale === "fr" ? publication.descriptionFr : publication.descriptionEn),
+                    130
+                  )}
+                </p>
                 <div className="flex items-center gap-4 text-sm text-gray-500">
-                  <span>{publication.pages} pages</span>
-                  <span>•</span>
-                  <span>{publication.size}</span>
+                  <span>{publication.publicationType}</span>
+                  {publication.pdfFile?.asset?.size ? (
+                    <>
+                      <span>•</span>
+                      <span>{(publication.pdfFile.asset.size / 1024 / 1024).toFixed(1)} MB</span>
+                    </>
+                  ) : null}
                 </div>
               </div>
 
               {/* Download Icon */}
               <div className="flex-shrink-0">
-                <Download className="h-5 w-5 text-gray-400 group-hover:text-rdc-blue transition-colors" />
+                {publication.pdfFile?.asset?.url ? (
+                  <Download className="h-5 w-5 text-gray-400 group-hover:text-rdc-blue transition-colors" />
+                ) : null}
               </div>
             </Link>
           ))}

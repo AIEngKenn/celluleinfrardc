@@ -6,6 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { createSeoMetadata } from '@/lib/seo';
+import { sanityFetch } from '@/lib/sanity/client';
+import { siteSettingsQuery } from '@/lib/sanity/queries';
+import type { SiteSettings } from '@/lib/sanity/types';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -28,6 +31,15 @@ export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'contact' });
+  const settings = await sanityFetch<SiteSettings | null>({
+    query: siteSettingsQuery,
+    tags: ['siteSettings'],
+  });
+  const address =
+    (locale === 'fr' ? settings?.addressFr : settings?.addressEn) ||
+    'Avenue de la Justice\nGombe, Kinshasa\nRépublique Démocratique du Congo';
+  const phone = settings?.phone || '+243 (0)XX XXX XXXX';
+  const email = settings?.email || 'info@celluleinfra.cd';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -117,13 +129,7 @@ export default async function ContactPage({ params }: Props) {
                 <MapPin className="mt-0.5 h-6 w-6 text-rdc-blue" />
                 <div>
                   <h3 className="mb-2 font-bold text-gray-900">{t('info.address')}</h3>
-                  <p className="text-sm text-gray-600">
-                    Avenue de la Justice
-                    <br />
-                    Gombe, Kinshasa
-                    <br />
-                    République Démocratique du Congo
-                  </p>
+                  <p className="whitespace-pre-line text-sm text-gray-600">{address}</p>
                 </div>
               </div>
             </Card>
@@ -134,11 +140,7 @@ export default async function ContactPage({ params }: Props) {
                 <Phone className="mt-0.5 h-6 w-6 text-rdc-blue" />
                 <div>
                   <h3 className="mb-2 font-bold text-gray-900">{t('info.phone')}</h3>
-                  <p className="text-sm text-gray-600">
-                    +243 (0)XX XXX XXXX
-                    <br />
-                    +243 (0)XX XXX XXXX
-                  </p>
+                  <p className="whitespace-pre-line text-sm text-gray-600">{phone}</p>
                 </div>
               </div>
             </Card>
@@ -150,8 +152,8 @@ export default async function ContactPage({ params }: Props) {
                 <div>
                   <h3 className="mb-2 font-bold text-gray-900">{t('info.email')}</h3>
                   <p className="text-sm text-gray-600">
-                    <a href="mailto:info@celluleinfra.cd" className="hover:text-rdc-blue">
-                      info@celluleinfra.cd
+                    <a href={`mailto:${email}`} className="hover:text-rdc-blue">
+                      {email}
                     </a>
                   </p>
                 </div>

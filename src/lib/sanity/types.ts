@@ -286,6 +286,10 @@ export interface HomeSettings {
 export interface HomePageData {
   settings?: HomeSettings;
   stats: SiteStatistics;
+  heroProjects: Project[];
+  heroNews: News[];
+  heroProcurement: Procurement[];
+  heroPublications: Publication[];
   projects: Project[];
   news: News[];
   procurement: Procurement[];

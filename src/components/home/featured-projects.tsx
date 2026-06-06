@@ -8,6 +8,8 @@ import type { Project } from '@/lib/sanity/types';
 import { formatCurrency } from '@/lib/sanity/types';
 import { truncateText } from '@/lib/content-cleanup';
 
+const PROJECT_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
+
 function statusClass(status: string) {
   if (status === 'ongoing')
     return 'ci-badge ci-badge--blue';
@@ -32,6 +34,7 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
   if (!projects?.length) return null;
   const [featured, ...rest] = projects;
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
+  const featuredImage = featured.mainImage?.asset?.url || PROJECT_PLACEHOLDER_IMAGE;
 
   return (
     <section className="ci-section" style={{ background: 'var(--ci-bg-subtle)' }}>
@@ -80,9 +83,7 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
               style={{ gridRow: 'span 2', display: 'flex', flexDirection: 'column' }}
             >
               <div className="ci-project-card-img" style={{ flex: 1 }}>
-                {featured.mainImage?.asset?.url && (
-                  <img src={featured.mainImage.asset.url} alt={featured.mainImage.alt || featuredTitle} loading="lazy" />
-                )}
+                <img src={featuredImage} alt={featured.mainImage?.alt || featuredTitle} loading="lazy" />
               </div>
               <div className="ci-project-card-body">
                 <div className="ci-project-card-meta">
@@ -108,45 +109,46 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
             </Link>
 
             {/* Side stack */}
-            {rest.map((project) => (
-              <Link
-                key={project._id}
-                href={`/${locale}/projets/${project.slug}`}
-                className="ci-project-card"
-                style={{ display: 'flex', flexDirection: 'row' }}
-              >
-                <div
-                  style={{
-                    width: '8rem',
-                    flexShrink: 0,
-                    overflow: 'hidden',
-                    background: 'var(--ci-bg-tinted)',
-                  }}
+            {rest.map((project) => {
+              const projectTitle = isFr ? project.titleFr : project.titleEn;
+              const projectImage = project.mainImage?.asset?.url || PROJECT_PLACEHOLDER_IMAGE;
+              return (
+                <Link
+                  key={project._id}
+                  href={`/${locale}/projets/${project.slug}`}
+                  className="ci-project-card"
+                  style={{ display: 'flex', flexDirection: 'row' }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {project.mainImage?.asset?.url && (
+                  <div
+                    style={{
+                      width: '8rem',
+                      flexShrink: 0,
+                      overflow: 'hidden',
+                      background: 'var(--ci-bg-tinted)',
+                    }}
+                  >
                     <img
-                      src={project.mainImage.asset.url}
-                      alt={project.mainImage.alt || (isFr ? project.titleFr : project.titleEn)}
+                      src={projectImage}
+                      alt={project.mainImage?.alt || projectTitle}
                       loading="lazy"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }}
                     />
-                  )}
-                </div>
-                <div className="ci-project-card-body" style={{ flex: 1 }}>
-                  <div className="ci-project-card-meta">
-                    <MapPin size={11} />
-                    <span>{isFr ? project.province.nameFr : project.province.nameEn}</span>
                   </div>
-                  <h3 className="ci-project-card-title" style={{ fontSize: '0.9rem' }}>
-                    {truncateText(isFr ? project.titleFr : project.titleEn, 80)}
-                  </h3>
-                  <span className={statusClass(project.status)}>
-                    {statusLabel(project.status, isFr)}
-                  </span>
-                </div>
-              </Link>
-            ))}
+                  <div className="ci-project-card-body" style={{ flex: 1 }}>
+                    <div className="ci-project-card-meta">
+                      <MapPin size={11} />
+                      <span>{isFr ? project.province.nameFr : project.province.nameEn}</span>
+                    </div>
+                    <h3 className="ci-project-card-title" style={{ fontSize: '0.9rem' }}>
+                      {truncateText(projectTitle, 80)}
+                    </h3>
+                    <span className={statusClass(project.status)}>
+                      {statusLabel(project.status, isFr)}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </motion.div>
       </div>

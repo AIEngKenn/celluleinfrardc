@@ -1177,6 +1177,10 @@
     color: white;
     max-width: 18ch;
     margin-bottom: 1.25rem;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
   .ci-hero-desc {
     font-size: clamp(1rem, 1.5vw, 1.25rem);
@@ -1186,6 +1190,10 @@
     margin-inline: 0 auto;
     margin-bottom: 2rem;
     text-align: left;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
   .ci-hero-actions {
     display: flex;

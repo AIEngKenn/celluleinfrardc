@@ -6,10 +6,12 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import type { HomeHeroSlide } from '@/lib/sanity/types';
 
+const HERO_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
+
 const fallbackSlides: Required<Pick<HomeHeroSlide, 'titleFr' | 'image'>>[] & HomeHeroSlide[] = [
   {
     id: 1,
-    image: { asset: { _id: 'fallback-1', url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop' } },
+    image: { asset: { _id: 'fallback-1', url: HERO_PLACEHOLDER_IMAGE } },
     eyebrowFr: 'Infrastructure Routière',
     eyebrowEn: 'Road Infrastructure',
     titleFr: 'Moderniser les routes pour connecter la nation',
@@ -23,7 +25,7 @@ const fallbackSlides: Required<Pick<HomeHeroSlide, 'titleFr' | 'image'>>[] & Hom
   },
   {
     id: 2,
-    image: { asset: { _id: 'fallback-2', url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=1080&fit=crop' } },
+    image: { asset: { _id: 'fallback-2', url: HERO_PLACEHOLDER_IMAGE } },
     eyebrowFr: 'Énergie Hydroélectrique',
     eyebrowEn: 'Hydroelectric Energy',
     titleFr: "Investir dans l'énergie propre pour l'avenir",
@@ -36,7 +38,7 @@ const fallbackSlides: Required<Pick<HomeHeroSlide, 'titleFr' | 'image'>>[] & Hom
   },
   {
     id: 3,
-    image: { asset: { _id: 'fallback-3', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop' } },
+    image: { asset: { _id: 'fallback-3', url: HERO_PLACEHOLDER_IMAGE } },
     eyebrowFr: 'Développement Urbain',
     eyebrowEn: 'Urban Development',
     titleFr: 'Construire des villes inclusives et durables',
@@ -51,8 +53,8 @@ const fallbackSlides: Required<Pick<HomeHeroSlide, 'titleFr' | 'image'>>[] & Hom
 ];
 
 export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
-  const items = slides?.filter((slide) => slide.image?.asset?.url && slide.titleFr).length
-    ? slides.filter((slide) => slide.image?.asset?.url && slide.titleFr)
+  const items = slides?.filter((slide) => slide.titleFr).length
+    ? slides.filter((slide) => slide.titleFr)
     : fallbackSlides;
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -91,7 +93,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
           className="ci-hero-bg"
           aria-hidden="true"
           style={{
-            backgroundImage: `url(${s.image?.asset?.url})`,
+            backgroundImage: `url(${s.image?.asset?.url || HERO_PLACEHOLDER_IMAGE})`,
             opacity: i === current ? 1 : 0,
             transition: 'opacity 1s ease',
           }}

@@ -634,6 +634,18 @@ export const homePageQuery = groq`
       "publications": count(*[_type == "publication"]),
       "activeProcurement": count(*[_type == "procurement" && closingDate > now()])
     },
+    "heroProjects": *[_type == "project"] | order(_createdAt desc) [0...2] {
+      ${projectFields}
+    },
+    "heroNews": *[_type == "news"] | order(publishedAt desc, _createdAt desc) [0...2] {
+      ${newsFields}
+    },
+    "heroProcurement": *[_type == "procurement"] | order(openingDate desc, _createdAt desc) [0...2] {
+      ${procurementFields}
+    },
+    "heroPublications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...2] {
+      ${publicationFields}
+    },
     "projects": *[_type == "project"] | order(featured desc, _createdAt desc) [0...3] {
       ${projectFields}
     },

@@ -10,6 +10,8 @@ import { Card } from '@/components/ui/card';
 import { MapPin, Calendar, TrendingUp, Download, ArrowLeft, Building2, Clock } from 'lucide-react';
 import { ProjectMap } from '@/components/projects/project-map-loader';
 import { SharePanel } from '@/components/share/share-panel';
+import { truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -28,15 +30,21 @@ export async function generateMetadata({ params }: Props) {
   const title = locale === 'fr' ? project.titleFr : project.titleEn;
   const description = locale === 'fr' ? project.descriptionFr : project.descriptionEn;
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: `/projets/${project.slug}`,
     title,
     description: description.substring(0, 160),
-    openGraph: {
+    image: project.mainImage?.asset?.url,
+    type: 'article',
+    modifiedTime: project._updatedAt,
+    keywords: [
       title,
-      description,
-      images: project.mainImage ? [project.mainImage.asset.url] : [],
-    },
-  };
+      project.sector,
+      project.province?.nameFr || project.province?.nameEn || '',
+      'projet infrastructure RDC',
+    ],
+  });
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
@@ -361,7 +369,10 @@ export default async function ProjectDetailPage({ params }: Props) {
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {moreProjects.map((item) => (
+              {moreProjects.map((item) => {
+                const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
+                const displayTitle = truncateText(itemTitle, 95);
+                return (
                 <Link key={item._id} href={`/${locale}/projets/${item.slug}`} className="group">
                   <Card className="h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-lg">
                     {item.mainImage ? (
@@ -381,13 +392,17 @@ export default async function ProjectDetailPage({ params }: Props) {
                       <Badge variant="outline" className="mb-3">
                         {t(`status.${item.status}`)}
                       </Badge>
-                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
-                        {locale === 'fr' ? item.titleFr : item.titleEn}
+                      <h3
+                        className="font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue"
+                        title={itemTitle}
+                      >
+                        {displayTitle}
                       </h3>
                     </div>
                   </Card>
                 </Link>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}

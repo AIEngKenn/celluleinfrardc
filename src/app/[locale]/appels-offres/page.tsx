@@ -9,11 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Calendar, FileText, ArrowRight, AlertCircle } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Pagination } from '@/components/ui/pagination';
-import { pageWindow } from '@/lib/content-cleanup';
+import { cleanMigratedText, pageWindow, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tab?: 'open' | 'closed'; page?: string }>;
+  searchParams: Promise<{ tab?: string; status?: string; page?: string }>;
 }
 
 const PAGE_SIZE = 10;
@@ -22,16 +23,20 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'procurement' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/appels-offres',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ["appels d'offres RDC", 'marchés publics infrastructures', 'procurement DRC'],
+  });
 }
 
 export default async function ProcurementPage({ params, searchParams }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { tab = 'open', page: pageParam } = await searchParams;
+  const { tab, status, page: pageParam } = await searchParams;
+  const activeTab: 'open' | 'closed' = tab === 'closed' || status === 'closed' ? 'closed' : 'open';
   const t = await getTranslations({ locale, namespace: 'procurement' });
   const { page, start, end } = pageWindow(pageParam, PAGE_SIZE);
 
@@ -42,7 +47,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
     closedTotal: number;
   }>({
     query: procurementPaginatedQuery,
-    params: { tab, start, end },
+    params: { tab: activeTab, start, end },
     tags: ['procurement'],
   });
 
@@ -63,7 +68,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
             <Link
               href={`/${locale}/appels-offres?tab=open`}
               className={`border-b-2 px-2 pb-4 font-medium transition-colors ${
-                tab === 'open'
+                activeTab === 'open'
                   ? 'border-rdc-blue text-rdc-blue'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
@@ -76,7 +81,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
             <Link
               href={`/${locale}/appels-offres?tab=closed`}
               className={`border-b-2 px-2 pb-4 font-medium transition-colors ${
-                tab === 'closed'
+                activeTab === 'closed'
                   ? 'border-rdc-blue text-rdc-blue'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
@@ -90,7 +95,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
         </div>
 
         {/* Alert for open procurements */}
-        {tab === 'open' && procurementResult.openTotal > 0 && (
+        {activeTab === 'open' && procurementResult.openTotal > 0 && (
           <div className="mb-8 rounded-lg border border-rdc-yellow/30 bg-rdc-yellow/10 p-4">
             <div className="flex items-start gap-3">
               <AlertCircle className="mt-0.5 h-5 w-5 text-rdc-yellow" />
@@ -106,7 +111,10 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
         <div className="space-y-6">
           {currentProcurement.map((proc) => {
             const title = locale === 'fr' ? proc.titleFr : proc.titleEn;
-            const description = locale === 'fr' ? proc.descriptionFr : proc.descriptionEn;
+            const displayTitle = truncateText(title, 130);
+            const description = cleanMigratedText(
+              locale === 'fr' ? proc.descriptionFr : proc.descriptionEn
+            );
             const closingDate = new Date(proc.closingDate);
             const openingDate = new Date(proc.openingDate);
             const today = new Date();
@@ -127,7 +135,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
                       <div className="flex-1">
                         <div className="mb-2 flex items-center gap-2">
                           <span className="font-mono text-sm text-gray-500">{proc.reference}</span>
-                          <Badge variant={tab === 'open' ? 'default' : 'secondary'}>
+                          <Badge variant={activeTab === 'open' ? 'default' : 'secondary'}>
                             {t(`categories.${proc.category}`)}
                           </Badge>
                           {isUrgent && (
@@ -137,8 +145,11 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
                           )}
                         </div>
                         <Link href={`/${locale}/appels-offres/${proc.slug}`}>
-                          <h3 className="text-xl font-bold text-gray-900 transition-colors hover:text-rdc-blue">
-                            {title}
+                          <h3
+                            className="text-xl font-bold text-gray-900 transition-colors hover:text-rdc-blue"
+                            title={title}
+                          >
+                            {displayTitle}
                           </h3>
                         </Link>
                       </div>
@@ -230,7 +241,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <FileText className="mb-4 h-16 w-16 text-gray-300" />
             <p className="text-lg font-medium text-gray-500">
-              {tab === 'open' ? t('noOpenProcurement') : t('noClosedProcurement')}
+              {activeTab === 'open' ? t('noOpenProcurement') : t('noClosedProcurement')}
             </p>
           </div>
         )}
@@ -240,7 +251,7 @@ export default async function ProcurementPage({ params, searchParams }: Props) {
           pageSize={PAGE_SIZE}
           total={procurementResult.total}
           basePath={`/${locale}/appels-offres`}
-          searchParams={{ tab }}
+          searchParams={{ tab: activeTab }}
           labels={{ previous: 'Précédent', next: 'Suivant', page: 'Page' }}
         />
       </div>

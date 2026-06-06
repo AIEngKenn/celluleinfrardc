@@ -6,6 +6,7 @@ import { fullSearchQuery } from '@/lib/sanity/queries';
 import { PageHeader } from '@/components/ui/page-header';
 import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '@/components/search/search-form';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -60,11 +61,20 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const { locale } = await params;
   const { q } = await searchParams;
   const t = await getTranslations({ locale, namespace: 'search' });
-  return {
-    title: q
+  const title = q
       ? `${t('searchFor', { query: q })} - Cellule Infrastructures RDC`
-      : `${t('title')} - Cellule Infrastructures RDC`,
-  };
+      : `${t('title')} - Cellule Infrastructures RDC`;
+
+  return createSeoMetadata({
+    locale,
+    path: '/recherche',
+    title,
+    description:
+      locale === 'fr'
+        ? 'Recherche dans les projets, actualités, appels d’offres et publications de la Cellule Infrastructures RDC.'
+        : 'Search projects, news, procurement opportunities and publications from the DRC Infrastructure Unit.',
+    noIndex: true,
+  });
 }
 
 export default async function RecherchePage({ params, searchParams }: Props) {

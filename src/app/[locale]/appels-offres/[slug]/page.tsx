@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calendar, FileText, Download, ArrowLeft, AlertCircle, Clock } from 'lucide-react';
 import { SharePanel } from '@/components/share/share-panel';
+import { cleanMigratedText, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -25,12 +27,25 @@ export async function generateMetadata({ params }: Props) {
   if (!procurement) return {};
 
   const title = locale === 'fr' ? procurement.titleFr : procurement.titleEn;
-  const description = locale === 'fr' ? procurement.descriptionFr : procurement.descriptionEn;
+  const description = cleanMigratedText(
+    locale === 'fr' ? procurement.descriptionFr : procurement.descriptionEn
+  );
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: `/appels-offres/${procurement.slug}`,
     title: `${procurement.reference} - ${title}`,
     description,
-  };
+    type: 'article',
+    publishedTime: procurement.openingDate,
+    modifiedTime: procurement._updatedAt,
+    keywords: [
+      procurement.reference,
+      title,
+      "appel d'offres infrastructures RDC",
+      procurement.category,
+    ],
+  });
 }
 
 export default async function ProcurementDetailPage({ params }: Props) {
@@ -55,7 +70,9 @@ export default async function ProcurementDetailPage({ params }: Props) {
   }
 
   const title = locale === 'fr' ? procurement.titleFr : procurement.titleEn;
-  const description = locale === 'fr' ? procurement.descriptionFr : procurement.descriptionEn;
+  const description = cleanMigratedText(
+    locale === 'fr' ? procurement.descriptionFr : procurement.descriptionEn
+  );
   const closingDate = new Date(procurement.closingDate);
   const openingDate = new Date(procurement.openingDate);
   const today = new Date();
@@ -288,6 +305,7 @@ export default async function ProcurementDetailPage({ params }: Props) {
             <div className="grid gap-4 md:grid-cols-3">
               {moreProcurement.map((item) => {
                 const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
+                const displayTitle = truncateText(itemTitle, 100);
                 const docs = item.attachments?.filter((doc) => doc.file?.asset?.url).length ?? 0;
                 return (
                   <Link
@@ -297,8 +315,11 @@ export default async function ProcurementDetailPage({ params }: Props) {
                   >
                     <Card className="h-full border-l-4 border-l-rdc-yellow p-5 transition-shadow hover:shadow-lg">
                       <p className="mb-2 font-mono text-xs text-gray-500">{item.reference}</p>
-                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
-                        {itemTitle}
+                      <h3
+                        className="font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue"
+                        title={itemTitle}
+                      >
+                        {displayTitle}
                       </h3>
                       <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                         <span>

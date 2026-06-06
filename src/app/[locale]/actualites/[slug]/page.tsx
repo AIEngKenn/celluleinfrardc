@@ -9,6 +9,8 @@ import { Card } from '@/components/ui/card';
 import { Calendar, ArrowLeft, Tag, Newspaper } from 'lucide-react';
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import { SharePanel } from '@/components/share/share-panel';
+import { truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -45,17 +47,17 @@ export async function generateMetadata({ params }: Props) {
   const title = locale === 'fr' ? article.titleFr : article.titleEn;
   const excerpt = locale === 'fr' ? article.excerptFr : article.excerptEn;
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: `/actualites/${article.slug}`,
     title,
     description: excerpt,
-    openGraph: {
-      title,
-      description: excerpt,
-      images: article.mainImage ? [article.mainImage.asset.url] : [],
-      type: 'article',
-      publishedTime: article.publishedAt,
-    },
-  };
+    image: article.mainImage?.asset?.url,
+    type: 'article',
+    publishedTime: article.publishedAt,
+    modifiedTime: article._updatedAt,
+    keywords: [title, locale === 'fr' ? article.category.nameFr : article.category.nameEn],
+  });
 }
 
 export default async function NewsDetailPage({ params }: Props) {
@@ -196,7 +198,10 @@ export default async function NewsDetailPage({ params }: Props) {
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {moreNews.map((item) => (
+              {moreNews.map((item) => {
+                const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
+                const displayTitle = truncateText(itemTitle, 95);
+                return (
                 <Link key={item._id} href={`/${locale}/actualites/${item.slug}`} className="group">
                   <Card className="h-full overflow-hidden border-t-4 border-t-rdc-blue transition-shadow hover:shadow-lg">
                     {item.mainImage ? (
@@ -219,13 +224,17 @@ export default async function NewsDetailPage({ params }: Props) {
                           { year: 'numeric', month: 'short', day: 'numeric' }
                         )}
                       </p>
-                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
-                        {locale === 'fr' ? item.titleFr : item.titleEn}
+                      <h3
+                        className="font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue"
+                        title={itemTitle}
+                      >
+                        {displayTitle}
                       </h3>
                     </div>
                   </Card>
                 </Link>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}

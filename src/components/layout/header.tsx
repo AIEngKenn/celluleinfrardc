@@ -30,7 +30,7 @@ const navItems = [
       {
         labelFr: 'Marchés attribués',
         labelEn: 'Awarded contracts',
-        href: '/appels-offres?status=closed',
+        href: '/appels-offres?tab=closed',
       },
     ],
   },

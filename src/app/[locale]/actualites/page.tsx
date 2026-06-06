@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Pagination } from '@/components/ui/pagination';
-import { pageWindow } from '@/lib/content-cleanup';
+import { pageWindow, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -22,10 +23,13 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'news' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/actualites',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ['actualité infrastructures RDC', 'Cellule Infrastructures', 'travaux publics RDC'],
+  });
 }
 
 export default async function NewsPage({ params, searchParams }: Props) {
@@ -95,6 +99,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {news.map((article) => {
             const title = locale === 'fr' ? article.titleFr : article.titleEn;
+            const displayTitle = truncateText(title, 105);
             const excerpt = locale === 'fr' ? article.excerptFr : article.excerptEn;
 
             return (
@@ -126,8 +131,11 @@ export default async function NewsPage({ params, searchParams }: Props) {
                       </Badge>
                     </div>
 
-                    <h3 className="mb-3 line-clamp-3 text-xl font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue">
-                      {title}
+                    <h3
+                      className="mb-3 text-xl font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
+                      title={title}
+                    >
+                      {displayTitle}
                     </h3>
 
                     <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">{excerpt}</p>

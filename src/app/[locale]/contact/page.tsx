@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -14,10 +15,13 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'contact' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/contact',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ['contact Cellule Infrastructures', 'contact infrastructures RDC', 'Kinshasa'],
+  });
 }
 
 export default async function ContactPage({ params }: Props) {

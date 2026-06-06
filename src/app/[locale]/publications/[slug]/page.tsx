@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Calendar, FileText, Download, ArrowLeft, FileWarning } from 'lucide-react';
 import { SharePanel } from '@/components/share/share-panel';
-import { cleanMigratedText } from '@/lib/content-cleanup';
+import { cleanMigratedText, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -29,15 +30,17 @@ export async function generateMetadata({ params }: Props) {
     locale === 'fr' ? publication.descriptionFr : publication.descriptionEn
   );
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: `/publications/${publication.slug}`,
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: publication.coverImage ? [publication.coverImage.asset.url] : [],
-    },
-  };
+    image: publication.coverImage?.asset?.url,
+    type: 'article',
+    publishedTime: publication.publishedAt,
+    modifiedTime: publication._updatedAt,
+    keywords: [title, publication.publicationType, 'publication infrastructures RDC'],
+  });
 }
 
 export default async function PublicationDetailPage({ params }: Props) {
@@ -62,7 +65,9 @@ export default async function PublicationDetailPage({ params }: Props) {
   }
 
   const title = locale === 'fr' ? publication.titleFr : publication.titleEn;
-  const description = locale === 'fr' ? publication.descriptionFr : publication.descriptionEn;
+  const description = cleanMigratedText(
+    locale === 'fr' ? publication.descriptionFr : publication.descriptionEn
+  );
   const pdfAsset = publication.pdfFile?.asset;
   const formattedDate = new Date(publication.publishedAt).toLocaleDateString(
     locale === 'fr' ? 'fr-FR' : 'en-US',
@@ -273,6 +278,7 @@ export default async function PublicationDetailPage({ params }: Props) {
             <div className="grid gap-4 md:grid-cols-3">
               {morePublications.map((item) => {
                 const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
+                const displayTitle = truncateText(itemTitle, 95);
                 const hasFile = Boolean(item.pdfFile?.asset?.url);
                 return (
                   <Link key={item._id} href={`/${locale}/publications/${item.slug}`} className="group">
@@ -285,8 +291,11 @@ export default async function PublicationDetailPage({ params }: Props) {
                           <FileWarning className="h-5 w-5 text-amber-600" />
                         )}
                       </div>
-                      <h3 className="line-clamp-3 font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue">
-                        {itemTitle}
+                      <h3
+                        className="font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue"
+                        title={itemTitle}
+                      >
+                        {displayTitle}
                       </h3>
                       <p className="mt-3 text-sm text-gray-500">
                         {new Date(item.publishedAt).toLocaleDateString(

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PageHeader } from '@/components/ui/page-header';
 import { Building2, Users, Globe, FileCheck } from 'lucide-react';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -8,16 +9,19 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/a-propos',
     title:
       locale === 'fr'
         ? 'À propos — Cellule Infrastructures RDC'
         : 'About — Cellule Infrastructures DRC',
     description:
       locale === 'fr'
-        ? 'Présentation de la Cellule Infrastructures de la République Démocratique du Congo'
-        : 'Overview of the Infrastructure Cell of the Democratic Republic of Congo',
-  };
+        ? 'Présentation de la Cellule Infrastructures de la République Démocratique du Congo, son mandat, ses missions et ses partenariats.'
+        : 'Overview of the DRC Infrastructure Unit, its mandate, missions and partnerships.',
+    keywords: ['Cellule Infrastructures', 'mission infrastructures RDC', 'maîtrise ouvrage RDC'],
+  });
 }
 
 export default async function AboutPage({ params }: Props) {

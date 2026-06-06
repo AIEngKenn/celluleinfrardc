@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Play, Download, ExternalLink, Calendar, Folder } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
+import { createSeoMetadata } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
@@ -19,10 +20,13 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'media' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/mediatheque',
     title: t('title'),
     description: t('description'),
-  };
+    keywords: ['médiathèque infrastructures RDC', 'photos projets RDC', 'vidéos infrastructures'],
+  });
 }
 
 export default async function MediaCenterPage({ params }: { params: Promise<{ locale: string }> }) {

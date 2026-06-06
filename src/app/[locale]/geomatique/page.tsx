@@ -3,6 +3,7 @@ import { sanityFetch } from '@/lib/sanity/client';
 import { projectsMapDataQuery } from '@/lib/sanity/queries';
 import type { ProjectMapData } from '@/lib/sanity/types';
 import GeomaticsMapLoader from '@/components/geomatics/geomatics-map-loader';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -12,10 +13,13 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'geomatics' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/geomatique',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ['carte infrastructures RDC', 'géomatique RDC', 'projets localisés RDC'],
+  });
 }
 
 export default async function GeomaticsPage({ params }: Props) {

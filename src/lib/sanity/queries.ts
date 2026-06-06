@@ -746,3 +746,67 @@ export const albumBySlugQuery = groq`
     }
   }
 `;
+
+// ============================================================================
+// SEO ENDPOINT QUERIES
+// ============================================================================
+
+export const seoSitemapQuery = groq`
+  {
+    "projects": *[_type == "project" && defined(slug.current)] | order(_updatedAt desc) {
+      _id,
+      _updatedAt,
+      "slug": slug.current
+    },
+    "news": *[_type == "news" && defined(slug.current)] | order(coalesce(publishedAt, _updatedAt) desc) {
+      _id,
+      _updatedAt,
+      publishedAt,
+      "slug": slug.current
+    },
+    "publications": *[_type == "publication" && defined(slug.current)] | order(coalesce(publishedAt, _updatedAt) desc) {
+      _id,
+      _updatedAt,
+      publishedAt,
+      "slug": slug.current
+    },
+    "procurement": *[_type == "procurement" && defined(slug.current)] | order(coalesce(closingDate, _updatedAt) desc) {
+      _id,
+      _updatedAt,
+      closingDate,
+      "slug": slug.current
+    },
+    "mediaAlbums": *[_type == "mediaAlbum" && defined(slug.current)] | order(coalesce(date, _updatedAt) desc) {
+      _id,
+      _updatedAt,
+      date,
+      "slug": slug.current
+    }
+  }
+`;
+
+export const seoFeedQuery = groq`
+  {
+    "news": *[_type == "news" && defined(slug.current)] | order(coalesce(publishedAt, _createdAt) desc) [0...20] {
+      _id,
+      titleFr,
+      titleEn,
+      excerptFr,
+      excerptEn,
+      publishedAt,
+      _updatedAt,
+      "slug": slug.current,
+      mainImage{ asset->{ url } }
+    },
+    "publications": *[_type == "publication" && defined(slug.current)] | order(coalesce(publishedAt, _createdAt) desc) [0...10] {
+      _id,
+      titleFr,
+      titleEn,
+      descriptionFr,
+      descriptionEn,
+      publishedAt,
+      _updatedAt,
+      "slug": slug.current
+    }
+  }
+`;

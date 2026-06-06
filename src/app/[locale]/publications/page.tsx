@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, FileText, Download, Eye, FileWarning } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Pagination } from '@/components/ui/pagination';
-import { cleanMigratedText, pageWindow } from '@/lib/content-cleanup';
+import { cleanMigratedText, pageWindow, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -21,10 +22,13 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'publications' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/publications',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ['publications infrastructures RDC', 'rapports', 'documents projets RDC'],
+  });
 }
 
 export default async function PublicationsPage({ params, searchParams }: Props) {
@@ -116,6 +120,7 @@ export default async function PublicationsPage({ params, searchParams }: Props) 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {publications.map((publication) => {
             const title = locale === 'fr' ? publication.titleFr : publication.titleEn;
+            const displayTitle = truncateText(title, 115);
             const description = cleanMigratedText(
               locale === 'fr' ? publication.descriptionFr : publication.descriptionEn
             );
@@ -168,8 +173,11 @@ export default async function PublicationsPage({ params, searchParams }: Props) 
                     </span>
                   </div>
 
-                  <h3 className="mb-2 line-clamp-3 text-lg font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue">
-                    {title}
+                  <h3
+                    className="mb-2 text-lg font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
+                    title={title}
+                  >
+                    {displayTitle}
                   </h3>
 
                   <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600">{description}</p>

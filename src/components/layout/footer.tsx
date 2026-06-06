@@ -24,6 +24,8 @@ export function Footer() {
         { label: isFr ? 'Médiathèque' : 'Media Center', href: '/mediatheque' },
         { label: isFr ? 'Géomatique' : 'Geomatics', href: '/geomatique' },
         { label: isFr ? 'Plaintes & Réclamations' : 'Complaints', href: '/reclamations' },
+        { label: isFr ? 'Plan du site' : 'Sitemap', href: '/sitemap.xml', root: true },
+        { label: isFr ? 'Flux RSS' : 'RSS feed', href: '/rss.xml', root: true },
       ],
     },
     {
@@ -35,6 +37,8 @@ export function Footer() {
         },
         { label: isFr ? "Conditions d'utilisation" : 'Terms of Use', href: '/conditions' },
         { label: isFr ? 'Accessibilité' : 'Accessibility', href: '/accessibilite' },
+        // { label: 'LLMs.txt', href: '/llms.txt', root: true },
+        // { label: 'Robots.txt', href: '/robots.txt', root: true },
         { label: 'Contact', href: '/contact' },
       ],
     },
@@ -80,9 +84,15 @@ export function Footer() {
               <ul role="list" className="ci-footer-col-list">
                 {section.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={`/${locale}${link.href}`} className="ci-footer-link">
-                      {link.label}
-                    </Link>
+                    {'root' in link && link.root ? (
+                      <a href={link.href} className="ci-footer-link">
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={`/${locale}${link.href}`} className="ci-footer-link">
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

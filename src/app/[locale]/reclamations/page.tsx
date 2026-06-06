@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Search, AlertCircle, CheckCircle2, Clock, XCircle, Info } from 'lucide-react';
+import { createSeoMetadata } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
@@ -24,10 +25,13 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'complaints' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/reclamations',
     title: t('title'),
     description: t('description'),
-  };
+    keywords: ['réclamations infrastructures RDC', 'plaintes projets RDC', 'transparence RDC'],
+  });
 }
 
 export default async function ComplaintsPage({ params }: { params: Promise<{ locale: string }> }) {

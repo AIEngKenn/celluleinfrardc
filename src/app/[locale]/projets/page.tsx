@@ -10,7 +10,8 @@ import { ArrowRight, Building2, MapPin, TrendingUp } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { ProjectFilters } from '@/components/projects/project-filters';
 import { Pagination } from '@/components/ui/pagination';
-import { pageWindow } from '@/lib/content-cleanup';
+import { pageWindow, truncateText } from '@/lib/content-cleanup';
+import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -23,10 +24,13 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'projects' });
 
-  return {
+  return createSeoMetadata({
+    locale,
+    path: '/projets',
     title: t('meta.title'),
     description: t('meta.description'),
-  };
+    keywords: ['projets infrastructures RDC', 'routes RDC', 'développement infrastructures'],
+  });
 }
 
 export default async function ProjectsPage({ params, searchParams }: Props) {
@@ -105,6 +109,7 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
           {filteredProjects.map((project) => {
             const projectTitle = locale === 'fr' ? project.titleFr : project.titleEn;
+            const displayTitle = truncateText(projectTitle, 110);
             return (
             <Link key={project._id} href={`/${locale}/projets/${project.slug}`} className="group">
               <Card className="grid h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-xl md:grid-cols-[14rem_1fr]">
@@ -138,8 +143,11 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
                     <Badge variant="outline">{t(`sectors.${project.sector}`)}</Badge>
                   </div>
 
-                  <h3 className="mb-3 line-clamp-3 text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue">
-                    {projectTitle}
+                  <h3
+                    className="mb-3 text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
+                    title={projectTitle}
+                  >
+                    {displayTitle}
                   </h3>
 
                   <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">

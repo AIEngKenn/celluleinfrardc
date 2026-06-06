@@ -45,7 +45,7 @@ export default async function ComplaintsPage({ params }: { params: Promise<{ loc
       {/* Header */}
       <div className="mb-8">
         <h1 className="mb-4 text-4xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="text-lg text-gray-600">{t('description')}</p>
+        <p className="text-lg text-left text-gray-600">{t('description')}</p>
       </div>
 
       {/* Info Banner */}

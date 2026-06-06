@@ -2,10 +2,31 @@ import type { Metadata } from 'next';
 import { createElement } from 'react';
 
 export const SITE_NAME = 'Cellule Infrastructures RDC';
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(
-  /\/$/,
-  ''
-);
+const PRODUCTION_SITE_URL = 'https://www.celluleinfra.org';
+
+function normalizeSiteUrl(value?: string) {
+  if (!value) return undefined;
+  const withProtocol = /^https?:\/\//.test(value) ? value : `https://${value}`;
+  return withProtocol.replace(/\/$/, '');
+}
+
+function isLocalUrl(value?: string) {
+  return Boolean(value && /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/i.test(value));
+}
+
+function getSiteUrl() {
+  const configuredUrl = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  const vercelProductionUrl = normalizeSiteUrl(process.env.VERCEL_PROJECT_PRODUCTION_URL);
+  const vercelUrl = normalizeSiteUrl(process.env.VERCEL_URL);
+
+  if (configuredUrl && (!isLocalUrl(configuredUrl) || process.env.NODE_ENV === 'development')) {
+    return configuredUrl;
+  }
+
+  return vercelProductionUrl || vercelUrl || PRODUCTION_SITE_URL;
+}
+
+export const SITE_URL = getSiteUrl();
 export const DEFAULT_OG_IMAGE = '/og-image.jpg';
 
 type Locale = 'fr' | 'en' | string;

@@ -535,7 +535,7 @@
 
   /* ── Government banner ── */
   .ci-banner {
-    background: var(--ci-navy);
+    background: #12336d;
     color: #cbd5e1;
     font-size: 0.7rem;
     letter-spacing: 0.02em;

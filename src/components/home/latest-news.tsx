@@ -8,12 +8,15 @@ import { formatDate } from '@/lib/utils';
 import type { News } from '@/lib/sanity/types';
 import { truncateText } from '@/lib/content-cleanup';
 
+const ARTICLE_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
+
 export function LatestNews({ news }: { news?: News[] }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
   if (!news?.length) return null;
   const [featured, ...rest] = news;
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
+  const featuredImage = featured.mainImage?.asset?.url || ARTICLE_PLACEHOLDER_IMAGE;
 
   return (
     <section className="ci-section" style={{ background: 'white' }}>
@@ -49,15 +52,13 @@ export function LatestNews({ news }: { news?: News[] }) {
         >
           {/* Featured article */}
           <Link href={`/${locale}/actualites/${featured.slug}`} className="ci-news-featured">
-            {featured.mainImage?.asset?.url && (
-              <div className="ci-news-featured-img">
-                <img
-                  src={featured.mainImage.asset.url}
-                  alt={featured.mainImage.alt || featuredTitle}
-                  loading="lazy"
-                />
-              </div>
-            )}
+            <div className="ci-news-featured-img">
+              <img
+                src={featuredImage}
+                alt={featured.mainImage?.alt || featuredTitle}
+                loading="lazy"
+              />
+            </div>
             <div className="ci-news-featured-body">
               <div className="ci-news-row-category" style={{ marginBottom: '0.75rem' }}>
                 {isFr ? featured.category.nameFr : featured.category.nameEn}

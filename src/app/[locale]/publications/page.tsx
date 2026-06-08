@@ -5,7 +5,7 @@ import { publicationsListQuery, publicationsPaginatedQuery } from '@/lib/sanity/
 import type { Publication } from '@/lib/sanity/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, FileText, Download, Eye, FileWarning } from 'lucide-react';
+import { Calendar, FileText, Download, Eye, FileWarning, ArrowRight } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Pagination } from '@/components/ui/pagination';
 import { cleanMigratedText, pageWindow, truncateText } from '@/lib/content-cleanup';
@@ -113,7 +113,9 @@ export default async function PublicationsPage({ params, searchParams }: Props) 
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">{t('resultsCount', { count: publicationResult.total })}</p>
+          <p className="text-left text-gray-600">
+            {t('resultsCount', { count: publicationResult.total })}
+          </p>
         </div>
 
         {/* Publications Grid */}
@@ -129,89 +131,159 @@ export default async function PublicationsPage({ params, searchParams }: Props) 
               ? `${(pdfAsset.size / 1024 / 1024).toFixed(2)} MB`
               : null;
 
+            // return (
+            //   <Card
+            //     key={publication._id}
+            //     className="group flex h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-lg"
+            //   >
+            //     <div className="flex w-28 flex-shrink-0 items-center justify-center bg-rdc-blue/5 md:w-36">
+            //       {publication.coverImage ? (
+            //         <img
+            //           src={publication.coverImage.asset.url}
+            //           alt={title}
+            //           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            //         />
+            //       ) : (
+            //         <div className="flex h-full min-h-48 w-full flex-col items-center justify-center px-4 text-center text-rdc-blue">
+            //           <FileText className="mb-2 h-10 w-10" />
+            //           <span className="text-xs font-semibold uppercase tracking-wide">PDF</span>
+            //         </div>
+            //       )}
+            //     </div>
+
+            //     <div className="flex min-w-0 flex-1 flex-col p-5">
+            //       <div className="mb-3 flex flex-wrap items-center gap-2">
+            //         <Badge variant="outline">{t(`types.${publication.publicationType}`)}</Badge>
+            //         <span
+            //           className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
+            //             pdfAsset
+            //               ? 'bg-green-50 text-green-700'
+            //               : 'bg-amber-50 text-amber-700'
+            //           }`}
+            //         >
+            //           {pdfAsset ? (
+            //             <>
+            //               <FileText className="h-3.5 w-3.5" />
+            //               PDF
+            //             </>
+            //           ) : (
+            //             <>
+            //               <FileWarning className="h-3.5 w-3.5" />
+            //               {locale === 'fr' ? 'Fichier manquant' : 'Missing file'}
+            //             </>
+            //           )}
+            //         </span>
+            //       </div>
+
+            //       <h3
+            //         className="mb-2 text-lg font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
+            //         title={title}
+            //       >
+            //         {displayTitle}
+            //       </h3>
+
+            //       <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600">{description}</p>
+
+            //       <div className="mb-4 flex items-center gap-2 text-sm text-gray-500">
+            //         <Calendar className="h-4 w-4" />
+            //         <span>{formatDate(publication.publishedAt)}</span>
+            //         {fileSize && <span className="text-gray-300">|</span>}
+            //         {fileSize && <span>{fileSize}</span>}
+            //       </div>
+
+            //       <div className="mt-auto flex gap-2">
+            //         <Link
+            //           href={`/${locale}/publications/${publication.slug}`}
+            //           className="flex flex-1 items-center justify-center gap-2 rounded-md bg-rdc-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-rdc-blue/90"
+            //         >
+            //           <Eye className="h-4 w-4" />
+            //           {t('view')}
+            //         </Link>
+            //         {pdfAsset && (
+            //           <a
+            //             href={pdfAsset.url}
+            //             download
+            //             target="_blank"
+            //             rel="noopener noreferrer"
+            //             className="flex items-center justify-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50"
+            //             aria-label={t('download')}
+            //           >
+            //             <Download className="h-4 w-4" />
+            //           </a>
+            //         )}
+            //       </div>
+            //     </div>
+            //   </Card>
+            // );
+
             return (
-              <Card
+              <Link
                 key={publication._id}
-                className="group flex h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-lg"
+                href={`/${locale}/publications/${publication.slug}`}
+                className="group block h-full"
               >
-                <div className="flex w-28 flex-shrink-0 items-center justify-center bg-rdc-blue/5 md:w-36">
-                  {publication.coverImage ? (
-                    <img
-                      src={publication.coverImage.asset.url}
-                      alt={title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full min-h-48 w-full flex-col items-center justify-center px-4 text-center text-rdc-blue">
-                      <FileText className="mb-2 h-10 w-10" />
-                      <span className="text-xs font-semibold uppercase tracking-wide">PDF</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex min-w-0 flex-1 flex-col p-5">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <Badge variant="outline">{t(`types.${publication.publicationType}`)}</Badge>
-                    <span
-                      className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-                        pdfAsset
-                          ? 'bg-green-50 text-green-700'
-                          : 'bg-amber-50 text-amber-700'
-                      }`}
-                    >
-                      {pdfAsset ? (
-                        <>
-                          <FileText className="h-3.5 w-3.5" />
-                          PDF
-                        </>
-                      ) : (
-                        <>
-                          <FileWarning className="h-3.5 w-3.5" />
-                          {locale === 'fr' ? 'Fichier manquant' : 'Missing file'}
-                        </>
-                      )}
-                    </span>
-                  </div>
-
-                  <h3
-                    className="mb-2 text-lg font-semibold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
-                    title={title}
-                  >
-                    {displayTitle}
-                  </h3>
-
-                  <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600">{description}</p>
-
-                  <div className="mb-4 flex items-center gap-2 text-sm text-gray-500">
-                    <Calendar className="h-4 w-4" />
-                    <span>{formatDate(publication.publishedAt)}</span>
-                    {fileSize && <span className="text-gray-300">|</span>}
-                    {fileSize && <span>{fileSize}</span>}
-                  </div>
-
-                  <div className="mt-auto flex gap-2">
-                    <Link
-                      href={`/${locale}/publications/${publication.slug}`}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-md bg-rdc-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-rdc-blue/90"
-                    >
-                      <Eye className="h-4 w-4" />
-                      {t('view')}
-                    </Link>
-                    {pdfAsset && (
-                      <a
-                        href={pdfAsset.url}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50"
-                        aria-label={t('download')}
-                      >
-                        <Download className="h-4 w-4" />
-                      </a>
+                <article className="flex h-auto flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#CE1021]/20 hover:shadow-2xl">
+                  <div className="relative aspect-[16/10] h-1/3 overflow-hidden bg-slate-100">
+                    {publication.coverImage ? (
+                      <>
+                        <img
+                          src={publication.coverImage.asset.url}
+                          alt={title}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
+                      </>
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-slate-50">
+                        <FileText className="h-16 w-16 text-slate-300" />
+                      </div>
                     )}
+
+                    <div className="absolute left-4 top-4">
+                      <span className="inline-flex items-center rounded-md bg-[#CE1021] px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg">
+                        PDF
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Card>
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-4">
+                      <span className="inline-flex items-center rounded-full bg-[#CE1021]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#CE1021]">
+                        {t(`types.${publication.publicationType}`)}
+                      </span>
+                    </div>
+
+                    <h3
+                      title={title}
+                      className="mb-3 line-clamp-2 text-xl font-bold leading-tight text-slate-900 transition-colors duration-300 group-hover:text-[#CE1021]"
+                    >
+                      {displayTitle}
+                    </h3>
+
+                    <p className="mb-6 line-clamp-3 text-sm leading-7 text-slate-600">
+                      {description}
+                    </p>
+
+                    <div className="mb-5 flex items-center gap-2 text-sm text-slate-500">
+                      <Calendar className="h-4 w-4 flex-shrink-0" />
+                      <span>{formatDate(publication.publishedAt)}</span>
+                    </div>
+
+                    <div className="mt-auto border-t border-slate-100 pt-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-sm text-slate-500">
+                          {fileSize && <span className="font-medium">{fileSize}</span>}
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm font-semibold text-[#CE1021] transition-all duration-300 group-hover:gap-3">
+                          <span>{t('view')}</span>
+                          <ArrowRight className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </Link>
             );
           })}
         </div>

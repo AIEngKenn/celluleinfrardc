@@ -111,6 +111,7 @@ export interface Project {
 
 export interface ProjectPreview {
   _id: string;
+  publishedAt: string;
   titleFr: string;
   titleEn: string;
   slug: string;

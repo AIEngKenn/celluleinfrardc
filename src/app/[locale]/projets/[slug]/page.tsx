@@ -74,64 +74,77 @@ export default async function ProjectDetailPage({ params }: Props) {
   const documents = project.documents?.filter((doc) => doc.file?.asset?.url) ?? [];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Image */}
-      {project.mainImage && (
-        <div className="relative h-96 bg-gray-900">
-          <img
-            src={project.mainImage.asset.url}
-            alt={project.mainImage.alt || title}
-            className="h-full w-full object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8">
-            <div className="container mx-auto">
-              <Link
-                href={`/${locale}/projets`}
-                className="mb-4 inline-flex items-center gap-2 text-white hover:underline"
+    <div className="min-h-screen bg-slate-50">
+      {/* HERO */}
+      <div className="relative">
+        {project.mainImage ? (
+          <div className="relative h-[420px] overflow-hidden bg-slate-900">
+            <img
+              src={project.mainImage.asset.url}
+              alt={project.mainImage.alt || title}
+              className="h-full w-full scale-105 object-cover opacity-80"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+          </div>
+        ) : (
+          <div className="h-[240px] bg-gradient-to-br from-slate-900 to-slate-700" />
+        )}
+
+        <div className="absolute bottom-0 left-0 right-0">
+          <div className="mx-auto max-w-6xl px-6 py-10">
+            <Link
+              href={`/${locale}/projets`}
+              className="mb-4 inline-flex items-center gap-2 text-white/80 transition hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              {t('backToProjects')}
+            </Link>
+
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <Badge
+                className={
+                  project.status === 'completed'
+                    ? 'bg-emerald-600 text-white'
+                    : project.status === 'ongoing'
+                      ? 'bg-rdc-blue text-white'
+                      : 'bg-amber-500 text-white'
+                }
               >
-                <ArrowLeft className="h-4 w-4" />
-                {t('backToProjects')}
-              </Link>
-              <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">{title}</h1>
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge
-                  variant={
-                    project.status === 'completed'
-                      ? 'default'
-                      : project.status === 'ongoing'
-                        ? 'secondary'
-                        : 'outline'
-                  }
-                  className="bg-white/90"
-                >
-                  {t(`status.${project.status}`)}
-                </Badge>
-                <span className="text-lg font-semibold text-white">
-                  {project.progress}% {t('complete')}
-                </span>
-              </div>
+                {t(`status.${project.status}`)}
+              </Badge>
+
+              <span className="font-semibold text-white/90">
+                {project.progress}% {t('complete')}
+              </span>
+
+              <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
+                {t(`sectors.${project.sector}`)}
+              </span>
             </div>
+
+            <h1 className="text-3xl font-extrabold leading-tight text-white md:text-5xl">
+              {title}
+            </h1>
           </div>
         </div>
-      )}
+      </div>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Main Content */}
+      {/* BODY */}
+      <div className="mx-auto max-w-6xl px-6 py-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+          {/* LEFT */}
           <div className="space-y-8 lg:col-span-2">
-            {/* Description */}
-            <Card className="p-6">
-              <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('description')}</h2>
-              <div className="prose max-w-none text-gray-700">
-                <p className="whitespace-pre-wrap">{description}</p>
-              </div>
+            {/* DESCRIPTION */}
+            <Card className="rounded-2xl border border-slate-200 bg-white p-8">
+              <h2 className="mb-4 text-xl font-bold text-slate-900">{t('description')}</h2>
+              <p className="whitespace-pre-wrap leading-relaxed text-slate-700">{description}</p>
             </Card>
 
-            {/* Map */}
+            {/* MAP */}
             {project.location && (
-              <Card className="p-6">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('location')}</h2>
+              <Card className="rounded-2xl border border-slate-200 bg-white p-8">
+                <h2 className="mb-4 text-xl font-bold text-slate-900">{t('location')}</h2>
+
                 <ProjectMap
                   latitude={project.location.lat}
                   longitude={project.location.lng}
@@ -140,20 +153,21 @@ export default async function ProjectDetailPage({ params }: Props) {
               </Card>
             )}
 
-            {/* Gallery */}
+            {/* GALLERY */}
             {project.gallery && project.gallery.length > 0 && (
-              <Card className="p-6">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('gallery')}</h2>
+              <Card className="rounded-2xl border border-slate-200 bg-white p-8">
+                <h2 className="mb-6 text-xl font-bold text-slate-900">{t('gallery')}</h2>
+
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                   {project.gallery.map((image, index) => (
                     <div
                       key={index}
-                      className="aspect-video overflow-hidden rounded-lg bg-gray-200"
+                      className="group aspect-video overflow-hidden rounded-xl bg-slate-100"
                     >
                       <img
                         src={image.asset.url}
-                        alt={image.caption || `${title} - Image ${index + 1}`}
-                        className="h-full w-full cursor-pointer object-cover transition-transform hover:scale-105"
+                        alt={image.caption || `${title} ${index + 1}`}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                       />
                     </div>
                   ))}
@@ -161,80 +175,84 @@ export default async function ProjectDetailPage({ params }: Props) {
               </Card>
             )}
 
-            {/* Documents */}
+            {/* DOCUMENTS */}
             {documents.length > 0 && (
-              <Card className="p-6">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('documents')}</h2>
+              <Card className="rounded-2xl border border-slate-200 bg-white p-8">
+                <h2 className="mb-6 text-xl font-bold text-slate-900">{t('documents')}</h2>
+
                 <div className="space-y-3">
                   {documents.map((doc, index) => (
                     <a
                       key={index}
                       href={doc.file.asset?.url}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                      className="flex items-center justify-between rounded-xl border border-slate-200 p-4 transition hover:border-rdc-blue hover:bg-slate-50"
                     >
                       <div className="flex items-center gap-3">
                         <Download className="h-5 w-5 text-rdc-blue" />
                         <div>
-                          <p className="font-medium text-gray-900">
+                          <p className="font-medium text-slate-900">
                             {locale === 'fr' ? doc.titleFr : doc.titleEn}
                           </p>
                           {doc.file.asset?.size && (
-                            <p className="text-sm text-gray-500">
+                            <p className="text-xs text-slate-500">
                               {(doc.file.asset.size / 1024 / 1024).toFixed(2)} MB
                             </p>
                           )}
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm">
-                        {t('download')}
-                      </Button>
+
+                      <span className="text-sm font-semibold text-rdc-blue">{t('download')}</span>
                     </a>
                   ))}
                 </div>
               </Card>
             )}
 
-            {/* Related News */}
+            {/* RELATED NEWS */}
             {project.relatedNews && project.relatedNews.length > 0 && (
-              <Card className="p-6">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900">{t('relatedNews')}</h2>
+              <Card className="rounded-2xl border border-slate-200 bg-white p-8">
+                <h2 className="mb-6 text-xl font-bold text-slate-900">{t('relatedNews')}</h2>
+
                 <div className="space-y-4">
-                  {project.relatedNews.map((news) => (
-                    <Link
-                      key={news._id}
-                      href={`/${locale}/actualites/${news.slug}`}
-                      className="flex gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
-                    >
-                      {news.mainImage && (
-                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
-                          <img
-                            src={news.mainImage.asset.url}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
+                  {project.relatedNews.map((news) => {
+                    const newsTitle = locale === 'fr' ? news.titleFr : news.titleEn;
+
+                    return (
+                      <Link
+                        key={news._id}
+                        href={`/${locale}/actualites/${news.slug}`}
+                        className="group flex gap-4 rounded-xl border border-slate-200 p-4 transition hover:border-rdc-blue hover:shadow-md"
+                      >
+                        {news.mainImage && (
+                          <div className="h-20 w-24 overflow-hidden rounded-lg bg-slate-100">
+                            <img
+                              src={news.mainImage.asset.url}
+                              className="h-full w-full object-cover transition group-hover:scale-105"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-slate-900 transition group-hover:text-rdc-blue">
+                            {newsTitle}
+                          </h3>
+
+                          <p className="mt-1 text-xs text-slate-500">
+                            {new Date(news.publishedAt).toLocaleDateString(
+                              locale === 'fr' ? 'fr-FR' : 'en-US'
+                            )}
+                          </p>
                         </div>
-                      )}
-                      <div className="flex-1">
-                        <h3 className="mb-1 font-semibold text-gray-900">
-                          {locale === 'fr' ? news.titleFr : news.titleEn}
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          {new Date(news.publishedAt).toLocaleDateString(
-                            locale === 'fr' ? 'fr-FR' : 'en-US',
-                            { year: 'numeric', month: 'long', day: 'numeric' }
-                          )}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               </Card>
             )}
           </div>
 
-          {/* Sidebar */}
+          {/* RIGHT */}
           <div className="space-y-6">
             <SharePanel
               title={title}
@@ -242,165 +260,116 @@ export default async function ProjectDetailPage({ params }: Props) {
               path={`/${locale}/projets/${project.slug}`}
               locale={locale}
             />
-            {/* Key Information */}
-            <Card className="p-6">
-              <h3 className="mb-4 text-lg font-bold text-gray-900">{t('keyInfo')}</h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-5 w-5 text-rdc-blue" />
+
+            {/* KEY INFO */}
+            <Card className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="mb-5 text-lg font-bold text-slate-900">{t('keyInfo')}</h3>
+
+              <div className="space-y-5 text-sm">
+                <div className="flex gap-3">
+                  <MapPin className="mt-1 h-4 w-4 text-rdc-blue" />
                   <div>
-                    <p className="text-sm text-gray-500">{t('province')}</p>
-                    <p className="font-medium text-gray-900">
+                    <p className="text-slate-500">{t('province')}</p>
+                    <p className="font-medium text-slate-900">
                       {locale === 'fr' ? project.province.nameFr : project.province.nameEn}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <Building2 className="mt-0.5 h-5 w-5 text-rdc-blue" />
+                <div className="flex gap-3">
+                  <Building2 className="mt-1 h-4 w-4 text-rdc-blue" />
                   <div>
-                    <p className="text-sm text-gray-500">{t('sector')}</p>
-                    <p className="font-medium text-gray-900">{t(`sectors.${project.sector}`)}</p>
+                    <p className="text-slate-500">{t('sector')}</p>
+                    <p className="font-medium text-slate-900">{t(`sectors.${project.sector}`)}</p>
                   </div>
                 </div>
 
                 {project.budget && (
-                  <div className="flex items-start gap-3">
-                    <TrendingUp className="mt-0.5 h-5 w-5 text-rdc-blue" />
+                  <div className="flex gap-3">
+                    <TrendingUp className="mt-1 h-4 w-4 text-rdc-blue" />
                     <div>
-                      <p className="text-sm text-gray-500">{t('budget')}</p>
-                      <p className="font-medium text-gray-900">
+                      <p className="text-slate-500">{t('budget')}</p>
+                      <p className="font-medium text-slate-900">
                         {new Intl.NumberFormat('fr-FR', {
                           style: 'currency',
                           currency: 'USD',
-                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
                         }).format(project.budget)}
                       </p>
                     </div>
                   </div>
                 )}
-
-                {project.startDate && (
-                  <div className="flex items-start gap-3">
-                    <Calendar className="mt-0.5 h-5 w-5 text-rdc-blue" />
-                    <div>
-                      <p className="text-sm text-gray-500">{t('startDate')}</p>
-                      <p className="font-medium text-gray-900">
-                        {new Date(project.startDate).toLocaleDateString(
-                          locale === 'fr' ? 'fr-FR' : 'en-US',
-                          { year: 'numeric', month: 'long', day: 'numeric' }
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {project.endDate && (
-                  <div className="flex items-start gap-3">
-                    <Clock className="mt-0.5 h-5 w-5 text-rdc-blue" />
-                    <div>
-                      <p className="text-sm text-gray-500">{t('endDate')}</p>
-                      <p className="font-medium text-gray-900">
-                        {new Date(project.endDate).toLocaleDateString(
-                          locale === 'fr' ? 'fr-FR' : 'en-US',
-                          { year: 'numeric', month: 'long', day: 'numeric' }
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
             </Card>
 
-            {/* Progress */}
-            <Card className="p-6">
-              <h3 className="mb-4 text-lg font-bold text-gray-900">{t('progress')}</h3>
+            {/* PROGRESS */}
+            <Card className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-bold text-slate-900">{t('progress')}</h3>
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">{t('completion')}</span>
-                  <span className="font-semibold text-gray-900">{project.progress}%</span>
+                  <span className="text-slate-600">{t('completion')}</span>
+                  <span className="font-bold text-rdc-blue">{project.progress}%</span>
                 </div>
-                <div className="h-3 w-full rounded-full bg-gray-200">
+
+                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                   <div
-                    className="h-3 rounded-full bg-rdc-blue transition-all"
+                    className="h-full bg-rdc-blue transition-all"
                     style={{ width: `${project.progress}%` }}
                   />
                 </div>
               </div>
             </Card>
-
-            {/* Related Procurement */}
-            {project.relatedProcurement && project.relatedProcurement.length > 0 && (
-              <Card className="p-6">
-                <h3 className="mb-4 text-lg font-bold text-gray-900">{t('relatedProcurement')}</h3>
-                <div className="space-y-3">
-                  {project.relatedProcurement.map((proc) => (
-                    <Link
-                      key={proc._id}
-                      href={`/${locale}/appels-offres/${proc.slug}`}
-                      className="block rounded-lg border border-gray-200 p-3 transition-colors hover:bg-gray-50"
-                    >
-                      <p className="mb-1 text-xs text-gray-500">{proc.reference}</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        {locale === 'fr' ? proc.titleFr : proc.titleEn}
-                      </p>
-                      <p className="mt-1 text-xs text-gray-500">
-                        {t('closingDate')}:{' '}
-                        {new Date(proc.closingDate).toLocaleDateString(
-                          locale === 'fr' ? 'fr-FR' : 'en-US'
-                        )}
-                      </p>
-                    </Link>
-                  ))}
-                </div>
-              </Card>
-            )}
           </div>
         </div>
 
+        {/* MORE PROJECTS */}
         {moreProjects.length > 0 && (
-          <section className="mt-12">
+          <section className="mt-14">
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-slate-900">
                 {locale === 'fr' ? 'Autres projets' : 'More projects'}
               </h2>
-              <Link href={`/${locale}/projets`} className="text-sm font-semibold text-rdc-blue">
+
+              <Link
+                href={`/${locale}/projets`}
+                className="text-sm font-semibold text-rdc-blue hover:underline"
+              >
                 {t('viewAll')}
               </Link>
             </div>
-            <div className="grid gap-4 md:grid-cols-3">
+
+            <div className="grid gap-6 md:grid-cols-3">
               {moreProjects.map((item) => {
                 const itemTitle = locale === 'fr' ? item.titleFr : item.titleEn;
-                const displayTitle = truncateText(itemTitle, 95);
+
                 return (
-                <Link key={item._id} href={`/${locale}/projets/${item.slug}`} className="group">
-                  <Card className="h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-lg">
-                    {item.mainImage ? (
-                      <div className="aspect-video overflow-hidden bg-gray-100">
-                        <img
-                          src={item.mainImage.asset.url}
-                          alt={item.mainImage.alt || ''}
-                          className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                        />
+                  <Link key={item._id} href={`/${locale}/projets/${item.slug}`} className="group">
+                    <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-xl">
+                      {item.mainImage ? (
+                        <div className="aspect-video overflow-hidden">
+                          <img
+                            src={item.mainImage.asset.url}
+                            className="h-full w-full object-cover transition group-hover:scale-105"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex aspect-video items-center justify-center bg-slate-100">
+                          <Building2 className="h-10 w-10 text-slate-400" />
+                        </div>
+                      )}
+
+                      <div className="p-5">
+                        <Badge className="mb-3 bg-slate-100 text-slate-700">
+                          {t(`status.${item.status}`)}
+                        </Badge>
+
+                        <h3 className="font-semibold text-slate-900 transition group-hover:text-rdc-blue">
+                          {itemTitle}
+                        </h3>
                       </div>
-                    ) : (
-                      <div className="flex aspect-video items-center justify-center bg-rdc-blue/5 text-rdc-blue">
-                        <Building2 className="h-10 w-10" />
-                      </div>
-                    )}
-                    <div className="p-4">
-                      <Badge variant="outline" className="mb-3">
-                        {t(`status.${item.status}`)}
-                      </Badge>
-                      <h3
-                        className="font-semibold leading-snug text-gray-900 group-hover:text-rdc-blue"
-                        title={itemTitle}
-                      >
-                        {displayTitle}
-                      </h3>
-                    </div>
-                  </Card>
-                </Link>
+                    </Card>
+                  </Link>
                 );
               })}
             </div>

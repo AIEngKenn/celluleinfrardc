@@ -88,7 +88,7 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
 
               <div className="absolute left-6 top-6">
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass(
+                  className={`rounded-full px-3 py-1 text-[2px] font-semibold md:text-xs ${statusClass(
                     featured.status
                   )}`}
                 >

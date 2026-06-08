@@ -18,27 +18,11 @@ const iconMap = {
   users: Users,
 };
 
-export async function generateMetadata({ params }: Props) {
-  const { locale } = await params;
-  return createSeoMetadata({
-    locale,
-    path: '/a-propos',
-    title:
-      locale === 'fr'
-        ? 'À propos — Cellule Infrastructures RDC'
-        : 'About — Cellule Infrastructures DRC',
-    description:
-      locale === 'fr'
-        ? 'Présentation de la Cellule Infrastructures de la République Démocratique du Congo, son mandat, ses missions et ses partenariats.'
-        : 'Overview of the DRC Infrastructure Unit, its mandate, missions and partnerships.',
-    keywords: ['Cellule Infrastructures', 'mission infrastructures RDC', 'maîtrise ouvrage RDC'],
-  });
-}
-
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const isFr = locale === 'fr';
+
   const about = await sanityFetch<AboutPageContent | null>({
     query: aboutPageQuery,
     tags: ['aboutPage'],
@@ -50,171 +34,166 @@ export default async function AboutPage({ params }: Props) {
       titleFr: "Maîtrise d'ouvrage délégué",
       titleEn: 'Delegated project management',
       descriptionFr:
-        "La CI assure la maîtrise d'ouvrage délégué de projets d'infrastructure au nom du Gouvernement de la RDC, garantissant la bonne exécution technique et financière des marchés.",
+        "La CI assure la maîtrise d'ouvrage délégué de projets d'infrastructure au nom du Gouvernement de la RDC.",
       descriptionEn:
-        'CI acts as delegated project owner for infrastructure projects on behalf of the DRC Government, ensuring proper technical and financial contract execution.',
+        'CI acts as delegated project owner for infrastructure projects on behalf of the DRC Government.',
     },
     {
       icon: 'file' as const,
       titleFr: 'Passation des marchés',
       titleEn: 'Procurement',
-      descriptionFr:
-        'Toutes les procédures de passation sont conduites dans la transparence, conformément aux règlements nationaux et aux exigences des bailleurs de fonds internationaux.',
+      descriptionFr: 'Procédures transparentes conformes aux normes nationales et internationales.',
       descriptionEn:
-        'All procurement procedures are conducted transparently, in compliance with national regulations and international donor requirements.',
+        'Transparent procurement procedures aligned with national and international standards.',
     },
     {
       icon: 'globe' as const,
       titleFr: 'Partenariats internationaux',
       titleEn: 'International partnerships',
-      descriptionFr:
-        "La CI coordonne les financements de la Banque mondiale, de la BAD, de l'UE et d'autres partenaires techniques et financiers pour maximiser l'impact des investissements.",
-      descriptionEn:
-        'CI coordinates financing from the World Bank, AfDB, EU and other technical and financial partners to maximize investment impact.',
+      descriptionFr: 'Coordination des financements des partenaires techniques et financiers.',
+      descriptionEn: 'Coordination of funding from international technical and financial partners.',
     },
     {
       icon: 'users' as const,
       titleFr: 'Renforcement des capacités',
       titleEn: 'Capacity building',
-      descriptionFr:
-        'Formation des équipes locales, transfert de compétences et développement des PME congolaises dans le secteur de la construction.',
-      descriptionEn:
-        'Training local teams, transferring skills and developing Congolese SMEs in the construction sector.',
+      descriptionFr: 'Formation et transfert de compétences au niveau national.',
+      descriptionEn: 'Training and national capacity building programs.',
     },
   ];
+
   const missions = about?.missions?.length ? about.missions : fallbackMissions;
+
   const organizationBody = isFr ? about?.organizationBodyFr : about?.organizationBodyEn;
+
   const figures = about?.figures?.length
     ? about.figures
     : [
         { value: '2004', labelFr: 'Année de création', labelEn: 'Year founded' },
-        { value: '26', labelFr: "Provinces d'intervention", labelEn: 'Provinces of operation' },
-        { value: '250+', labelFr: 'Projets gérés', labelEn: 'Projects managed' },
-        { value: '$5.2Mrd', labelFr: 'Portefeuille total', labelEn: 'Total portfolio' },
+        { value: '26', labelFr: 'Provinces', labelEn: 'Provinces' },
+        { value: '250+', labelFr: 'Projets', labelEn: 'Projects' },
+        { value: '$5.2B', labelFr: 'Portefeuille', labelEn: 'Portfolio' },
       ];
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
       <PageHeader
-        title={(isFr ? about?.pageTitleFr : about?.pageTitleEn) || (isFr ? 'À propos de la CI' : 'About CI')}
+        title={
+          (isFr ? about?.pageTitleFr : about?.pageTitleEn) ||
+          (isFr ? 'À propos de la CI' : 'About CI')
+        }
         subtitle={
           (isFr ? about?.subtitleFr : about?.subtitleEn) ||
-          (isFr
-            ? "La Cellule Infrastructures est l'agence publique mandatée par le Gouvernement de la RDC pour planifier, coordonner et superviser les grands projets d'infrastructure nationale."
-            : 'Cellule Infrastructures is the public agency mandated by the DRC Government to plan, coordinate and supervise major national infrastructure projects.')
+          (isFr ? 'La Cellule Infrastructures de la RDC' : 'DRC Infrastructure Unit overview')
         }
         breadcrumbs={[{ label: isFr ? 'À propos' : 'About' }]}
         locale={locale}
       />
 
-      <div className="ci-container ci-section">
-        {/* Mission */}
-        <section style={{ marginBottom: '5rem' }}>
-          <span className="ci-eyebrow">
-            {(isFr ? about?.missionEyebrowFr : about?.missionEyebrowEn) ||
-              (isFr ? 'Notre mandat' : 'Our mandate')}
-          </span>
-          <h2 className="ci-section-title" style={{ marginBottom: '3rem' }}>
-            {(isFr ? about?.missionTitleFr : about?.missionTitleEn) ||
-              (isFr ? 'Missions principales' : 'Core missions')}
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2px',
-              background: 'var(--ci-border)',
-            }}
-          >
-            {missions.map((m) => {
+      <div className="ci-container ci-section space-y-24">
+        {/* ===================== MISSIONS (UPGRADED CARDS) ===================== */}
+        <section>
+          <div className="mb-10">
+            <span className="text-sm font-semibold uppercase tracking-widest text-rdc-blue">
+              {isFr ? 'Notre mandat' : 'Our mandate'}
+            </span>
+            <h2 className="mt-2 text-3xl font-bold text-slate-900">
+              {isFr ? 'Missions principales' : 'Core missions'}
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {missions.map((m, i) => {
               const Icon = iconMap[m.icon || 'building'] || Building2;
-              const missionTitle = (isFr ? m.titleFr : m.titleEn) || m.titleFr || '';
-              const missionDescription =
-                (isFr ? m.descriptionFr : m.descriptionEn) || m.descriptionFr || '';
+              const title = (isFr ? m.titleFr : m.titleEn) || m.titleFr || '';
+              const desc = (isFr ? m.descriptionFr : m.descriptionEn) || m.descriptionFr || '';
+
+              const accent = [
+                'from-rdc-blue to-blue-600',
+                'from-rdc-red to-red-500',
+                'from-slate-700 to-slate-900',
+                'from-indigo-600 to-blue-500',
+              ][i % 4];
+
               return (
-                <div key={missionTitle} style={{ background: 'white', padding: '2rem' }}>
-                  <Icon size={28} style={{ color: 'var(--ci-blue)', marginBottom: '1rem' }} />
-                  <h3
-                    style={{
-                      fontSize: 'var(--ci-step-1)',
-                      fontWeight: 700,
-                      marginBottom: '0.75rem',
-                    }}
-                  >
-                    {missionTitle}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: '0.875rem',
-                      color: 'var(--ci-text-secondary)',
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    {missionDescription}
-                  </p>
+                <div
+                  key={title}
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                >
+                  {/* gradient glow */}
+                  <div
+                    className={`absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${accent} opacity-10 blur-2xl transition-all group-hover:opacity-20`}
+                  />
+
+                  <div className="relative">
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rdc-blue/10 text-rdc-blue transition-all duration-300 group-hover:scale-110 group-hover:bg-rdc-blue group-hover:text-white">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                    </div>
+
+                    <h3 className="mb-2 text-lg font-bold text-slate-900 transition-colors group-hover:text-rdc-blue">
+                      {title}
+                    </h3>
+
+                    <p className="text-sm leading-6 text-slate-600">{desc}</p>
+                  </div>
                 </div>
               );
             })}
           </div>
         </section>
 
-        {/* Organisation */}
-        <section
-          style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '3rem' }}
-          className="lg:grid-cols-2"
-        >
-          <div>
-            <span className="ci-eyebrow">
-              {(isFr ? about?.organizationEyebrowFr : about?.organizationEyebrowEn) ||
-                (isFr ? 'Organisation' : 'Structure')}
+        {/* ===================== ORGANIZATION + STATS ===================== */}
+        <section className="grid gap-10 lg:grid-cols-2">
+          {/* Organization */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+            <span className="text-sm font-semibold uppercase tracking-widest text-rdc-blue">
+              {isFr ? 'Organisation' : 'Structure'}
             </span>
-            <h2 className="ci-section-title">
-              {(isFr ? about?.organizationTitleFr : about?.organizationTitleEn) ||
-                (isFr ? 'Structure de gouvernance' : 'Governance structure')}
+
+            <h2 className="mb-6 mt-2 text-2xl font-bold text-slate-900">
+              {isFr ? 'Gouvernance' : 'Governance'}
             </h2>
+
             {organizationBody?.length ? (
-              <div className="ci-article-body">
+              <div className="prose max-w-none text-slate-600">
                 <PortableText value={organizationBody} />
               </div>
             ) : (
-              <>
-                <p style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-                  {isFr
-                    ? 'La Cellule Infrastructures est placée sous la tutelle du Ministère des Infrastructures et Travaux Publics. Elle est dirigée par un Coordonnateur National assisté de coordinateurs techniques spécialisés par secteur.'
-                    : 'Cellule Infrastructures operates under the authority of the Ministry of Infrastructure and Public Works. It is led by a National Coordinator assisted by technical coordinators specialized by sector.'}
-                </p>
-                <p style={{ color: 'var(--ci-text-secondary)', lineHeight: 1.8 }}>
-                  {isFr
-                    ? 'Ses équipes intègrent des ingénieurs, des économistes, des spécialistes en passation de marchés et en sauvegarde environnementale et sociale, tous formés aux standards internationaux.'
-                    : 'Its teams include engineers, economists, procurement specialists and environmental and social safeguard experts, all trained to international standards.'}
-                </p>
-              </>
+              <p className="leading-7 text-slate-600">
+                {isFr
+                  ? 'La CI est placée sous tutelle du Ministère des Infrastructures.'
+                  : 'CI operates under the Ministry of Infrastructure.'}
+              </p>
             )}
           </div>
+
+          {/* Stats (interactive cards) */}
           <div>
-            <span className="ci-eyebrow">
-              {(isFr ? about?.figuresEyebrowFr : about?.figuresEyebrowEn) ||
-                (isFr ? 'Chiffres clés' : 'Key figures')}
-            </span>
-            <h2 className="ci-section-title">
-              {(isFr ? about?.figuresTitleFr : about?.figuresTitleEn) ||
-                (isFr ? 'La CI en chiffres' : 'CI in numbers')}
-            </h2>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '1px',
-                background: 'var(--ci-border)',
-                border: '1px solid var(--ci-border)',
-              }}
-            >
-              {figures.map((stat) => (
-                <div key={`${stat.value}-${stat.labelFr}`} style={{ background: 'white', padding: '1.5rem' }}>
-                  <div className="ci-stat-number" style={{ fontSize: '1.75rem' }}>
+            <div className="mb-6">
+              <span className="text-sm font-semibold uppercase tracking-widest text-rdc-blue">
+                {isFr ? 'Chiffres clés' : 'Key figures'}
+              </span>
+              <h2 className="mt-2 text-2xl font-bold text-slate-900">
+                {isFr ? 'Impact national' : 'National impact'}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {figures.map((stat, i) => (
+                <div
+                  key={`${stat.value}-${i}`}
+                  className="group rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rdc-blue/30 hover:shadow-xl"
+                >
+                  <div className="text-2xl font-bold text-rdc-blue transition-transform group-hover:scale-105">
                     {stat.value}
                   </div>
-                  <div className="ci-stat-label">{isFr ? stat.labelFr : stat.labelEn || stat.labelFr}</div>
+                  <div className="mt-1 text-sm text-slate-600">
+                    {isFr ? stat.labelFr : stat.labelEn || stat.labelFr}
+                  </div>
+
+                  <div className="mt-3 h-1 w-10 rounded-full bg-rdc-blue/20 transition-all group-hover:w-16" />
                 </div>
               ))}
             </div>

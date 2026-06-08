@@ -110,11 +110,16 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         </p>
         <div className="ci-hero-actions">
           <Link href={`/${locale}${slide.primaryHref || '/projets'}`} className="ci-btn-primary">
-            {(isFr ? slide.primaryCtaFr : slide.primaryCtaEn) || (isFr ? 'Voir les projets' : 'View projects')}
+            {(isFr ? slide.primaryCtaFr : slide.primaryCtaEn) ||
+              (isFr ? 'Voir les projets' : 'View projects')}
             <ArrowRight size={16} />
           </Link>
-          <Link href={`/${locale}${slide.secondaryHref || '/appels-offres'}`} className="ci-btn-outline-white">
-            {(isFr ? slide.secondaryCtaFr : slide.secondaryCtaEn) || (isFr ? "Appels d'offres" : 'Procurement')}
+          <Link
+            href={`/${locale}${slide.secondaryHref || '/appels-offres'}`}
+            className="ci-btn-outline-white"
+          >
+            {(isFr ? slide.secondaryCtaFr : slide.secondaryCtaEn) ||
+              (isFr ? "Appels d'offres" : 'Procurement')}
           </Link>
         </div>
       </div>
@@ -150,7 +155,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         {items.map((_, i) => (
           <button
             key={i}
-            className={`ci-hero-dot${i === current ? 'ci-hero-dot--active' : ''}`}
+            className={`ci-hero-dot${i === current ? 'ci-hero-dot--active' : ''} hidden md:block`}
             onClick={() => setCurrent(i)}
             aria-label={`${isFr ? 'Diapositive' : 'Slide'} ${i + 1}`}
             aria-current={i === current ? 'true' : undefined}

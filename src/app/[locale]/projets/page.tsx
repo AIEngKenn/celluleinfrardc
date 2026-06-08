@@ -111,89 +111,195 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
             const projectTitle = locale === 'fr' ? project.titleFr : project.titleEn;
             const displayTitle = truncateText(projectTitle, 110);
             return (
-            <Link key={project._id} href={`/${locale}/projets/${project.slug}`} className="group">
-              <Card className="grid h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-xl md:grid-cols-[14rem_1fr]">
-                {project.mainImage && (
-                  <div className="relative min-h-56 overflow-hidden bg-gray-200">
-                    <img
-                      src={project.mainImage.asset.url}
-                      alt={project.mainImage.alt || projectTitle}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                {!project.mainImage && (
-                  <div className="flex min-h-56 items-center justify-center bg-gradient-to-br from-rdc-blue/10 to-rdc-blue/5 text-rdc-blue">
-                    <Building2 className="h-14 w-14" />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <Badge
-                      variant={
-                        project.status === 'completed'
-                          ? 'default'
-                          : project.status === 'ongoing'
-                            ? 'secondary'
-                            : 'outline'
-                      }
-                    >
-                      {t(`status.${project.status}`)}
-                    </Badge>
-                    <Badge variant="outline">{t(`sectors.${project.sector}`)}</Badge>
-                  </div>
+              // <Link key={project._id} href={`/${locale}/projets/${project.slug}`} className="group">
+              //   <Card className="grid h-full overflow-hidden border-l-4 border-l-rdc-blue transition-shadow hover:shadow-xl md:grid-cols-[14rem_1fr]">
+              //     {project.mainImage && (
+              //       <div className="relative min-h-56 overflow-hidden bg-gray-200">
+              //         <img
+              //           src={project.mainImage.asset.url}
+              //           alt={project.mainImage.alt || projectTitle}
+              //           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              //         />
+              //       </div>
+              //     )}
+              //     {!project.mainImage && (
+              //       <div className="flex min-h-56 items-center justify-center bg-gradient-to-br from-rdc-blue/10 to-rdc-blue/5 text-rdc-blue">
+              //         <Building2 className="h-14 w-14" />
+              //       </div>
+              //     )}
+              //     <div className="p-6">
+              //       <div className="mb-3 flex flex-wrap items-center gap-2">
+              //         <Badge
+              //           variant={
+              //             project.status === 'completed'
+              //               ? 'default'
+              //               : project.status === 'ongoing'
+              //                 ? 'secondary'
+              //                 : 'outline'
+              //           }
+              //         >
+              //           {t(`status.${project.status}`)}
+              //         </Badge>
+              //         <Badge variant="outline">{t(`sectors.${project.sector}`)}</Badge>
+              //       </div>
 
-                  <h3
-                    className="mb-3 text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
-                    title={projectTitle}
-                  >
-                    {displayTitle}
-                  </h3>
+              //       <h3
+              //         className="mb-3 text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-rdc-blue"
+              //         title={projectTitle}
+              //       >
+              //         {displayTitle}
+              //       </h3>
 
-                  <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                    {locale === 'fr' ? project.descriptionFr : project.descriptionEn}
-                  </p>
+              //       <p className="mb-5 line-clamp-3 text-sm leading-6 text-gray-600">
+              //         {locale === 'fr' ? project.descriptionFr : project.descriptionEn}
+              //       </p>
 
-                  <div className="mb-5">
-                    <div className="mb-2 flex items-center justify-between text-xs font-medium text-gray-500">
-                      <span>{t('progress')}</span>
-                      <span>{project.progress}%</span>
-                    </div>
-                    <div className="h-2.5 rounded-full bg-gray-100">
-                      <div
-                        className="h-2.5 rounded-full bg-rdc-blue"
-                        style={{ width: `${project.progress}%` }}
-                      />
-                    </div>
-                  </div>
+              //       <div className="mb-5">
+              //         <div className="mb-2 flex items-center justify-between text-xs font-medium text-gray-500">
+              //           <span>{t('progress')}</span>
+              //           <span>{project.progress}%</span>
+              //         </div>
+              //         <div className="h-2.5 rounded-full bg-gray-100">
+              //           <div
+              //             className="h-2.5 rounded-full bg-rdc-blue"
+              //             style={{ width: `${project.progress}%` }}
+              //           />
+              //         </div>
+              //       </div>
 
-                  <div className="space-y-2 border-t border-gray-100 pt-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>
-                        {locale === 'fr' ? project.province.nameFr : project.province.nameEn}
-                      </span>
-                    </div>
-                    {project.budget && (
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4" />
-                        <span>
-                          {new Intl.NumberFormat('fr-FR', {
-                            style: 'currency',
-                            currency: 'USD',
-                            minimumFractionDigits: 0,
-                          }).format(project.budget)}
-                        </span>
+              //       <div className="space-y-2 border-t border-gray-100 pt-4 text-sm text-gray-500">
+              //         <div className="flex items-center gap-2">
+              //           <MapPin className="h-4 w-4" />
+              //           <span>
+              //             {locale === 'fr' ? project.province.nameFr : project.province.nameEn}
+              //           </span>
+              //         </div>
+              //         {project.budget && (
+              //           <div className="flex items-center gap-2">
+              //             <TrendingUp className="h-4 w-4" />
+              //             <span>
+              //               {new Intl.NumberFormat('fr-FR', {
+              //                 style: 'currency',
+              //                 currency: 'USD',
+              //                 minimumFractionDigits: 0,
+              //               }).format(project.budget)}
+              //             </span>
+              //           </div>
+              //         )}
+              //       </div>
+              //       <div className="mt-5 flex items-center text-sm font-semibold text-rdc-blue">
+              //         {t('viewDetails')}
+              //         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              //       </div>
+              //     </div>
+              //   </Card>
+              // </Link>
+              <Link
+                key={project._id}
+                href={`/${locale}/projets/${project.slug}`}
+                className="group block"
+              >
+                <Card className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-rdc-blue/20 hover:shadow-2xl">
+                  <div className="grid h-full md:grid-cols-[18rem_1fr]">
+                    {project.mainImage ? (
+                      <div className="relative overflow-hidden bg-slate-100">
+                        <img
+                          src={project.mainImage.asset.url}
+                          alt={project.mainImage.alt || projectTitle}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent" />
+
+                        <div className="absolute left-4 top-4">
+                          <Badge
+                            className={`border-0 shadow-lg ${
+                              project.status === 'completed'
+                                ? 'bg-emerald-600 text-white'
+                                : project.status === 'ongoing'
+                                  ? 'bg-rdc-blue text-white'
+                                  : 'bg-amber-500 text-white'
+                            } `}
+                          >
+                            {t(`status.${project.status}`)}
+                          </Badge>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center bg-gradient-to-br from-rdc-blue/10 to-rdc-blue/5">
+                        <Building2 className="h-16 w-16 text-rdc-blue/70" />
                       </div>
                     )}
+
+                    <div className="flex flex-col p-6">
+                      <div className="mb-4 flex items-center gap-2">
+                        <span className="inline-flex items-center rounded-full bg-rdc-blue/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-rdc-blue">
+                          {t(`sectors.${project.sector}`)}
+                        </span>
+                      </div>
+
+                      <h3
+                        title={projectTitle}
+                        className="mb-3 text-xl font-bold leading-tight text-slate-900 transition-colors duration-300 group-hover:text-rdc-blue"
+                      >
+                        {displayTitle}
+                      </h3>
+
+                      <p className="mb-6 line-clamp-3 text-sm leading-7 text-slate-600">
+                        {locale === 'fr' ? project.descriptionFr : project.descriptionEn}
+                      </p>
+
+                      <div className="mb-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                            {t('progress')}
+                          </span>
+
+                          <span className="text-sm font-bold text-rdc-blue">
+                            {project.progress}%
+                          </span>
+                        </div>
+
+                        <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                          <div
+                            className="h-full rounded-full bg-rdc-blue transition-all duration-700"
+                            style={{ width: `${project.progress}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid gap-3 border-t border-slate-100 pt-5 text-sm">
+                        <div className="flex items-center gap-3 text-slate-600">
+                          <MapPin className="h-4 w-4 text-rdc-blue" />
+                          <span>
+                            {locale === 'fr' ? project.province.nameFr : project.province.nameEn}
+                          </span>
+                        </div>
+
+                        {project.budget && (
+                          <div className="flex items-center gap-3 text-slate-600">
+                            <TrendingUp className="h-4 w-4 text-rdc-blue" />
+                            <span className="font-medium">
+                              {new Intl.NumberFormat('fr-FR', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 0,
+                              }).format(project.budget)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mt-auto pt-6">
+                        <div className="inline-flex items-center gap-2 font-semibold text-rdc-blue transition-all duration-300 group-hover:gap-3">
+                          {t('viewDetails')}
+                          <ArrowRight className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="mt-5 flex items-center text-sm font-semibold text-rdc-blue">
-                    {t('viewDetails')}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </Card>
-            </Link>
+                </Card>
+              </Link>
             );
           })}
         </div>

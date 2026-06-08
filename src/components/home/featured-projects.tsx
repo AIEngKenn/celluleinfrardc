@@ -11,11 +11,10 @@ import { truncateText } from '@/lib/content-cleanup';
 const PROJECT_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
 
 function statusClass(status: string) {
-  if (status === 'ongoing')
-    return 'ci-badge ci-badge--blue';
-  if (status === 'completed')
-    return 'ci-badge ci-badge--green';
-  return 'ci-badge ci-badge--yellow';
+  if (status === 'ongoing') return 'bg-rdc-blue text-white';
+  if (status === 'completed') return 'bg-emerald-600 text-white';
+  if (status === 'suspended') return 'bg-amber-500 text-white';
+  return 'bg-slate-500 text-white';
 }
 
 function statusLabel(status: Project['status'], isFr: boolean) {
@@ -32,119 +31,160 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
   if (!projects?.length) return null;
+
   const [featured, ...rest] = projects;
+
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
   const featuredImage = featured.mainImage?.asset?.url || PROJECT_PLACEHOLDER_IMAGE;
 
   return (
-    <section className="ci-section" style={{ background: 'var(--ci-bg-subtle)' }}>
-      <div className="ci-container">
-        {/* Header */}
+    <section className="bg-slate-50 py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="ci-section-header"
+          className="mb-10 flex items-end justify-between"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.45 }}
         >
           <div>
-            <span className="ci-eyebrow">{isFr ? 'Projets phares' : 'Featured projects'}</span>
-            <h2 className="ci-section-title">
+            <span className="text-xs font-semibold uppercase tracking-wider text-rdc-blue">
+              {isFr ? 'Projets phares' : 'Featured projects'}
+            </span>
+            <h2 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
               {isFr ? 'Projets structurants' : 'Structural projects'}
             </h2>
           </div>
-          <Link href={`/${locale}/projets`} className="ci-view-all">
+
+          <Link
+            href={`/${locale}/projets`}
+            className="flex items-center gap-2 text-sm font-semibold text-rdc-blue transition-all hover:gap-3"
+          >
             {isFr ? 'Tous les projets' : 'All projects'}
-            <ArrowRight size={14} />
+            <ArrowRight size={16} />
           </Link>
         </motion.div>
 
-        {/* Editorial layout: large featured + stack */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: '1px',
-            background: 'var(--ci-border)',
-          }}
+          transition={{ duration: 0.5 }}
+          className="grid gap-6 lg:grid-cols-[2fr_1fr]"
         >
-          <div
-            style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1px' }}
-            className="lg:grid-cols-[2fr_1fr]"
+          <Link
+            href={`/${locale}/projets/${featured.slug}`}
+            className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
           >
-            {/* Main featured */}
-            <Link
-              href={`/${locale}/projets/${featured.slug}`}
-              className="ci-project-card"
-              style={{ gridRow: 'span 2', display: 'flex', flexDirection: 'column' }}
-            >
-              <div className="ci-project-card-img" style={{ flex: 1 }}>
-                <img src={featuredImage} alt={featured.mainImage?.alt || featuredTitle} loading="lazy" />
+            <div className="relative h-full min-h-[420px] overflow-hidden">
+              <img
+                src={featuredImage}
+                alt={featured.mainImage?.alt || featuredTitle}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+              <div className="absolute left-6 top-6">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass(
+                    featured.status
+                  )}`}
+                >
+                  {statusLabel(featured.status, isFr)}
+                </span>
               </div>
-              <div className="ci-project-card-body">
-                <div className="ci-project-card-meta">
-                  <MapPin size={12} />
+
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="mb-3 flex items-center gap-2 text-sm text-white/80">
+                  <MapPin size={14} />
                   <span>{isFr ? featured.province.nameFr : featured.province.nameEn}</span>
-                  <span style={{ color: 'var(--ci-border-strong)' }}>·</span>
+                  <span className="opacity-50">•</span>
                   <span>{featured.sector}</span>
                 </div>
-                <h3 className="ci-project-card-title" style={{ fontSize: '1.25rem' }}>
+
+                <h3 className="mb-4 text-2xl font-bold leading-tight text-white md:text-3xl">
                   {truncateText(featuredTitle, 110)}
                 </h3>
-                <div className="ci-project-card-footer">
-                  <span className={statusClass(featured.status)}>
-                    {statusLabel(featured.status, isFr)}
-                  </span>
+
+                <div className="flex items-center justify-between">
                   {featured.budget ? (
-                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--ci-text-primary)' }}>
+                    <span className="text-lg font-bold text-white">
                       {formatCurrency(featured.budget, locale as 'fr' | 'en')}
                     </span>
-                  ) : null}
+                  ) : (
+                    <span />
+                  )}
+
+                  <div className="flex items-center gap-2 text-sm font-semibold text-white transition-all group-hover:gap-3">
+                    {isFr ? 'Voir le projet' : 'View project'}
+                    <ArrowRight size={16} />
+                  </div>
                 </div>
               </div>
-            </Link>
+            </div>
+          </Link>
 
-            {/* Side stack */}
+          <div className="flex flex-col gap-6">
             {rest.map((project) => {
               const projectTitle = isFr ? project.titleFr : project.titleEn;
+
               const projectImage = project.mainImage?.asset?.url || PROJECT_PLACEHOLDER_IMAGE;
+
               return (
                 <Link
                   key={project._id}
                   href={`/${locale}/projets/${project.slug}`}
-                  className="ci-project-card"
-                  style={{ display: 'flex', flexDirection: 'row' }}
+                  className="group flex overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div
-                    style={{
-                      width: '8rem',
-                      flexShrink: 0,
-                      overflow: 'hidden',
-                      background: 'var(--ci-bg-tinted)',
-                    }}
-                  >
+                  <div className="relative w-40 flex-shrink-0 overflow-hidden bg-slate-100">
                     <img
                       src={projectImage}
                       alt={project.mainImage?.alt || projectTitle}
                       loading="lazy"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <div className="ci-project-card-body" style={{ flex: 1 }}>
-                    <div className="ci-project-card-meta">
-                      <MapPin size={11} />
-                      <span>{isFr ? project.province.nameFr : project.province.nameEn}</span>
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="mb-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <MapPin size={12} />
+                        <span>
+                          {isFr
+                            ? project.province.nameFr.length > 10
+                              ? project.province.nameFr.slice(0, 10) + '...'
+                              : project.province.nameFr
+                            : project.province.nameEn.length > 10
+                              ? project.province.nameEn.slice(0, 10) + '...'
+                              : project.province.nameEn}
+                        </span>
+                      </div>
+
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${statusClass(
+                          project.status
+                        )}`}
+                      >
+                        {statusLabel(project.status, isFr)}
+                      </span>
                     </div>
-                    <h3 className="ci-project-card-title" style={{ fontSize: '0.9rem' }}>
+
+                    <h3 className="mb-3 line-clamp-2 text-base font-bold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue">
                       {truncateText(projectTitle, 80)}
                     </h3>
-                    <span className={statusClass(project.status)}>
-                      {statusLabel(project.status, isFr)}
-                    </span>
+
+                    <div className="mt-auto flex items-center justify-between">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-rdc-blue">
+                        {project.sector}
+                      </span>
+
+                      <ArrowRight
+                        size={14}
+                        className="text-rdc-blue transition-transform group-hover:translate-x-1"
+                      />
+                    </div>
                   </div>
                 </Link>
               );

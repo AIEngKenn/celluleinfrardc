@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import type { News } from '@/lib/sanity/types';
 import { truncateText } from '@/lib/content-cleanup';
@@ -14,92 +14,110 @@ export function LatestNews({ news }: { news?: News[] }) {
   const locale = useLocale();
   const isFr = locale === 'fr';
   if (!news?.length) return null;
+
   const [featured, ...rest] = news;
+
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
+
   const featuredImage = featured.mainImage?.asset?.url || ARTICLE_PLACEHOLDER_IMAGE;
 
   return (
-    <section className="ci-section" style={{ background: 'white' }}>
-      <div className="ci-container">
-        {/* Header */}
+    <section className="bg-white py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="ci-section-header"
+          className="mb-10 flex items-end justify-between"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.45 }}
         >
           <div>
-            <span className="ci-eyebrow">{isFr ? 'Actualités récentes' : 'Latest news'}</span>
-            <h2 className="ci-section-title">
+            <span className="text-xs font-semibold uppercase tracking-wider text-rdc-blue">
+              {isFr ? 'Actualités récentes' : 'Latest news'}
+            </span>
+            <h2 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
               {isFr ? 'La vie des projets' : 'Projects in motion'}
             </h2>
           </div>
-          <Link href={`/${locale}/actualites`} className="ci-view-all">
+
+          <Link
+            href={`/${locale}/actualites`}
+            className="flex items-center gap-2 text-sm font-semibold text-rdc-blue transition-all hover:gap-3"
+          >
             {isFr ? 'Toutes les actualités' : 'All news'}
-            <ArrowRight size={14} />
+            <ArrowRight size={16} />
           </Link>
         </motion.div>
 
-        {/* Featured + secondary rows */}
         <motion.div
-          style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}
-          className="lg:grid-cols-[3fr_2fr]"
+          className="grid gap-8 lg:grid-cols-[3fr_2fr]"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.5 }}
         >
-          {/* Featured article */}
-          <Link href={`/${locale}/actualites/${featured.slug}`} className="ci-news-featured">
-            <div className="ci-news-featured-img">
+          {/* FEATURED */}
+          <Link
+            href={`/${locale}/actualites/${featured.slug}`}
+            className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+          >
+            <div className="relative aspect-[16/10] overflow-hidden">
               <img
                 src={featuredImage}
                 alt={featured.mainImage?.alt || featuredTitle}
-                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-            </div>
-            <div className="ci-news-featured-body">
-              <div className="ci-news-row-category" style={{ marginBottom: '0.75rem' }}>
-                {isFr ? featured.category.nameFr : featured.category.nameEn}
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <span className="mb-3 inline-flex rounded-full bg-rdc-blue/90 px-3 py-1 text-xs font-semibold text-white">
+                  {isFr ? featured.category.nameFr : featured.category.nameEn}
+                </span>
+
+                <h3 className="mb-3 text-xl font-bold leading-tight text-white md:text-2xl">
+                  {truncateText(featuredTitle, 120)}
+                </h3>
+
+                <div className="flex items-center gap-2 text-sm text-white/80">
+                  <Calendar className="h-4 w-4" />
+                  <span>{formatDate(featured.publishedAt, locale)}</span>
+                </div>
               </div>
-              <h3
-                style={{
-                  fontSize: 'var(--ci-step-3)',
-                  fontWeight: 700,
-                  lineHeight: 1.25,
-                  color: 'var(--ci-text-primary)',
-                  marginBottom: '1rem',
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {truncateText(featuredTitle, 120)}
-              </h3>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--ci-text-muted)' }}>
-                {formatDate(featured.publishedAt, locale)}
-              </p>
             </div>
           </Link>
 
-          {/* Secondary: text rows */}
-          <div>
-            {rest.map((article) => (
-              <Link
-                key={article._id}
-                href={`/${locale}/actualites/${article.slug}`}
-                className="ci-news-row"
-              >
-                <span className="ci-news-row-date">{formatDate(article.publishedAt, locale)}</span>
-                <div>
-                  <div className="ci-news-row-category">
-                    {isFr ? article.category.nameFr : article.category.nameEn}
+          {/* SECONDARY LIST */}
+          <div className="flex flex-col gap-4">
+            {rest.map((article) => {
+              const title = isFr ? article.titleFr : article.titleEn;
+
+              return (
+                <Link
+                  key={article._id}
+                  href={`/${locale}/actualites/${article.slug}`}
+                  className="group flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-rdc-blue/20 hover:shadow-lg"
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="inline-flex rounded-full bg-rdc-blue/10 px-2.5 py-1 text-[11px] font-semibold text-rdc-blue">
+                        {isFr ? article.category.nameFr : article.category.nameEn}
+                      </span>
+
+                      <span className="text-xs text-slate-400">
+                        {formatDate(article.publishedAt, locale)}
+                      </span>
+                    </div>
+
+                    <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue">
+                      {truncateText(title, 95)}
+                    </p>
                   </div>
-                  <p className="ci-news-row-title">
-                    {truncateText(isFr ? article.titleFr : article.titleEn, 95)}
-                  </p>
-                </div>
-              </Link>
-            ))}
+
+                  <ArrowRight className="h-4 w-4 text-slate-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-rdc-blue" />
+                </Link>
+              );
+            })}
           </div>
         </motion.div>
       </div>

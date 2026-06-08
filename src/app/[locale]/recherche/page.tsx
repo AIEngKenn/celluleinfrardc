@@ -159,7 +159,7 @@ export default async function RecherchePage({ params, searchParams }: Props) {
                     className={`flex flex-col items-center gap-2 rounded-lg p-4 transition-colors ${cat.color}`}
                   >
                     <Icon className="h-6 w-6" />
-                    <span className="text-sm font-medium">{cat.label}</span>
+                    <span className="text-sm font-medium text-center">{cat.label}</span>
                   </Link>
                 );
               })}

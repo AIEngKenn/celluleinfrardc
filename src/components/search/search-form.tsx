@@ -25,7 +25,7 @@ export function SearchForm({ defaultValue = '', locale, placeholder }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
-      <div className="relative flex overflow-hidden rounded-xl border-2 border-rdc-blue bg-white shadow-md focus-within:ring-2 focus-within:ring-rdc-blue/30">
+      <div className="relative flex overflow-hidden rounded-none border-2 border-rdc-blue bg-white shadow-md focus-within:ring-2 focus-within:ring-rdc-blue/30">
         <input
           ref={inputRef}
           type="search"

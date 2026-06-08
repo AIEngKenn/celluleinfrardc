@@ -1187,6 +1187,7 @@
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
   .ci-hero-desc {
     font-size: clamp(1rem, 1.5vw, 1.25rem);
@@ -1200,6 +1201,7 @@
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
   .ci-hero-actions {
     display: flex;
@@ -1615,6 +1617,38 @@
   }
   100% {
     background-position: 200% center;
+  }
+}
+
+@keyframes ci-partners-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+.ci-partners-marquee {
+  width: 100%;
+  padding: 2.5rem 0;
+}
+
+.ci-partners-track {
+  animation: ci-partners-marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.ci-partners-marquee:hover .ci-partners-track,
+.ci-partners-marquee:focus-within .ci-partners-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-partners-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 

@@ -231,7 +231,7 @@ export function Header() {
                 alt="CI"
                 width={120}
                 height={120}
-                className="h-9 w-9 object-contain"
+                className="h-9 w-28 object-contain"
                 unoptimized
               />
             </Link>

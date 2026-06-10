@@ -154,7 +154,7 @@ export function Header() {
                     alt="Cellule Infrastructures"
                     width={200}
                     height={200}
-                    className="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
+                    className="hidden h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
                     priority
                     unoptimized
                   />
@@ -167,7 +167,7 @@ export function Header() {
                     alt="Gouvernement RDC"
                     width={160}
                     height={160}
-                    className="hidden h-12 w-12 object-contain sm:block lg:h-16 lg:w-16"
+                    className="h-12 w-12 object-contain sm:block lg:h-16 lg:w-16"
                     priority
                     unoptimized
                   />
@@ -240,10 +240,10 @@ export function Header() {
             <Link
               href={`/${locale}`}
               className={cn(
-                "hidden shrink-0 items-center gap-2 no-underline transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex",
+                'ease-[cubic-bezier(0.4,0,0.2,1)] hidden shrink-0 items-center gap-2 no-underline transition-all duration-500 lg:flex',
                 compact
-                  ? "w-auto translate-x-0 opacity-100"
-                  : "pointer-events-none w-0 -translate-x-4 opacity-0"
+                  ? 'w-auto translate-x-0 opacity-100'
+                  : 'pointer-events-none w-0 -translate-x-4 opacity-0'
               )}
               aria-hidden={!compact}
               tabIndex={compact ? 0 : -1}

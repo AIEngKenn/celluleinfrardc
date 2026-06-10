@@ -154,12 +154,12 @@ export function Header() {
                     alt="Cellule Infrastructures"
                     width={200}
                     height={200}
-                    className="hidden h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
+                    className="hidden h-12 w-36 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 md:block lg:h-20 lg:w-20"
                     priority
                     unoptimized
                   />
                   <span
-                    className="hidden h-10 w-px bg-gray-200 sm:block lg:h-14"
+                    className="hidden h-10 w-px bg-gray-200 sm:block md:block lg:h-14"
                     aria-hidden="true"
                   />
                   <Image
@@ -253,7 +253,7 @@ export function Header() {
                 alt="CI"
                 width={120}
                 height={120}
-                className="h-9 w-9 object-contain"
+                className="h-9 w-28 object-contain"
                 unoptimized
               />
               <Image

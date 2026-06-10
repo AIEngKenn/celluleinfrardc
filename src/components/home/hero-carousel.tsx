@@ -174,7 +174,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
               <motion.p
                 variants={textVariants}
                 transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                className="mb-8 max-w-xl text-left text-base leading-relaxed text-white/70 sm:text-lg lg:text-xl"
+                className="mb-8 text-left text-base font-normal leading-relaxed text-white/70 sm:text-lg lg:text-xl"
               >
                 {isFr ? slide.descriptionFr : slide.descriptionEn || slide.descriptionFr}
               </motion.p>

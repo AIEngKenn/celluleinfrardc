@@ -152,10 +152,11 @@ export function Header() {
                   <Image
                     src="/ci-logo.png"
                     alt="Cellule Infrastructures"
-                    width={96}
-                    height={96}
+                    width={200}
+                    height={200}
                     className="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
                     priority
+                    unoptimized
                   />
                   <span
                     className="hidden h-10 w-px bg-gray-200 sm:block lg:h-14"
@@ -164,10 +165,11 @@ export function Header() {
                   <Image
                     src="/gouv-logo.png"
                     alt="Gouvernement RDC"
-                    width={72}
-                    height={72}
+                    width={160}
+                    height={160}
                     className="hidden h-12 w-12 object-contain sm:block lg:h-16 lg:w-16"
                     priority
+                    unoptimized
                   />
                 </div>
 
@@ -227,9 +229,10 @@ export function Header() {
               <Image
                 src="/ci-logo.png"
                 alt="CI"
-                width={40}
-                height={40}
+                width={120}
+                height={120}
                 className="h-9 w-9 object-contain"
+                unoptimized
               />
             </Link>
 
@@ -237,10 +240,10 @@ export function Header() {
             <Link
               href={`/${locale}`}
               className={cn(
-                'ease-[cubic-bezier(0.4,0,0.2,1)] hidden shrink-0 items-center gap-2 no-underline transition-all duration-500 lg:flex',
+                "hidden shrink-0 items-center gap-2 no-underline transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex",
                 compact
-                  ? 'w-auto translate-x-0 opacity-100'
-                  : 'pointer-events-none w-0 -translate-x-4 opacity-0'
+                  ? "w-auto translate-x-0 opacity-100"
+                  : "pointer-events-none w-0 -translate-x-4 opacity-0"
               )}
               aria-hidden={!compact}
               tabIndex={compact ? 0 : -1}
@@ -248,16 +251,18 @@ export function Header() {
               <Image
                 src="/ci-logo.png"
                 alt="CI"
-                width={40}
-                height={40}
+                width={120}
+                height={120}
                 className="h-9 w-9 object-contain"
+                unoptimized
               />
               <Image
                 src="/gouv-logo.png"
                 alt="Gouvernement"
-                width={36}
-                height={36}
+                width={100}
+                height={100}
                 className="h-7 w-7 object-contain"
+                unoptimized
               />
             </Link>
 
@@ -460,9 +465,10 @@ export function Header() {
                     <Image
                       src="/ci-logo.png"
                       alt="CI"
-                      width={36}
-                      height={36}
+                      width={120}
+                      height={120}
                       className="h-9 w-9 object-contain"
+                      unoptimized
                     />
                     <div className="flex flex-col">
                       <span className="text-xs font-bold uppercase leading-tight tracking-wide text-gray-900">
@@ -575,7 +581,7 @@ export function Header() {
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogContent className="left-[50%] top-4 w-[calc(100%-2rem)] -translate-x-1/2 translate-y-0 gap-0 overflow-hidden rounded-2xl border-0 p-0 shadow-2xl sm:top-[20%] sm:w-full sm:max-w-lg">
           <DialogHeader className="sr-only">
-            <DialogTitle>{isFr ? "Rechercher" : "Search"}</DialogTitle>
+            <DialogTitle>{isFr ? 'Rechercher' : 'Search'}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSearchSubmit} className="flex flex-col">
             <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
@@ -585,18 +591,14 @@ export function Header() {
                 name="q"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder={
-                  isFr
-                    ? "Rechercher projets, actualités…"
-                    : "Search projects, news…"
-                }
+                placeholder={isFr ? 'Rechercher projets, actualités…' : 'Search projects, news…'}
                 className="flex-1 bg-transparent text-base text-gray-900 placeholder-gray-400 outline-none"
-                aria-label={isFr ? "Rechercher" : "Search"}
+                aria-label={isFr ? 'Rechercher' : 'Search'}
               />
               {searchValue && (
                 <button
                   type="button"
-                  onClick={() => setSearchValue("")}
+                  onClick={() => setSearchValue('')}
                   className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
                 >
                   <X className="h-4 w-4" />
@@ -605,7 +607,7 @@ export function Header() {
             </div>
             <div className="flex items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3">
               <p className="text-xs text-gray-400">
-                {isFr ? "Appuyez Entrée pour rechercher" : "Press Enter to search"}
+                {isFr ? 'Appuyez Entrée pour rechercher' : 'Press Enter to search'}
               </p>
               <kbd className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 text-[0.65rem] font-medium text-gray-500">
                 ↵

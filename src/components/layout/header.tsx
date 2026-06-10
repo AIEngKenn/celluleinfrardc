@@ -151,7 +151,7 @@ export function Header() {
                   alt="Cellule Infrastructures"
                   width={64}
                   height={64}
-                  className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px]"
+                  className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px]"
                   priority
                 />
                 <span

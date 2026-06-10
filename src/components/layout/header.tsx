@@ -135,10 +135,10 @@ export function Header() {
         <div
           className={cn(
             'ease-[cubic-bezier(0.4,0,0.2,1)] w-full overflow-hidden bg-white transition-all duration-500',
-            compact ? 'max-h-0 opacity-0' : 'max-h-60 opacity-100'
+            compact ? 'max-h-0 opacity-0' : 'max-h-40 opacity-100'
           )}
         >
-          <div className="mx-auto max-w-[1360px] px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
+          <div className="mx-auto max-w-[1360px] px-4 py-4 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
             {/* Mobile: stacked layout | Desktop: side by side */}
             <div className="flex items-center justify-between gap-4">
               {/* Left: Logos + Ministry title */}

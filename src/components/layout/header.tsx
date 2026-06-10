@@ -573,12 +573,12 @@ export function Header() {
 
       {/* ── Search Modal ── */}
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="top-[20%] translate-y-0 gap-0 overflow-hidden rounded-2xl border-0 p-0 shadow-2xl sm:max-w-lg">
+        <DialogContent className="left-[50%] top-4 w-[calc(100%-2rem)] -translate-x-1/2 translate-y-0 gap-0 overflow-hidden rounded-2xl border-0 p-0 shadow-2xl sm:top-[20%] sm:w-full sm:max-w-lg">
           <DialogHeader className="sr-only">
-            <DialogTitle>{isFr ? 'Rechercher' : 'Search'}</DialogTitle>
+            <DialogTitle>{isFr ? "Rechercher" : "Search"}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSearchSubmit} className="flex flex-col">
-            <div className="flex items-center gap-3 border-b border-gray-100 px-5 py-4">
+            <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 sm:px-5 sm:py-4">
               <Search className="h-5 w-5 shrink-0 text-[#007FFF]" />
               <input
                 ref={searchInputRef}
@@ -587,25 +587,25 @@ export function Header() {
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder={
                   isFr
-                    ? 'Rechercher des projets, actualités, publications…'
-                    : 'Search projects, news, publications…'
+                    ? "Rechercher projets, actualités…"
+                    : "Search projects, news…"
                 }
                 className="flex-1 bg-transparent text-base text-gray-900 placeholder-gray-400 outline-none"
-                aria-label={isFr ? 'Rechercher' : 'Search'}
+                aria-label={isFr ? "Rechercher" : "Search"}
               />
               {searchValue && (
                 <button
                   type="button"
-                  onClick={() => setSearchValue('')}
-                  className="flex h-6 w-6 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                  onClick={() => setSearchValue("")}
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X className="h-4 w-4" />
                 </button>
               )}
             </div>
-            <div className="flex items-center justify-between px-5 py-3">
+            <div className="flex items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3">
               <p className="text-xs text-gray-400">
-                {isFr ? 'Appuyez Entrée pour rechercher' : 'Press Enter to search'}
+                {isFr ? "Appuyez Entrée pour rechercher" : "Press Enter to search"}
               </p>
               <kbd className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 text-[0.65rem] font-medium text-gray-500">
                 ↵

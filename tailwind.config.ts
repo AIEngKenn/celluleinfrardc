@@ -82,12 +82,17 @@ const config: Config = {
           from: { transform: "translateY(20px)", opacity: "0" },
           to: { transform: "translateY(0)", opacity: "1" },
         },
+        "hero-progress": {
+          from: { strokeDashoffset: `${2 * Math.PI * 14}` },
+          to: { strokeDashoffset: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
         "slide-up": "slide-up 0.5s ease-out",
+        "hero-progress": "hero-progress 7s linear forwards",
       },
     },
   },

@@ -135,70 +135,76 @@ export function Header() {
         <div
           className={cn(
             'ease-[cubic-bezier(0.4,0,0.2,1)] w-full overflow-hidden bg-white transition-all duration-500',
-            compact ? 'max-h-0 opacity-0' : 'max-h-40 opacity-100'
+            compact ? 'max-h-0 opacity-0' : 'max-h-60 opacity-100'
           )}
         >
-          <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
-            {/* Left: Logos + Ministry title */}
-            <Link
-              href={`/${locale}`}
-              className="group flex items-center gap-4 no-underline lg:gap-5"
-              aria-label="Cellule Infrastructures — Accueil"
-            >
-              <div className="flex items-center gap-3">
-                <Image
-                  src="/ci-logo.png"
-                  alt="Cellule Infrastructures"
-                  width={64}
-                  height={64}
-                  className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px]"
-                  priority
-                />
-                <span
-                  className="hidden h-10 w-px bg-gray-200 sm:block lg:h-12"
-                  aria-hidden="true"
-                />
-                <Image
-                  src="/gouv-logo.png"
-                  alt="Gouvernement RDC"
-                  width={64}
-                  height={64}
-                  className="hidden h-14 w-14 object-contain sm:block sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px]"
-                  priority
-                />
-              </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#007FFF] sm:text-[0.65rem]">
-                  {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of the Congo'}
-                </span>
-                <span className="text-sm font-extrabold uppercase leading-tight tracking-wide text-gray-900 sm:text-base lg:text-lg">
-                  {isFr
-                    ? 'Ministère des Infrastructures\net Travaux Publics'
-                    : 'Ministry of Infrastructure\nand Public Works'}
-                </span>
-                <span className="text-[0.65rem] font-medium text-gray-500 sm:text-xs">
-                  Cellule Infrastructures
-                </span>
-              </div>
-            </Link>
+          <div className="mx-auto max-w-[1360px] px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
+            {/* Mobile: stacked layout | Desktop: side by side */}
+            <div className="flex items-center justify-between gap-4">
+              {/* Left: Logos + Ministry title */}
+              <Link
+                href={`/${locale}`}
+                className="group flex items-center gap-3 no-underline sm:gap-4 lg:gap-5"
+                aria-label="Cellule Infrastructures — Accueil"
+              >
+                {/* Logos */}
+                <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                  <Image
+                    src="/ci-logo.png"
+                    alt="Cellule Infrastructures"
+                    width={96}
+                    height={96}
+                    className="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
+                    priority
+                  />
+                  <span
+                    className="hidden h-10 w-px bg-gray-200 sm:block lg:h-14"
+                    aria-hidden="true"
+                  />
+                  <Image
+                    src="/gouv-logo.png"
+                    alt="Gouvernement RDC"
+                    width={72}
+                    height={72}
+                    className="hidden h-12 w-12 object-contain sm:block lg:h-16 lg:w-16"
+                    priority
+                  />
+                </div>
 
-            {/* Right: Search + Language */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-500 transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-                aria-label={isFr ? 'Rechercher' : 'Search'}
-              >
-                <Search className="h-4 w-4" />
-                <span className="hidden sm:inline">{isFr ? 'Rechercher' : 'Search'}</span>
-              </button>
-              <a
-                href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
-                className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2 text-sm font-semibold text-gray-600 no-underline transition-all duration-200 hover:border-[#007FFF]/30 hover:bg-[#007FFF]/5 hover:text-[#007FFF]"
-              >
-                <Globe className="h-4 w-4" />
-                {isFr ? 'EN' : 'FR'}
-              </a>
+                {/* Text */}
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <span className="text-[0.55rem] font-semibold uppercase tracking-[0.1em] text-[#007FFF] sm:text-[0.625rem] lg:text-[0.7rem]">
+                    {isFr ? 'Rép. Dém. du Congo' : 'Dem. Rep. of the Congo'}
+                  </span>
+                  <span className="text-[0.7rem] font-extrabold uppercase leading-tight tracking-wide text-gray-900 sm:text-sm lg:text-base">
+                    {isFr
+                      ? 'Ministère des Infrastructures et Travaux Publics'
+                      : 'Ministry of Infrastructure and Public Works'}
+                  </span>
+                  <span className="text-[0.6rem] font-medium text-gray-500 sm:text-[0.7rem] lg:text-xs">
+                    Cellule Infrastructures
+                  </span>
+                </div>
+              </Link>
+
+              {/* Right: Search + Language (hidden on mobile, shown in nav bar instead) */}
+              <div className="hidden items-center gap-2 sm:flex sm:gap-3">
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  className="flex items-center gap-2 rounded-full border border-gray-200 px-3 py-1.5 text-sm text-gray-500 transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:px-4 sm:py-2"
+                  aria-label={isFr ? 'Rechercher' : 'Search'}
+                >
+                  <Search className="h-4 w-4" />
+                  <span className="hidden md:inline">{isFr ? 'Rechercher' : 'Search'}</span>
+                </button>
+                <a
+                  href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
+                  className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 no-underline transition-all duration-200 hover:border-[#007FFF]/30 hover:bg-[#007FFF]/5 hover:text-[#007FFF] sm:px-3.5 sm:py-2 sm:text-sm"
+                >
+                  <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  {isFr ? 'EN' : 'FR'}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -211,12 +217,27 @@ export function Header() {
           )}
           aria-label={isFr ? 'Navigation principale' : 'Main navigation'}
         >
-          <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-            {/* Left: Compact logos (appear on scroll) */}
+          <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-3 px-4 py-1 sm:px-6 lg:gap-4 lg:px-8 lg:py-0">
+            {/* Left: Logo for mobile (always) + compact logos for desktop (on scroll) */}
+            <Link
+              href={`/${locale}`}
+              className="flex shrink-0 items-center gap-2 no-underline lg:hidden"
+              aria-label="Accueil"
+            >
+              <Image
+                src="/ci-logo.png"
+                alt="CI"
+                width={40}
+                height={40}
+                className="h-9 w-9 object-contain"
+              />
+            </Link>
+
+            {/* Desktop compact logos (appear on scroll) */}
             <Link
               href={`/${locale}`}
               className={cn(
-                'ease-[cubic-bezier(0.4,0,0.2,1)] flex shrink-0 items-center gap-2 no-underline transition-all duration-500',
+                'ease-[cubic-bezier(0.4,0,0.2,1)] hidden shrink-0 items-center gap-2 no-underline transition-all duration-500 lg:flex',
                 compact
                   ? 'w-auto translate-x-0 opacity-100'
                   : 'pointer-events-none w-0 -translate-x-4 opacity-0'
@@ -227,20 +248,17 @@ export function Header() {
               <Image
                 src="/ci-logo.png"
                 alt="CI"
-                width={36}
-                height={36}
-                className="h-8 w-8 object-contain"
+                width={40}
+                height={40}
+                className="h-9 w-9 object-contain"
               />
               <Image
                 src="/gouv-logo.png"
                 alt="Gouvernement"
                 width={36}
                 height={36}
-                className="hidden h-8 w-8 object-contain sm:block"
+                className="h-7 w-7 object-contain"
               />
-              {/* <span className="hidden text-sm font-bold text-gray-900 lg:inline">
-                {isFr ? 'Cellule Infra' : 'Infra Unit'}
-              </span> */}
             </Link>
 
             {/* Center: Navigation links (desktop) */}
@@ -344,42 +362,37 @@ export function Header() {
               })}
             </ul>
 
-            {/* Right: Actions (appear on scroll for desktop, always for mobile) */}
-            <div className="flex shrink-0 items-center gap-2">
-              {/* Search — visible on scroll (desktop) */}
+            {/* Right: Actions */}
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+              {/* Search — always visible on mobile, only on scroll for desktop */}
               <button
                 onClick={() => setSearchOpen(true)}
                 className={cn(
-                  'hidden h-8 w-8 items-center justify-center rounded-full text-gray-500 transition-all duration-300 hover:bg-gray-100 hover:text-gray-900 lg:flex',
-                  compact ? 'scale-100 opacity-100' : 'pointer-events-none scale-75 opacity-0'
+                  'flex h-9 w-9 items-center justify-center rounded-full text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900',
+                  'lg:transition-all lg:duration-300',
+                  compact
+                    ? 'lg:scale-100 lg:opacity-100'
+                    : 'lg:pointer-events-none lg:scale-75 lg:opacity-0'
                 )}
-                aria-label={isFr ? 'Rechercher' : 'Search'}
-                tabIndex={compact ? 0 : -1}
-              >
-                <Search className="h-4 w-4" />
-              </button>
-
-              {/* Language — visible on scroll (desktop) */}
-              <a
-                href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
-                className={cn(
-                  'hidden items-center gap-1 rounded-full border border-gray-200 px-2.5 py-1 text-xs font-semibold text-gray-600 no-underline transition-all duration-300 hover:border-[#007FFF]/30 hover:text-[#007FFF] lg:flex',
-                  compact ? 'scale-100 opacity-100' : 'pointer-events-none scale-75 opacity-0'
-                )}
-                tabIndex={compact ? 0 : -1}
-              >
-                <Globe className="h-3 w-3" />
-                {isFr ? 'EN' : 'FR'}
-              </a>
-
-              {/* Mobile: search always visible */}
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 lg:hidden"
                 aria-label={isFr ? 'Rechercher' : 'Search'}
               >
                 <Search className="h-[18px] w-[18px]" />
               </button>
+
+              {/* Language — always visible on mobile, only on scroll for desktop */}
+              <a
+                href={`/${isFr ? 'en' : 'fr'}${pathname.replace(`/${locale}`, '')}`}
+                className={cn(
+                  'flex items-center gap-1 rounded-full border border-gray-200 px-2.5 py-1 text-xs font-semibold text-gray-600 no-underline transition-all duration-200 hover:border-[#007FFF]/30 hover:text-[#007FFF] sm:flex',
+                  'lg:transition-all lg:duration-300',
+                  compact
+                    ? 'lg:scale-100 lg:opacity-100'
+                    : 'lg:pointer-events-none lg:scale-75 lg:opacity-0'
+                )}
+              >
+                <Globe className="h-3 w-3" />
+                {isFr ? 'EN' : 'FR'}
+              </a>
 
               {/* Mobile hamburger */}
               <button

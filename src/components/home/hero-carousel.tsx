@@ -138,7 +138,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900/60 via-transparent to-transparent" />
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex h-full w-full items-end">
+      <div className="relative z-10 flex h-full w-full items-center">
         <div className="mx-auto w-full max-w-[1360px] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -227,7 +227,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         </button>
 
         {/* Dots / progress indicators */}
-        <div className="flex items-center gap-1.5">
+        <div className="hidden items-center gap-1.5 md:flex">
           {items.map((_, i) => (
             <button
               key={i}

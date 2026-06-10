@@ -1,54 +1,54 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { useLocale } from "next-intl";
-import { ChevronLeft, ChevronRight, ArrowRight, Pause, Play } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import type { HomeHeroSlide } from "@/lib/sanity/types";
+import { useState, useEffect, useCallback } from 'react';
+import { useLocale } from 'next-intl';
+import { ChevronLeft, ChevronRight, ArrowRight, Pause, Play } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import type { HomeHeroSlide } from '@/lib/sanity/types';
 
-const HERO_PLACEHOLDER_IMAGE = "/images/placeholders/RDC-Drapeau-CUA.jpg";
+const HERO_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
 
 const fallbackSlides: HomeHeroSlide[] = [
   {
-    image: { asset: { _id: "fallback-1", url: HERO_PLACEHOLDER_IMAGE } },
-    eyebrowFr: "Infrastructure Routière",
-    eyebrowEn: "Road Infrastructure",
-    titleFr: "Moderniser les routes pour connecter la nation",
-    titleEn: "Modernizing roads to connect the nation",
+    image: { asset: { _id: 'fallback-1', url: HERO_PLACEHOLDER_IMAGE } },
+    eyebrowFr: 'Infrastructure Routière',
+    eyebrowEn: 'Road Infrastructure',
+    titleFr: 'Moderniser les routes pour connecter la nation',
+    titleEn: 'Modernizing roads to connect the nation',
     descriptionFr:
-      "250 projets routiers en cours dans les 26 provinces de la République Démocratique du Congo.",
+      '250 projets routiers en cours dans les 26 provinces de la République Démocratique du Congo.',
     descriptionEn:
-      "250 road projects underway across the 26 provinces of the Democratic Republic of Congo.",
-    primaryHref: "/projets",
-    secondaryHref: "/appels-offres",
+      '250 road projects underway across the 26 provinces of the Democratic Republic of Congo.',
+    primaryHref: '/projets',
+    secondaryHref: '/appels-offres',
   },
   {
-    image: { asset: { _id: "fallback-2", url: HERO_PLACEHOLDER_IMAGE } },
-    eyebrowFr: "Énergie Hydroélectrique",
-    eyebrowEn: "Hydroelectric Energy",
+    image: { asset: { _id: 'fallback-2', url: HERO_PLACEHOLDER_IMAGE } },
+    eyebrowFr: 'Énergie Hydroélectrique',
+    eyebrowEn: 'Hydroelectric Energy',
     titleFr: "Investir dans l'énergie propre pour l'avenir",
-    titleEn: "Investing in clean energy for the future",
+    titleEn: 'Investing in clean energy for the future',
     descriptionFr:
-      "Grand Inga et autres barrages stratégiques : la RDC consolide son potentiel énergétique.",
-    descriptionEn: "Grand Inga and other strategic dams: DRC consolidates its energy potential.",
-    primaryHref: "/projets",
-    secondaryHref: "/publications",
+      'Grand Inga et autres barrages stratégiques : la RDC consolide son potentiel énergétique.',
+    descriptionEn: 'Grand Inga and other strategic dams: DRC consolidates its energy potential.',
+    primaryHref: '/projets',
+    secondaryHref: '/publications',
   },
   {
-    image: { asset: { _id: "fallback-3", url: HERO_PLACEHOLDER_IMAGE } },
-    eyebrowFr: "Développement Urbain",
-    eyebrowEn: "Urban Development",
-    titleFr: "Construire des villes inclusives et durables",
-    titleEn: "Building inclusive and sustainable cities",
+    image: { asset: { _id: 'fallback-3', url: HERO_PLACEHOLDER_IMAGE } },
+    eyebrowFr: 'Développement Urbain',
+    eyebrowEn: 'Urban Development',
+    titleFr: 'Construire des villes inclusives et durables',
+    titleEn: 'Building inclusive and sustainable cities',
     descriptionFr:
       "Planification urbaine, logement social et réseaux d'eau : la CI pilote la transformation urbaine.",
     descriptionEn:
-      "Urban planning, social housing and water networks: CI leads urban transformation.",
-    primaryHref: "/projets",
-    secondaryHref: "/actualites",
+      'Urban planning, social housing and water networks: CI leads urban transformation.',
+    primaryHref: '/projets',
+    secondaryHref: '/actualites',
   },
 ];
 
@@ -76,7 +76,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState(1);
   const locale = useLocale();
-  const isFr = locale === "fr";
+  const isFr = locale === 'fr';
 
   const goTo = useCallback(
     (index: number) => {
@@ -108,7 +108,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
   return (
     <section
       className="relative h-[85vh] min-h-[600px] w-full overflow-hidden bg-gray-900 lg:h-[90vh]"
-      aria-label={isFr ? "Diaporama principal" : "Main slideshow"}
+      aria-label={isFr ? 'Diaporama principal' : 'Main slideshow'}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -119,7 +119,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: 1.2 }, scale: { duration: 8, ease: "linear" } }}
+          transition={{ opacity: { duration: 1.2 }, scale: { duration: 8, ease: 'linear' } }}
           className="absolute inset-0"
         >
           <Image
@@ -165,7 +165,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
               <motion.h1
                 variants={textVariants}
                 transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-                className="mb-5 text-3xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+                className="mb-5 text-xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-2xl md:text-3xl lg:text-4xl"
               >
                 {isFr ? slide.titleFr : slide.titleEn || slide.titleFr}
               </motion.h1>
@@ -174,7 +174,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
               <motion.p
                 variants={textVariants}
                 transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                className="mb-8 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:text-xl"
+                className="mb-8 max-w-xl text-left text-base leading-relaxed text-white/70 sm:text-lg lg:text-xl"
               >
                 {isFr ? slide.descriptionFr : slide.descriptionEn || slide.descriptionFr}
               </motion.p>
@@ -186,19 +186,19 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
                 className="flex flex-wrap items-center gap-3 sm:gap-4"
               >
                 <Link
-                  href={`/${locale}${slide.primaryHref || "/projets"}`}
+                  href={`/${locale}${slide.primaryHref || '/projets'}`}
                   className="group inline-flex items-center gap-2 rounded-lg bg-[#007FFF] px-6 py-3.5 text-sm font-semibold text-white no-underline shadow-lg shadow-[#007FFF]/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0066cc] hover:shadow-xl hover:shadow-[#007FFF]/30 sm:px-7 sm:py-4 sm:text-base"
                 >
                   {(isFr ? slide.primaryCtaFr : slide.primaryCtaEn) ||
-                    (isFr ? "Voir les projets" : "View projects")}
+                    (isFr ? 'Voir les projets' : 'View projects')}
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
                 <Link
-                  href={`/${locale}${slide.secondaryHref || "/appels-offres"}`}
+                  href={`/${locale}${slide.secondaryHref || '/appels-offres'}`}
                   className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3.5 text-sm font-semibold text-white no-underline backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10 sm:px-7 sm:py-4 sm:text-base"
                 >
                   {(isFr ? slide.secondaryCtaFr : slide.secondaryCtaEn) ||
-                    (isFr ? "Appels d'offres" : "Procurement")}
+                    (isFr ? "Appels d'offres" : 'Procurement')}
                 </Link>
               </motion.div>
             </motion.div>
@@ -212,7 +212,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         <button
           onClick={() => setPaused(!paused)}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:text-white"
-          aria-label={paused ? "Play" : "Pause"}
+          aria-label={paused ? 'Play' : 'Pause'}
         >
           {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
         </button>
@@ -221,7 +221,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         <button
           onClick={prev}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:text-white"
-          aria-label={isFr ? "Précédent" : "Previous"}
+          aria-label={isFr ? 'Précédent' : 'Previous'}
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -233,23 +233,20 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
               key={i}
               onClick={() => goTo(i)}
               className="group relative flex h-9 w-9 items-center justify-center"
-              aria-label={`${isFr ? "Diapositive" : "Slide"} ${i + 1}`}
-              aria-current={i === current ? "true" : undefined}
+              aria-label={`${isFr ? 'Diapositive' : 'Slide'} ${i + 1}`}
+              aria-current={i === current ? 'true' : undefined}
             >
               <span
                 className={cn(
-                  "block rounded-full transition-all duration-300",
+                  'block rounded-full transition-all duration-300',
                   i === current
-                    ? "h-2.5 w-2.5 bg-white shadow-sm shadow-white/50"
-                    : "h-2 w-2 bg-white/40 group-hover:bg-white/70"
+                    ? 'h-2.5 w-2.5 bg-white shadow-sm shadow-white/50'
+                    : 'h-2 w-2 bg-white/40 group-hover:bg-white/70'
                 )}
               />
               {/* Auto-progress ring */}
               {i === current && !paused && (
-                <svg
-                  className="absolute inset-0 h-full w-full -rotate-90"
-                  viewBox="0 0 36 36"
-                >
+                <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
                   <circle
                     cx="18"
                     cy="18"
@@ -281,7 +278,7 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
         <button
           onClick={next}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/70 backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:text-white"
-          aria-label={isFr ? "Suivant" : "Next"}
+          aria-label={isFr ? 'Suivant' : 'Next'}
         >
           <ChevronRight className="h-4 w-4" />
         </button>
@@ -290,9 +287,11 @@ export function HeroCarousel({ slides }: { slides?: HomeHeroSlide[] }) {
       {/* ── Slide counter — bottom-left ── */}
       <div className="absolute bottom-6 left-4 z-20 sm:bottom-8 sm:left-6 lg:left-8">
         <span className="font-mono text-xs tabular-nums tracking-wider text-white/50">
-          <span className="text-lg font-bold text-white">{String(current + 1).padStart(2, "0")}</span>
+          <span className="text-lg font-bold text-white">
+            {String(current + 1).padStart(2, '0')}
+          </span>
           <span className="mx-1">/</span>
-          {String(items.length).padStart(2, "0")}
+          {String(items.length).padStart(2, '0')}
         </span>
       </div>
     </section>

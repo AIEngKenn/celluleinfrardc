@@ -2,169 +2,248 @@
 
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { Calendar, FileText, ArrowRight, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, FileText, ArrowRight, AlertCircle, Clock } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import type { Procurement } from '@/lib/sanity/types';
 import { cleanMigratedText, truncateText } from '@/lib/content-cleanup';
 
+const PROCUREMENT_PLACEHOLDER = '/images/placeholders/RDC-Drapeau-CUA.jpg';
+
+function procurementImage(opportunity: Procurement) {
+  const relatedImage = opportunity.relatedProjects?.[0]?.mainImage?.asset?.url;
+  return relatedImage || PROCUREMENT_PLACEHOLDER;
+}
+
+function categoryLabel(category: string, isFr: boolean) {
+  const labels: Record<string, { fr: string; en: string }> = {
+    works: { fr: 'Travaux', en: 'Works' },
+    supplies: { fr: 'Fournitures', en: 'Supplies' },
+    services: { fr: 'Services', en: 'Services' },
+    consultancy: { fr: 'Consultance', en: 'Consultancy' },
+    recruitment: { fr: 'Recrutement', en: 'Recruitment' },
+  };
+  const entry = labels[category];
+  if (entry) return isFr ? entry.fr : entry.en;
+  return category;
+}
+
 export function CurrentProcurement({ opportunities }: { opportunities?: Procurement[] }) {
   const t = useTranslations('home.sections');
   const locale = useLocale();
+  const isFr = locale === 'fr';
+
   if (!opportunities?.length) return null;
 
+  const [featured, ...rest] = opportunities;
+  const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
+  const featuredDescription = cleanMigratedText(
+    isFr ? featured.descriptionFr : featured.descriptionEn
+  );
+  const featuredImage = procurementImage(featured);
+  const featuredDays = Math.ceil(
+    (new Date(featured.closingDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+  );
+  const featuredUrgent = featuredDays <= 7 && featuredDays > 0;
+
   return (
-    <section className="bg-gray-50 py-16 sm:py-20">
-      <div className="container-wide">
-        {/* Section Header */}
-        <div className="mb-12 flex items-center justify-between">
+    <section
+      className="overflow-hidden bg-slate-50 py-16 sm:py-20"
+      aria-labelledby="home-procurement-heading"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.45 }}
+        >
           <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <span className="text-xs font-semibold uppercase tracking-wider text-rdc-blue">
+              {isFr ? 'Marchés publics' : 'Public procurement'}
+            </span>
+            <h2 id="home-procurement-heading" className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
               {t('procurement')}
             </h2>
-            <p className="mt-2 text-lg text-gray-600">
-              {locale === 'fr'
-                ? "Opportunités d'affaires actuelles"
-                : 'Current business opportunities'}
+            <p className="mt-2 max-w-xl text-sm text-slate-600 sm:text-base">
+              {isFr
+                ? "Opportunités d'affaires actuelles ouvertes aux soumissionnaires."
+                : 'Current business opportunities open to bidders.'}
             </p>
           </div>
           <Link
             href={`/${locale}/appels-offres`}
-            className="hidden items-center gap-2 font-medium text-rdc-blue transition-colors hover:text-rdc-blue/80 sm:flex"
+            className="hidden items-center gap-2 text-sm font-semibold text-rdc-blue transition-all hover:gap-3 sm:inline-flex"
           >
-            {locale === 'fr' ? "Tous les appels d'offres" : 'All procurement'}
-            <ArrowRight className="h-5 w-5" />
+            {isFr ? "Tous les appels d'offres" : 'All procurement'}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
-        </div>
+        </motion.div>
 
-        {/* Opportunities List */}
-        <div className="space-y-4">
-          {opportunities.map((opportunity) => {
-            const daysUntilDeadline = Math.ceil(
-              (new Date(opportunity.closingDate).getTime() - new Date().getTime()) /
-                (1000 * 60 * 60 * 24)
-            );
-            const isUrgent = daysUntilDeadline <= 7;
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
+          {/* Left: list */}
+          <motion.div
+            className="flex flex-col gap-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5 }}
+          >
+            {rest.map((opportunity) => {
+              const title = isFr ? opportunity.titleFr : opportunity.titleEn;
+              const daysUntilDeadline = Math.ceil(
+                (new Date(opportunity.closingDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+              );
+              const isUrgent = daysUntilDeadline <= 7 && daysUntilDeadline > 0;
 
-            return (
-              // <Link
-              //   key={opportunity._id}
-              //   href={`/${locale}/appels-offres/${opportunity.slug}`}
-              //   className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-lg bg-white p-6 border border-gray-200 transition-all hover:shadow-lg hover:border-rdc-blue"
-              // >
-              //   <div className="flex-1">
-              //     <div className="mb-2 flex items-center gap-2">
-              //       <span className="inline-flex rounded-full bg-rdc-blue/10 px-3 py-1 text-xs font-medium text-rdc-blue">
-              //         {opportunity.category}
-              //       </span>
-              //       <span className="text-sm text-gray-500">
-              //         {opportunity.reference}
-              //       </span>
-              //     </div>
-              //     <h3 className="text-lg font-semibold text-gray-900 group-hover:text-rdc-blue transition-colors mb-2">
-              //       {truncateText(locale === "fr" ? opportunity.titleFr : opportunity.titleEn, 120)}
-              //     </h3>
-              //     {(opportunity.descriptionFr || opportunity.descriptionEn) && (
-              //       <p className="mb-3 line-clamp-2 text-sm text-gray-600">
-              //         {truncateText(
-              //           cleanMigratedText(locale === "fr" ? opportunity.descriptionFr : opportunity.descriptionEn),
-              //           150
-              //         )}
-              //       </p>
-              //     )}
-              //     <div className="flex items-center gap-4 text-sm text-gray-500">
-              //       <div className="flex items-center gap-1">
-              //         <Calendar className="h-4 w-4" />
-              //         <span>
-              //           {locale === "fr" ? "Date limite: " : "Deadline: "}
-              //           {formatDate(opportunity.closingDate, locale)}
-              //         </span>
-              //       </div>
-              //     </div>
-              //   </div>
-              //   <div className="flex items-center gap-3">
-              //     {isUrgent && (
-              //       <div className="flex items-center gap-1 rounded-full bg-rdc-red/10 px-3 py-1">
-              //         <AlertCircle className="h-4 w-4 text-rdc-red" />
-              //         <span className="text-xs font-medium text-rdc-red">
-              //           {daysUntilDeadline} {locale === "fr" ? "jours" : "days"}
-              //         </span>
-              //       </div>
-              //     )}
-              //     <FileText className="h-5 w-5 text-gray-400 group-hover:text-rdc-blue transition-colors" />
-              //   </div>
-              // </Link>
-              <Link
-                key={opportunity._id}
-                href={`/${locale}/appels-offres/${opportunity.slug}`}
-                className="group block"
-              >
-                <article className="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rdc-blue/20 hover:shadow-2xl sm:flex-row sm:items-center sm:justify-between">
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center rounded-full bg-rdc-blue/10 px-3 py-1 text-xs font-semibold text-rdc-blue">
-                        {opportunity.category}
-                      </span>
-
-                      <span className="text-xs text-slate-500">{opportunity.reference}</span>
-
-                      {isUrgent && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-rdc-red/10 px-3 py-1 text-xs font-semibold text-rdc-red">
-                          <AlertCircle className="h-3.5 w-3.5" />
-                          {daysUntilDeadline} {locale === 'fr' ? 'jours restants' : 'days left'}
-                        </span>
-                      )}
+              return (
+                <Link
+                  key={opportunity._id}
+                  href={`/${locale}/appels-offres/${opportunity.slug}`}
+                  className="group block"
+                >
+                  <article className="flex gap-4 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rdc-blue/20 hover:shadow-lg sm:p-5">
+                    <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:h-28 sm:w-32">
+                      <img
+                        src={procurementImage(opportunity)}
+                        alt=""
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
                     </div>
-
-                    <h3 className="mb-3 text-lg font-bold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue sm:text-xl">
-                      {truncateText(
-                        locale === 'fr' ? opportunity.titleFr : opportunity.titleEn,
-                        120
-                      )}
-                    </h3>
-
-                    {(opportunity.descriptionFr || opportunity.descriptionEn) && (
-                      <p className="mb-4 line-clamp-2 text-sm leading-6 text-slate-600">
-                        {truncateText(
-                          cleanMigratedText(
-                            locale === 'fr' ? opportunity.descriptionFr : opportunity.descriptionEn
-                          ),
-                          150
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <span className="inline-flex rounded-full bg-rdc-blue/10 px-2.5 py-0.5 text-[11px] font-semibold text-rdc-blue">
+                          {categoryLabel(opportunity.category, isFr)}
+                        </span>
+                        {isUrgent && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-rdc-red/10 px-2.5 py-0.5 text-[11px] font-semibold text-rdc-red">
+                            <AlertCircle className="h-3 w-3" aria-hidden="true" />
+                            {daysUntilDeadline} {isFr ? 'j' : 'd'}
+                          </span>
                         )}
+                      </div>
+                      <h3 className="mb-2 line-clamp-2 text-sm font-bold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue sm:text-base">
+                        {truncateText(title, 100)}
+                      </h3>
+                      <p className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <Calendar className="h-3.5 w-3.5 text-rdc-blue" aria-hidden="true" />
+                        {formatDate(opportunity.closingDate, locale)}
                       </p>
-                    )}
+                    </div>
+                    <ArrowRight className="mt-2 hidden h-5 w-5 shrink-0 text-rdc-blue opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100 sm:block" />
+                  </article>
+                </Link>
+              );
+            })}
 
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <Calendar className="h-4 w-4 text-rdc-blue" />
+            {rest.length === 0 ? (
+              <div className="flex h-full flex-col justify-center rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <span className="mb-3 inline-flex w-fit rounded-full bg-rdc-blue/10 px-3 py-1 text-xs font-semibold text-rdc-blue">
+                  {isFr ? 'Marchés ouverts' : 'Open tenders'}
+                </span>
+                <h3 className="mb-3 text-xl font-bold text-slate-900">
+                  {isFr
+                    ? "Soumissionnez aux appels d'offres en cours"
+                    : 'Submit bids for open opportunities'}
+                </h3>
+                <p className="mb-6 text-sm leading-6 text-slate-600">
+                  {isFr
+                    ? "Consultez les dossiers complets, les pièces jointes et les dates limites sur la page dédiée."
+                    : 'Review full dossiers, attachments and deadlines on the dedicated page.'}
+                </p>
+                <Link
+                  href={`/${locale}/appels-offres`}
+                  className="inline-flex w-fit items-center gap-2 rounded-full bg-rdc-blue px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-rdc-blue/90 hover:gap-3"
+                >
+                  {isFr ? "Voir tous les appels d'offres" : 'View all procurement'}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ) : null}
+          </motion.div>
+
+          {/* Right: featured latest */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+          >
+            <Link
+              href={`/${locale}/appels-offres/${featured.slug}`}
+              className="group block h-full"
+            >
+              <article className="relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-rdc-blue/20 hover:shadow-2xl">
+                <div className="relative aspect-[16/11] overflow-hidden sm:aspect-[16/10]">
+                  <img
+                    src={featuredImage}
+                    alt={featuredTitle}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+
+                  <div className="absolute left-5 top-5 flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-rdc-blue shadow">
+                      <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                      {isFr ? 'Dernier appel' : 'Latest opportunity'}
+                    </span>
+                    {featuredUrgent && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-rdc-red px-3 py-1 text-xs font-semibold text-white">
+                        <AlertCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                        {featuredDays} {isFr ? 'jours restants' : 'days left'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-1 flex-col p-6 sm:p-8">
+                  <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                    <span className="rounded-full bg-rdc-blue/10 px-3 py-1 font-semibold text-rdc-blue">
+                      {categoryLabel(featured.category, isFr)}
+                    </span>
+                    <span className="font-mono">{featured.reference}</span>
+                  </div>
+
+                  <h3 className="mb-3 text-xl font-bold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue sm:text-2xl">
+                    {truncateText(featuredTitle, 120)}
+                  </h3>
+
+                  {featuredDescription && (
+                    <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600">
+                      {truncateText(featuredDescription, 180)}
+                    </p>
+                  )}
+
+                  <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-4">
+                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                      <Clock className="h-4 w-4 text-rdc-blue" aria-hidden="true" />
                       <span>
-                        {locale === 'fr' ? 'Date limite:' : 'Deadline:'}{' '}
-                        <span className="font-medium text-slate-700">
-                          {formatDate(opportunity.closingDate, locale)}
-                        </span>
+                        {isFr ? 'Clôture:' : 'Deadline:'}{' '}
+                        <strong className="text-slate-900">
+                          {formatDate(featured.closingDate, locale)}
+                        </strong>
                       </span>
                     </div>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-rdc-blue">
+                      {isFr ? 'Consulter' : 'View'}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
                   </div>
-
-                  <div className="flex items-center justify-end sm:justify-center">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400 transition-all duration-300 group-hover:scale-105 group-hover:bg-rdc-blue group-hover:text-white">
-                      <FileText className="h-5 w-5" />
-                    </div>
-
-                    <ArrowRight className="ml-3 h-5 w-5 text-rdc-blue opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
-                  </div>
-                </article>
-              </Link>
-            );
-          })}
+                </div>
+              </article>
+            </Link>
+          </motion.div>
         </div>
 
-        {/* Mobile View All Link */}
         <div className="mt-8 flex justify-center sm:hidden">
           <Link
             href={`/${locale}/appels-offres`}
-            className="flex items-center gap-2 font-medium text-rdc-blue transition-colors hover:text-rdc-blue/80"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-rdc-blue"
           >
-            {locale === 'fr' ? "Tous les appels d'offres" : 'All procurement'}
-            <ArrowRight className="h-5 w-5" />
+            {isFr ? "Tous les appels d'offres" : 'All procurement'}
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>

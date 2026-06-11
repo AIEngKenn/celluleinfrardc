@@ -1,31 +1,91 @@
 'use client';
 
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { News } from '@/lib/sanity/types';
-import { truncateText } from '@/lib/content-cleanup';
-
-const ARTICLE_PLACEHOLDER_IMAGE = '/images/placeholders/RDC-Drapeau-CUA.jpg';
+import { NewsCard } from '@/components/news/news-card';
 
 export function LatestNews({ news }: { news?: News[] }) {
   const locale = useLocale();
+  const t = useTranslations('news');
   const isFr = locale === 'fr';
-  if (!news?.length) return null;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const [featured, ...rest] = news;
+  const articles = news ?? [];
 
-  const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
+  const updateScrollState = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const { scrollLeft, scrollWidth, clientWidth } = track;
+    setCanScrollLeft(scrollLeft > 8);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 8);
+  }, []);
 
-  const featuredImage = featured.mainImage?.asset?.url || ARTICLE_PLACEHOLDER_IMAGE;
+  const scrollByCard = useCallback((direction: 'left' | 'right') => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector<HTMLElement>('[data-news-card]');
+    const gap = 24;
+    const amount = (card?.offsetWidth ?? 320) + gap;
+    track.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncMotion = () => setPrefersReducedMotion(media.matches);
+    syncMotion();
+    media.addEventListener('change', syncMotion);
+    return () => media.removeEventListener('change', syncMotion);
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    const track = trackRef.current;
+    if (!track) return undefined;
+    track.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+    return () => {
+      track.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, [updateScrollState, articles.length]);
+
+  useEffect(() => {
+    if (articles.length <= 1 || isPaused || prefersReducedMotion) return undefined;
+    const interval = window.setInterval(() => {
+      const track = trackRef.current;
+      if (!track) return;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
+      if (atEnd) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        scrollByCard('right');
+      }
+    }, 5000);
+    return () => window.clearInterval(interval);
+  }, [articles.length, isPaused, prefersReducedMotion, scrollByCard]);
+
+  if (!articles.length) return null;
 
   return (
-    <section className="bg-white py-16">
+    <section
+      className="overflow-hidden bg-white py-16 sm:py-20"
+      aria-labelledby="home-news-heading"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mb-10 flex items-end justify-between"
+          className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
@@ -35,91 +95,71 @@ export function LatestNews({ news }: { news?: News[] }) {
             <span className="text-xs font-semibold uppercase tracking-wider text-rdc-blue">
               {isFr ? 'Actualités récentes' : 'Latest news'}
             </span>
-            <h2 className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
+            <h2 id="home-news-heading" className="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">
               {isFr ? 'La vie des projets' : 'Projects in motion'}
             </h2>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+              {isFr
+                ? 'Retrouvez les dernières actualités de la Cellule Infrastructures, mises à jour depuis le CMS.'
+                : 'Browse the latest Infrastructure Unit news, updated from the CMS.'}
+            </p>
           </div>
 
-          <Link
-            href={`/${locale}/actualites`}
-            className="flex items-center gap-2 text-sm font-semibold text-rdc-blue transition-all hover:gap-3"
-          >
-            {isFr ? 'Toutes les actualités' : 'All news'}
-            <ArrowRight size={16} />
-          </Link>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-8 lg:grid-cols-[3fr_2fr]"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* FEATURED */}
-          <Link
-            href={`/${locale}/actualites/${featured.slug}`}
-            className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-          >
-            <div className="relative aspect-[16/10] overflow-hidden">
-              <img
-                src={featuredImage}
-                alt={featured.mainImage?.alt || featuredTitle}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="mb-3 inline-flex rounded-full bg-rdc-blue/90 px-3 py-1 text-xs font-semibold text-white">
-                  {isFr ? featured.category.nameFr : featured.category.nameEn}
-                </span>
-
-                <h3 className="mb-3 text-xl font-bold leading-tight text-white md:text-2xl">
-                  {truncateText(featuredTitle, 120)}
-                </h3>
-
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <Calendar className="h-4 w-4" />
-                  <span>{formatDate(featured.publishedAt, locale)}</span>
-                </div>
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-2 sm:flex">
+              <button
+                type="button"
+                onClick={() => scrollByCard('left')}
+                disabled={!canScrollLeft}
+                className="ci-news-carousel-btn"
+                aria-label={isFr ? 'Actualité précédente' : 'Previous article'}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollByCard('right')}
+                disabled={!canScrollRight}
+                className="ci-news-carousel-btn"
+                aria-label={isFr ? 'Actualité suivante' : 'Next article'}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
-          </Link>
-
-          {/* SECONDARY LIST */}
-          <div className="flex flex-col gap-4">
-            {rest.map((article) => {
-              const title = isFr ? article.titleFr : article.titleEn;
-
-              return (
-                <Link
-                  key={article._id}
-                  href={`/${locale}/actualites/${article.slug}`}
-                  className="group flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-rdc-blue/20 hover:shadow-lg"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-2 flex items-center gap-2">
-                      <span className="inline-flex rounded-full bg-rdc-blue/10 px-2.5 py-1 text-[11px] font-semibold text-rdc-blue">
-                        {isFr ? article.category.nameFr : article.category.nameEn}
-                      </span>
-
-                      <span className="text-xs text-slate-400">
-                        {formatDate(article.publishedAt, locale)}
-                      </span>
-                    </div>
-
-                    <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-rdc-blue">
-                      {truncateText(title, 95)}
-                    </p>
-                  </div>
-
-                  <ArrowRight className="h-4 w-4 text-slate-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-rdc-blue" />
-                </Link>
-              );
-            })}
+            <Link
+              href={`/${locale}/actualites`}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-rdc-blue transition-all hover:gap-3"
+            >
+              {isFr ? 'Toutes les actualités' : 'All news'}
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           </div>
         </motion.div>
+
+        <div className="relative">
+          <div
+            ref={trackRef}
+            className="ci-news-carousel-track"
+            role="region"
+            aria-roledescription={isFr ? 'carrousel' : 'carousel'}
+            aria-label={isFr ? 'Actualités récentes' : 'Latest news'}
+            tabIndex={0}
+          >
+            {articles.map((article, index) => (
+              <div key={article._id} data-news-card className="ci-news-carousel-slide">
+                <NewsCard
+                  article={article}
+                  locale={locale}
+                  featuredLabel={t('featured')}
+                  className="h-full"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent sm:w-12" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent sm:w-12" />
+        </div>
       </div>
     </section>
   );

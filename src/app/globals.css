@@ -555,9 +555,9 @@
   .ci-footer-logo {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 1rem;
     text-decoration: none;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
   .ci-footer-logo:hover {
     text-decoration: none;
@@ -589,6 +589,72 @@
     font-size: 0.7rem;
     color: #bfdbfe;
     line-height: 1.2;
+  }
+
+  /* Home news carousel */
+  .ci-news-carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.25rem 0.25rem 0.75rem;
+  }
+  .ci-news-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  .ci-news-carousel-track:focus-visible {
+    outline: 2px solid var(--ci-blue);
+    outline-offset: 4px;
+    border-radius: 0.75rem;
+  }
+  .ci-news-carousel-slide {
+    flex: 0 0 min(100%, 320px);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 640px) {
+    .ci-news-carousel-slide {
+      flex-basis: min(88%, 360px);
+    }
+  }
+  @media (min-width: 1024px) {
+    .ci-news-carousel-slide {
+      flex-basis: calc((100% - 3rem) / 3);
+      max-width: 400px;
+    }
+  }
+  .ci-news-carousel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #0f172a;
+    transition:
+      border-color 0.2s,
+      color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
+  }
+  .ci-news-carousel-btn:hover:not(:disabled) {
+    border-color: var(--ci-blue);
+    color: var(--ci-blue);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+    transform: translateY(-1px);
+  }
+  .ci-news-carousel-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .ci-news-carousel-btn:focus-visible {
+    outline: 2px solid var(--ci-blue);
+    outline-offset: 2px;
   }
   .ci-footer-desc {
     font-size: 0.8125rem;

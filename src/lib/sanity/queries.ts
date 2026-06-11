@@ -154,7 +154,13 @@ const procurementFields = groq`
     _id,
     titleFr,
     titleEn,
-    "slug": slug.current
+    "slug": slug.current,
+    mainImage{
+      asset->{
+        url
+      },
+      alt
+    }
   }
 `;
 
@@ -320,6 +326,7 @@ export const moreNewsQuery = groq`
     excerptEn,
     "slug": slug.current,
     publishedAt,
+    featured,
     category->{ nameFr, nameEn, "slug": slug.current },
     mainImage{ asset->{ url }, alt }
   }
@@ -649,10 +656,10 @@ export const homePageQuery = groq`
     "projects": *[_type == "project"] | order(featured desc, _createdAt desc) [0...3] {
       ${projectFields}
     },
-    "news": *[_type == "news"] | order(publishedAt desc, _createdAt desc) [0...4] {
+    "news": *[_type == "news"] | order(publishedAt desc, _createdAt desc) [0...8] {
       ${newsFields}
     },
-    "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...3] {
+    "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...4] {
       ${procurementFields}
     },
     "publications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...4] {

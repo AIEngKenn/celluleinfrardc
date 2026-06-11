@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Calendar, ArrowLeft, Tag, Newspaper, ArrowRight } from 'lucide-react';
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import { SharePanel } from '@/components/share/share-panel';
-import { truncateText } from '@/lib/content-cleanup';
+import { NewsCard } from '@/components/news/news-card';
 import { createSeoMetadata } from '@/lib/seo';
 
 interface Props {
@@ -187,41 +187,15 @@ export default async function NewsDetailPage({ params }: Props) {
               </Link>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-              {moreNews.map((item) => {
-                const itemTitle = isFr ? item.titleFr : item.titleEn;
-
-                return (
-                  <Link
-                    key={item._id}
-                    href={`/${locale}/actualites/${item.slug}`}
-                    className="group"
-                  >
-                    <Card className="overflow-hidden rounded-2xl border border-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl">
-                      {item.mainImage ? (
-                        <div className="aspect-video overflow-hidden">
-                          <img
-                            src={item.mainImage.asset.url}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex aspect-video items-center justify-center bg-rdc-blue/5 text-rdc-blue">
-                          <Newspaper className="h-8 w-8" />
-                        </div>
-                      )}
-
-                      <div className="p-4">
-                        <p className="mb-2 text-xs text-slate-500">{formattedDate}</p>
-
-                        <h3 className="line-clamp-2 font-semibold text-slate-900 transition-colors group-hover:text-rdc-blue">
-                          {truncateText(itemTitle, 95)}
-                        </h3>
-                      </div>
-                    </Card>
-                  </Link>
-                );
-              })}
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {moreNews.map((item) => (
+                <NewsCard
+                  key={item._id}
+                  article={item}
+                  locale={locale}
+                  featuredLabel={t('featured')}
+                />
+              ))}
             </div>
           </section>
         )}

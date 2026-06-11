@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLocale } from 'next-intl';
 import { Facebook, Twitter, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import type { SiteSettings } from '@/lib/sanity/types';
@@ -61,12 +64,24 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
           {/* Brand column */}
           <div className="ci-footer-brand">
             <Link href={`/${locale}`} className="ci-footer-logo">
-              <span className="ci-footer-logo-emblem">CI</span>
-              <span className="ci-footer-logo-text">
-                <span>Cellule Infrastructures</span>
-                <span className="ci-footer-logo-sub">République Démocratique du Congo</span>
-              </span>
+              <Image
+                src="/ci-logo-white.png"
+                alt="Cellule Infrastructures"
+                width={160}
+                height={48}
+                className="h-10 w-auto object-contain sm:h-12"
+              />
+              <Image
+                src="/gouv-logo.png"
+                alt={isFr ? 'Gouvernement de la RDC' : 'Government of the DRC'}
+                width={56}
+                height={56}
+                className="h-11 w-11 object-contain opacity-90 sm:h-12 sm:w-12"
+              />
             </Link>
+            <p className="ci-footer-logo-sub mb-3 mt-1">
+              {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of Congo'}
+            </p>
             <p className="ci-footer-desc">{footerDescription}</p>
             <div className="ci-footer-social">
               {[

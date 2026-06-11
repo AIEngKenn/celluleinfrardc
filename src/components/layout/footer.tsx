@@ -79,10 +79,12 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
                 className="h-11 w-11 object-contain opacity-90 sm:h-12 sm:w-12"
               />
             </Link>
-            <p className="ci-footer-logo-sub mb-3 mt-1">
-              {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of Congo'}
-            </p>
-            <p className="ci-footer-desc">{footerDescription}</p>
+            <div className="ci-footer-brand-copy">
+              <p className="ci-footer-logo-sub">
+                {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of Congo'}
+              </p>
+              <p className="ci-footer-desc">{footerDescription}</p>
+            </div>
             <div className="ci-footer-social">
               {[
                 { href: settings?.facebookUrl, icon: Facebook, label: 'Facebook' },

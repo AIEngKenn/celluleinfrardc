@@ -100,8 +100,8 @@ export function LatestNews({ news }: { news?: News[] }) {
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
               {isFr
-                ? 'Retrouvez les dernières actualités de la Cellule Infrastructures, mises à jour depuis le CMS.'
-                : 'Browse the latest Infrastructure Unit news, updated from the CMS.'}
+                ? 'Suivez l’avancement des projets et les événements marquants de la Cellule Infrastructures.'
+                : 'Follow project progress and key updates from the Infrastructure Unit.'}
             </p>
           </div>
 
@@ -158,8 +158,8 @@ export function LatestNews({ news }: { news?: News[] }) {
             ))}
           </div>
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-white/25 via-white/5 to-transparent sm:w-20" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-white/25 via-white/5 to-transparent sm:w-20" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white/[0.07] via-white/[0.02] to-transparent sm:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white/[0.07] via-white/[0.02] to-transparent sm:w-24" />
         </div>
       </div>
     </section>

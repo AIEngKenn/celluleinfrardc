@@ -695,37 +695,59 @@ export const siteSettingsQuery = groq`
 `;
 
 export const aboutPageQuery = groq`
-  *[_type == "aboutPage"][0] {
-    title,
-    pageTitleFr,
-    pageTitleEn,
-    subtitleFr,
-    subtitleEn,
-    missionEyebrowFr,
-    missionEyebrowEn,
-    missionTitleFr,
-    missionTitleEn,
-    missions[]{
-      icon,
-      titleFr,
-      titleEn,
-      descriptionFr,
-      descriptionEn
+  {
+    "about": *[_type == "aboutPage"][0] {
+      title,
+      pageTitleFr,
+      pageTitleEn,
+      subtitleFr,
+      subtitleEn,
+      heroImage{
+        asset->{ url },
+        alt
+      },
+      missionEyebrowFr,
+      missionEyebrowEn,
+      missionTitleFr,
+      missionTitleEn,
+      missions[]{
+        icon,
+        titleFr,
+        titleEn,
+        descriptionFr,
+        descriptionEn,
+        image{
+          asset->{ url },
+          alt
+        }
+      },
+      organizationEyebrowFr,
+      organizationEyebrowEn,
+      organizationTitleFr,
+      organizationTitleEn,
+      organizationBodyFr,
+      organizationBodyEn,
+      organizationImage{
+        asset->{ url },
+        alt
+      },
+      figuresEyebrowFr,
+      figuresEyebrowEn,
+      figuresTitleFr,
+      figuresTitleEn,
+      figures[]{
+        value,
+        labelFr,
+        labelEn
+      }
     },
-    organizationEyebrowFr,
-    organizationEyebrowEn,
-    organizationTitleFr,
-    organizationTitleEn,
-    organizationBodyFr,
-    organizationBodyEn,
-    figuresEyebrowFr,
-    figuresEyebrowEn,
-    figuresTitleFr,
-    figuresTitleEn,
-    figures[]{
-      value,
-      labelFr,
-      labelEn
+    "missionFallbackImages": *[_type == "project" && defined(mainImage.asset)] | order(featured desc, _updatedAt desc) [0...4] {
+      "url": mainImage.asset->url,
+      "alt": mainImage.alt
+    },
+    "heroFallbackImage": *[_type == "project" && defined(mainImage.asset)] | order(featured desc, _updatedAt desc) [0] {
+      "url": mainImage.asset->url,
+      "alt": mainImage.alt
     }
   }
 `;

@@ -318,6 +318,13 @@ export interface AboutMission {
   titleEn?: string;
   descriptionFr?: string;
   descriptionEn?: string;
+  image?: SanityImage;
+}
+
+export interface AboutPageData {
+  about: AboutPageContent | null;
+  missionFallbackImages: Array<{ url: string; alt?: string }>;
+  heroFallbackImage?: { url: string; alt?: string };
 }
 
 export interface AboutFigure {
@@ -348,6 +355,8 @@ export interface AboutPageContent {
   figuresTitleFr?: string;
   figuresTitleEn?: string;
   figures?: AboutFigure[];
+  heroImage?: SanityImage;
+  organizationImage?: SanityImage;
 }
 
 // ============================================================================

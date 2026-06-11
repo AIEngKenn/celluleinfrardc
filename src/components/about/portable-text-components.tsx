@@ -3,7 +3,7 @@ import type { PortableTextComponents } from '@portabletext/react';
 export const aboutPortableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="mb-5 text-base leading-7 text-gray-700 last:mb-0">{children}</p>
+      <p className="mb-5 mx-0 max-w-none text-base leading-7 text-gray-700 last:mb-0">{children}</p>
     ),
     h2: ({ children }) => (
       <h2 className="mb-4 mt-8 text-2xl font-bold text-gray-900">{children}</h2>

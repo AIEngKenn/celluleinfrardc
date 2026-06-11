@@ -108,7 +108,7 @@ export function AboutPageContent({
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 via-gray-900/20 to-transparent" />
         <div className="absolute inset-0 bg-black/25" />
 
-        <div className="relative mx-auto flex min-h-[72vh] w-full max-w-7xl flex-col items-start justify-end px-4 pb-16 pt-12 text-left sm:px-6 lg:px-8 lg:pb-20">
+        <div className="relative mx-auto flex min-h-[72vh] w-full max-w-[1360px] flex-col items-start justify-end px-4 pb-16 pt-12 text-left sm:px-6 lg:px-8 lg:pb-20">
           <motion.nav
             className="mb-10 flex items-center gap-1.5 text-sm text-white/70"
             initial={{ opacity: 0, y: 12 }}
@@ -126,12 +126,12 @@ export function AboutPageContent({
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease, delay: 0.08 }}
-            className="w-full max-w-4xl text-left"
+            className="w-full max-w-4xl text-left [&_p]:mx-0 [&_p]:ml-0"
           >
-            <p className="mb-4 text-left text-xs font-bold uppercase tracking-[0.22em] text-rdc-yellow">
+            <p className="mb-4 max-w-none text-left text-xs font-bold uppercase tracking-[0.18em] text-rdc-yellow">
               {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of Congo'}
             </p>
-            <h1 className="text-left text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mx-0 max-w-none text-left text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
               {pageTitle}
             </h1>
             <p className="mt-6 max-w-2xl text-left text-lg leading-8 text-white/85">{subtitle}</p>

@@ -49,7 +49,7 @@ export function MissionDetailContent({ locale, mission, otherMissions }: Mission
         <div className="absolute inset-0 bg-[#0a2540]/78" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a2540] via-[#0a2540]/30 to-transparent" />
 
-        <div className="relative mx-auto flex min-h-[55vh] max-w-7xl flex-col justify-end px-4 pb-14 pt-10 sm:px-6 lg:px-8">
+        <div className="relative mx-auto flex min-h-[55vh] w-full max-w-[1360px] flex-col items-start justify-end px-4 pb-14 pt-10 text-left sm:px-6 lg:px-8">
           <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-white/70" aria-label={isFr ? "Fil d'Ariane" : 'Breadcrumb'}>
             <Link href={`/${locale}`} className="hover:text-white" aria-label={isFr ? 'Accueil' : 'Home'}>
               <Home className="h-4 w-4" />
@@ -62,14 +62,19 @@ export function MissionDetailContent({ locale, mission, otherMissions }: Mission
             <span className="text-white">{title}</span>
           </nav>
 
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease }}
+            className="w-full max-w-4xl text-left [&_p]:mx-0"
+          >
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-rdc-yellow">
               {isFr ? 'Mission' : 'Mission'}
             </p>
-            <h1 className="max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+            <h1 className="max-w-4xl text-left text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
               {title}
             </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-white/85">{description}</p>
+            <p className="mt-4 max-w-2xl text-left text-lg leading-8 text-white/85">{description}</p>
           </motion.div>
         </div>
       </header>

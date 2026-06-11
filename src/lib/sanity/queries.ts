@@ -653,13 +653,13 @@ export const homePageQuery = groq`
     "heroPublications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...2] {
       ${publicationFields}
     },
-    "projects": *[_type == "project"] | order(featured desc, _createdAt desc) [0...3] {
+    "projects": *[_type == "project"] | order(featured desc, _createdAt desc) [0...4] {
       ${projectFields}
     },
     "news": *[_type == "news"] | order(publishedAt desc, _createdAt desc) [0...8] {
       ${newsFields}
     },
-    "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...4] {
+    "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...5] {
       ${procurementFields}
     },
     "publications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...4] {

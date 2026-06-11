@@ -32,7 +32,8 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
   const isFr = locale === 'fr';
   if (!projects?.length) return null;
 
-  const [featured, ...rest] = projects;
+  const [featured, ...restAll] = projects;
+  const rest = restAll.slice(0, 3);
 
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
   const featuredImage = featured.mainImage?.asset?.url || PROJECT_PLACEHOLDER_IMAGE;

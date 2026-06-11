@@ -136,29 +136,30 @@ export function LatestNews({ news }: { news?: News[] }) {
           </div>
         </motion.div>
 
-        <div className="relative">
+        <div className="relative -mx-2 sm:-mx-4">
           <div
             ref={trackRef}
-            className="ci-news-carousel-track"
+            className="ci-news-carousel-track ci-news-carousel-track--album"
             role="region"
             aria-roledescription={isFr ? 'carrousel' : 'carousel'}
             aria-label={isFr ? 'Actualités récentes' : 'Latest news'}
             tabIndex={0}
           >
-            {articles.map((article, index) => (
-              <div key={article._id} data-news-card className="ci-news-carousel-slide">
+            {articles.map((article) => (
+              <div key={article._id} data-news-card className="ci-news-carousel-slide ci-news-carousel-slide--album">
                 <NewsCard
                   article={article}
                   locale={locale}
                   featuredLabel={t('featured')}
+                  variant="album"
                   className="h-full"
                 />
               </div>
             ))}
           </div>
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent sm:w-12" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent sm:w-12" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-white/25 via-white/5 to-transparent sm:w-20" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-white/25 via-white/5 to-transparent sm:w-20" />
         </div>
       </div>
     </section>

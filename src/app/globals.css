@@ -611,19 +611,45 @@
     outline-offset: 4px;
     border-radius: 0.75rem;
   }
-  .ci-news-carousel-slide {
-    flex: 0 0 min(100%, 320px);
-    scroll-snap-align: start;
+  .ci-news-carousel-track--album {
+    gap: 1.25rem;
+    padding: 0.75rem 0.5rem 1.25rem;
+    align-items: stretch;
+    scroll-padding-inline: 0.5rem;
+  }
+  .ci-news-carousel-slide--album {
+    flex: 0 0 min(72%, 260px);
+    scroll-snap-align: center;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center center;
+  }
+  .ci-news-carousel-slide--album:hover {
+    transform: scale(1.04);
+    z-index: 2;
   }
   @media (min-width: 640px) {
-    .ci-news-carousel-slide {
-      flex-basis: min(88%, 360px);
+    .ci-news-carousel-slide--album {
+      flex-basis: min(44%, 280px);
     }
   }
   @media (min-width: 1024px) {
-    .ci-news-carousel-slide {
-      flex-basis: calc((100% - 3rem) / 3);
-      max-width: 400px;
+    .ci-news-carousel-slide--album {
+      flex-basis: min(26%, 300px);
+      max-width: 320px;
+    }
+  }
+  .ci-news-carousel-track--album:focus-within .ci-news-carousel-slide--album:not(:hover) {
+    opacity: 0.92;
+  }
+  .ci-news-album-card {
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ci-news-carousel-slide--album:hover {
+      transform: none;
+    }
+    .ci-news-album-card img {
+      transition: none;
     }
   }
   .ci-news-carousel-btn {

@@ -35,7 +35,8 @@ export function CurrentProcurement({ opportunities }: { opportunities?: Procurem
 
   if (!opportunities?.length) return null;
 
-  const [featured, ...rest] = opportunities;
+  const [featured, ...restAll] = opportunities;
+  const rest = restAll.slice(0, 4);
   const featuredTitle = isFr ? featured.titleFr : featured.titleEn;
   const featuredDescription = cleanMigratedText(
     isFr ? featured.descriptionFr : featured.descriptionEn

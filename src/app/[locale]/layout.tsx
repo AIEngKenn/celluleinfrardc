@@ -44,15 +44,15 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <Header />
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" tabIndex={-1} className="outline-none focus:outline-none">
         {children}
-        {/* <GovernmentBand /> */}
+        <GovernmentBand />
         {/* ── Tricolour sovereignty stripe ── */}
-        <div className="flex h-[3px] w-full" aria-hidden="true">
+        {/* <div className="flex h-[3px] w-full" aria-hidden="true">
           <span className="flex-1 bg-[#007FFF]" />
           <span className="flex-1 bg-[#F7D618]" />
           <span className="flex-1 bg-[#CE1021]" />
-        </div>
+        </div> */}
       </main>
       <Footer settings={siteSettings || undefined} />
     </NextIntlClientProvider>

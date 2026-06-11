@@ -53,6 +53,36 @@ export default defineType({
             defineField({ name: "descriptionFr", title: "Description (Français)", type: "text" }),
             defineField({ name: "descriptionEn", title: "Description (English)", type: "text" }),
             defineField({
+              name: "slug",
+              title: "Identifiant URL",
+              type: "slug",
+              options: { source: "titleFr", maxLength: 80 },
+            }),
+            defineField({
+              name: "contentFr",
+              title: "Contenu détaillé (Français)",
+              type: "array",
+              of: [{ type: "block" }],
+            }),
+            defineField({
+              name: "contentEn",
+              title: "Detailed content (English)",
+              type: "array",
+              of: [{ type: "block" }],
+            }),
+            defineField({
+              name: "highlightsFr",
+              title: "Points clés (Français)",
+              type: "array",
+              of: [{ type: "string" }],
+            }),
+            defineField({
+              name: "highlightsEn",
+              title: "Key points (English)",
+              type: "array",
+              of: [{ type: "string" }],
+            }),
+            defineField({
               name: "image",
               title: "Image",
               type: "image",

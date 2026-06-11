@@ -712,10 +712,15 @@ export const aboutPageQuery = groq`
       missionTitleEn,
       missions[]{
         icon,
+        "slug": slug.current,
         titleFr,
         titleEn,
         descriptionFr,
         descriptionEn,
+        highlightsFr,
+        highlightsEn,
+        contentFr,
+        contentEn,
         image{
           asset->{ url },
           alt

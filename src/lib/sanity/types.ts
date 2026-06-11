@@ -314,10 +314,15 @@ export interface SiteSettings {
 
 export interface AboutMission {
   icon?: 'building' | 'file' | 'globe' | 'users';
+  slug?: string;
   titleFr?: string;
   titleEn?: string;
   descriptionFr?: string;
   descriptionEn?: string;
+  highlightsFr?: string[];
+  highlightsEn?: string[];
+  contentFr?: { _type: string; [key: string]: unknown }[];
+  contentEn?: { _type: string; [key: string]: unknown }[];
   image?: SanityImage;
 }
 

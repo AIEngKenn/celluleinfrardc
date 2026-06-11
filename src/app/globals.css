@@ -94,10 +94,10 @@
       'calt' 1;
   }
 
-  /* Skip link */
-  #main-content:focus {
-    outline: 3px solid var(--ci-blue);
-    outline-offset: 2px;
+  /* Main landmark — no visible focus ring on click */
+  #main-content:focus,
+  #main-content:focus-visible {
+    outline: none;
   }
 
   /* Typography defaults */

@@ -283,7 +283,7 @@ export function Header() {
                       <Link
                         href={`/${locale}${item.href}`}
                         className={cn(
-                          'group relative flex items-center gap-1 rounded-lg px-3 py-3 text-[0.8125rem] font-medium no-underline transition-all duration-200',
+                          'group relative flex items-center gap-1 rounded-lg px-3 py-3 text-[0.8125rem] font-semibold uppercase no-underline transition-all duration-200',
                           active
                             ? 'text-[#007FFF]'
                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -316,7 +316,7 @@ export function Header() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 4 }}
                             transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
-                            className="shadow-black/8 absolute left-1/2 top-full z-50 mt-1 min-w-[240px] -translate-x-1/2 overflow-hidden rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl"
+                            className="shadow-black/8 absolute right-1/2 top-full z-50 mt-1 min-w-[240px] -translate-x-1/2 overflow-hidden rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl"
                             role="menu"
                             onMouseEnter={() => handleDropdownEnter(item.href)}
                             onMouseLeave={handleDropdownLeave}
@@ -347,7 +347,7 @@ export function Header() {
                     <Link
                       href={`/${locale}${item.href}`}
                       className={cn(
-                        'relative flex items-center rounded-lg px-3 py-3 text-[0.8125rem] font-medium no-underline transition-all duration-200',
+                        'relative flex items-center rounded-lg px-3 py-3 text-[0.8125rem] font-semibold uppercase no-underline transition-all duration-200',
                         active
                           ? 'text-[#007FFF]'
                           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

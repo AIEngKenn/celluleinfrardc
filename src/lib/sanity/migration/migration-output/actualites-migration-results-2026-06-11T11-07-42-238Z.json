@@ -1,0 +1,231 @@
+{
+  "sourcePath": "C:\\Users\\Surface\\Downloads\\actualites.json",
+  "backupPath": "D:\\Work\\celluleinfrardc\\src\\lib\\sanity\\migration\\migration-output\\news-backup-2026-06-11T11-07-42-238Z.json",
+  "previewPath": "D:\\Work\\celluleinfrardc\\src\\lib\\sanity\\migration\\migration-output\\actualites-preview-2026-06-11T11-07-42-238Z.json",
+  "executed": true,
+  "deletedExistingNews": true,
+  "importedCount": 44,
+  "preparedCount": 44,
+  "assetResults": [
+    {
+      "title": "ATELIER DE MOBILISATION PRECOCE DES ENTREPRISES POUR LA PASSATION DU MARCHE DES TRAVAUX D’AMENAGEMENT DE LA RIVIERE FUNA A KINSHASA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/January2026/ImUjyIknS7PnS1DTdlY3.webp",
+      "sanityAssetId": "image-e9dd3b5886ec0afff5515bf3a7e98f68ce7e24a9-883x589-webp"
+    },
+    {
+      "title": "LANCEMENT OFFICIEL DES TRAVAUX DE LUTTE CONTRE L’EROSION ET LES INONDATIONS DANS LA COMMUNE DE KISENSO",
+      "imageUrl": "https://celluleinfra.org/storage/articles/July2024/5TxyP3VYy3mC4kgzw17Z.webp",
+      "sanityAssetId": "image-74291304c23081c4ec944a96f6614ae194605e51-883x589-webp"
+    },
+    {
+      "title": "REMISE DE MATERIEL ROULANT A LA CDUK, RASKIN ET DUAS",
+      "imageUrl": "https://celluleinfra.org/storage/articles/July2024/RiedO7E06gXLO3ZjfVV4.webp",
+      "sanityAssetId": "image-5a95ca696df6ce25e8097958da183748d6de5fb8-883x589-webp"
+    },
+    {
+      "title": "Protocole d’accord entre la Cellule Infrastructures et l’Office des Voiries et Drainage sur les travaux de lutte contre les érosions à Kimwenza",
+      "imageUrl": "https://celluleinfra.org/storage/articles/June2024/DCjl1HkW1GXtAF5MLr2C.webp",
+      "sanityAssetId": "image-ec236016b689bf4426b4c820404dd6030d6b4040-883x589-webp"
+    },
+    {
+      "title": "Installation de la Mission de Contrôle des travaux financés par le Projet KIN ELENDA dans les Communes de N’djili et de Kimbanseke",
+      "imageUrl": "https://celluleinfra.org/storage/articles/June2024/4keWdwwi5F1vjCvfMwdZ.webp",
+      "sanityAssetId": "image-dabdd427dd1b0dc02812503625c6d2fac4b197b5-883x597-webp"
+    },
+    {
+      "title": "Participation du Coordonnateur de la Cellule Infrastructures à la 21ème réunion annuelle de l’Association des Fonds d’Entretien Routiers de l’Afrique « AFERA » du 13 au 16 mai 2024 à Abidjan",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/PsorciOJIWKGsjtbe7tx.webp",
+      "sanityAssetId": "image-09e6a2c5411b54fa194dd32a3b83a47e6790e211-883x588-webp"
+    },
+    {
+      "title": "MISSION D'INSPECTION DU CORDONNATEUR-ADJOINT A BUKAVU",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/NXvFiosoAEBgBKqgexvR.webp",
+      "sanityAssetId": "image-b2a24ed1747baab0ae73d2acbd651ac055480ad5-883x498-webp"
+    },
+    {
+      "title": "RECRUTEMENT DES TACHERONS POUR LES TRAVAUX DE LUTTE CONTRE LES EROSIONS ET LES INONDATIONS DANS LA COMMUNE DE KISENSO",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/6uAAj7YO8Mch64BpWPXa.webp",
+      "sanityAssetId": "image-beea878144ed35acc7a2c5fd2f1139fe996b43ce-883x662-webp"
+    },
+    {
+      "title": "ACCORD SUR L’OPTION DE CONSTRUCTION DE L’AVENUE DE L’UNIVERSITE",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/DdTC7tWjCfNlFn0mKKeX.webp",
+      "sanityAssetId": "image-bba8d4dd874163318e8c7238ba1a17cc7b663472-883x497-webp"
+    },
+    {
+      "title": "PRESENTATION DE LA MISSION DE CONTROLE DES TRAVAUX DE LUTTE ANTIEROSIVE DANS LA COMMUNE DE KISENSO",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/7yfueEz0AioGPigftbUE.webp",
+      "sanityAssetId": "image-e6ca47cc713098256c7284299490bc0a85cc2148-883x601-webp"
+    },
+    {
+      "title": "VISITE DES SITES DE TRAVAUX PAR UNE EQUIPE DE LA BANQUE MONDIALE",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/n7G8JOH96JrJOYHlXQy2.webp",
+      "sanityAssetId": "image-3fbd4c2ef4dc0511346e4232613c70d5e39e5521-883x603-webp"
+    },
+    {
+      "title": "REMISE DE MATERIEL D’ENTRETIEN ET D’ASSAINISSEMENT A LA COMMUNE DE N’DJILI",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/q6XJ8VuLiB9WOhkSmPSZ.webp",
+      "sanityAssetId": "image-7f97d9980b94649ccae01d8ee25c6a60b34d3e5c-883x662-webp"
+    },
+    {
+      "title": "FORMATION SUR LES VBG A L’INTENTION DES TACHERONS DU CHANTIER DE RECONSTRUCTION DE LA MAISON COMMUNALE DE N’DJILI",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/3zcTJptfWVIdRbU9u217.webp",
+      "sanityAssetId": "image-118f589322b28bef075d11c877cdf55c1937f209-883x662-webp"
+    },
+    {
+      "title": "DEUXIEME VISITE DU COORDONNATEUR SUR LES CHANTIERS DU PROJET KIN ELENDA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/CKVZHTxnwTiyOdHe61um.webp",
+      "sanityAssetId": "image-5785d0f7b93e7c59404d76b2b1f1207e540458c0-883x959-webp"
+    },
+    {
+      "title": "DEMOLITION DE L’ANCIEN BATIMENT ADMINISTRATIF DE LA MAISON COMMUNALE DE N’DJILI",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/1QTgIKgPkGOLSAAkOeAc.webp",
+      "sanityAssetId": "image-913cdc11068b052c1b3b6246ac332199592ff7f9-883x595-webp"
+    },
+    {
+      "title": "204 PERSONNES INDEMNISEES SUR LES SITES DE LA MAISON COMMUNALE ET DE LA PLACE SAINTE THERESE A N’DJILI",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/KKjnDKmUf9BIFm9oZwuu.webp",
+      "sanityAssetId": "image-409b397157ebfce2fea5afdcecf37aa6261da0ad-883x606-webp"
+    },
+    {
+      "title": "VISITE DE CHANTIERS PAR LE CHEF DE PROJET KIN ELENDA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/1pMolsdrmAZ7YGI0ltEm.webp",
+      "sanityAssetId": "image-14d90d9033cb1aaf2eb9584742ca4cd61430c1be-883x565-webp"
+    },
+    {
+      "title": "MISSION DE REDACTION DU RAPPORT D’ACHEVEMENT DES PROJETS ROUTIERS LOVUA -TSHIKAPA ET TSHIKAPA-KAMWESHA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/vCZJXTPhWx7MiVYfF9MQ.webp",
+      "sanityAssetId": "image-b4ba002ab1d9348b14d5f247b7afa2743ec8a6f7-883x662-webp"
+    },
+    {
+      "title": "CERTIFICATION DES BIENS ET DES PERSONNES AFFECTÉS PAR LES TRAVAUX DE PROTECTION DE LA STATION SNEL/FUNA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/5kqkV0tfZ2ICUlL3zQmW.webp",
+      "sanityAssetId": "image-6c422c22380f40570e51cfe2332e3587f0cce48d-883x600-webp"
+    },
+    {
+      "title": "RÉUNION DE CONCILIATION SOUS LES AUSPICES DE L'AVOCAT GÉNÉRAL PRES LA COUR D'APPEL DE MATETE",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/a2a7Ae1RW4lVxOa5s9KX.webp",
+      "sanityAssetId": "image-e953b679e936feb630d9838a29be9f7145ebaf28-883x869-webp"
+    },
+    {
+      "title": "RECRUTEMENT DES TACHERONS POUR LES TRAVAUX ANTIEROSIFS A KIMWENZA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/px9wuGyf9oDheDpbl1OI.webp",
+      "sanityAssetId": "image-ceff60008d2488e3dda443e767994e7eb159df3e-883x593-webp"
+    },
+    {
+      "title": "PREMIERE REUNION DU COMITE INTERMINISTERIEL DE PILOTAGE DU PROJET D’APPUI A LA CONNECTIVITE ET AU TRANSPORT",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/FWqkGhxVeniBoFibd1lA.webp",
+      "sanityAssetId": "image-d6c81aa7d9b18115100ad1d847267fcc7950b58a-883x589-webp"
+    },
+    {
+      "title": "RECRUTEMENT DES TACHERONS POUR LES TRAVAUX DE RECONSTRUCTION DE LA MAISON COMMUNALE DE N’DJILI ET D’AMENAGEMENT DE LA PLACE SAINTE THERESE",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/wR8UfvGJvNDRPmRmxCZe.webp",
+      "sanityAssetId": "image-7b64990e5c4f3a89325391de738b080351bc8b80-883x810-webp"
+    },
+    {
+      "title": "Première visite de chantiers par le nouveau Coordonnateur",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2024/0zhmspPV7wzPh73BCWW8.webp",
+      "sanityAssetId": "image-e4ee04143a153c53d13526d942960c8e465455df-883x607-webp"
+    },
+    {
+      "title": "PRESENTATION DES ETUDES PREPARATOIRES POUR LA CONSTRUCTION DE L’AVENUE DE L’UNIVERSITE",
+      "imageUrl": "https://celluleinfra.org/storage/articles/April2024/XrAKxOJBJ5WcPmTuJMWK.webp",
+      "sanityAssetId": "image-c2225a656818525a6cf568226f7dba1f6ba1f39b-883x583-webp"
+    },
+    {
+      "title": "Installation du nouveau Coordonnateur de la Cellule Infrastructures",
+      "imageUrl": "https://celluleinfra.org/storage/articles/April2024/LIayhleR2YUO6GBs6tML.webp",
+      "sanityAssetId": "image-6fef0d666a9075de820bd4d890ed9c6ed950522c-883x597-webp"
+    },
+    {
+      "title": "LANCEMENT OFFICIEL DES TRAVAUX DE CONSTRUCTION DU CENTRE DE FORMATION PROFESSIONNELLE DE L'INPP A MALUKU",
+      "imageUrl": "https://celluleinfra.org/storage/articles/September2023/wuJOKVzzjO1eim943sh9.webp",
+      "sanityAssetId": "image-2f8d9db74d7d72d24fc9d1a93cdd3af38b993cb0-883x589-webp"
+    },
+    {
+      "title": "Visite des sites des travaux d'aménagement de la RN1, tronçon Kananga - Rivière Kakanganyi (135,5 km) sur financement de la Banque Africaine de Développement (BAD)",
+      "imageUrl": "https://celluleinfra.org/storage/articles/September2023/gOfuFS1LVhUXVV9mppeM.webp",
+      "sanityAssetId": "image-4a892cbfded2ef17684d76eba415dcb50b11fb60-883x1177-webp"
+    },
+    {
+      "title": "ATELIER PRÉPARATOIRE DE LA REVUE A MI-PARCOURS DU PROJET KIN ELENDA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/September2023/qi8AAZppwn6sq6TrJP31.webp",
+      "sanityAssetId": "image-5e15cbfd6330ddb9d877cd3caa073fd049354047-883x662-webp"
+    },
+    {
+      "title": "VISITE DE SITES PAR DES ENTREPRISES SOUMISSIONNAIRES POTENTIELLES",
+      "imageUrl": "https://celluleinfra.org/storage/articles/August2022/ClZzzS2N1P2shVYJfCcC.webp",
+      "sanityAssetId": "image-e1f37a46d7a8e34dc7629692d67af30b56740f83-883x589-webp"
+    },
+    {
+      "title": "FORMATION DES MAÎTRES D’OUVRAGE A L’INTEGRATION DE L’APPROCHE HIMO DANS LES DOSSIERS D’APPEL D’OFFRES",
+      "imageUrl": "https://celluleinfra.org/storage/articles/August2022/o4hkQj5yyJ61HwKV4Kkf.webp",
+      "sanityAssetId": "image-8ca20a72c2c0923386084eddb2206edb547fc9db-883x589-webp"
+    },
+    {
+      "title": "PRESENTATION DES RAPPORTS DE L’EIES ET DU PAR DES TRAVAUX DE RECONSTRUCTION DE LA MAISON COMMUNALE ET D’AMENAGEMENT DES ESPACES PUBLICS (PLACE COMMUNALE ET PLACE SAINTE THERESE) DANS LA COMMUNE DE N’DJILI",
+      "imageUrl": "https://celluleinfra.org/storage/articles/July2022/dDXlNQooSi3qij8NC9x0.webp",
+      "sanityAssetId": "image-826722d940b2cbc955e2fa329a4c3499a5e35bfe-883x589-webp"
+    },
+    {
+      "title": "SIGNATURE DE l’ACCORD DE FINANCEMENT DU PROJET D’APPUI A LA CONNECTIVITE ET AU TRANSPORT (PACT)",
+      "imageUrl": "https://celluleinfra.org/storage/articles/July2022/kjNiJun0J11BiXFv7VwA.webp",
+      "sanityAssetId": "image-c93ff4296d46785f956f75e2f0971c9fa21c0589-883x589-webp"
+    },
+    {
+      "title": "Atelier de formation sur l'Engagement Communautaire",
+      "imageUrl": "https://celluleinfra.org/storage/articles/June2022/vtwvVq0Bz3NGGabc8qpF.webp",
+      "sanityAssetId": "image-93373443c4bd29b4add148ea376eef509b457114-883x589-webp"
+    },
+    {
+      "title": "Visite des sites d’intervention du projet KIN ELENDA au site de N'djili",
+      "imageUrl": "https://celluleinfra.org/storage/articles/June2022/coTFpi1cTtCoRkZTdCpZ.webp",
+      "sanityAssetId": "image-c29f3a7c9d276fe0126c77583882aa5aaccd2d63-883x497-webp"
+    },
+    {
+      "title": "Visite des sites d'intervention du Projet KIN ELENDA au site de Mpasa",
+      "imageUrl": "https://celluleinfra.org/storage/articles/June2022/TAOAMRitMWSLyCCOCBuW.webp",
+      "sanityAssetId": "image-45062270b9ed1f287f7cf7d3f5f6d7c897dd78c3-883x1248-webp"
+    },
+    {
+      "title": "La RDC et la Banque mondiale s’engagent à renforcer la résilience urbaine et à élargir l'accès aux services et à l'emploi à Kinshasa.",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/5yUPl5H74VCdoc2YRTwC.webp",
+      "sanityAssetId": "image-825348ce65ed3e391b2f6d49904cc2c50109d4ba-883x1096-webp"
+    },
+    {
+      "title": "Première mission de supervision du projet Pro-Routes après la levée de la mesure de suspension",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/CSDKpvexki5EAmv1dmOJ.webp",
+      "sanityAssetId": "image-825348ce65ed3e391b2f6d49904cc2c50109d4ba-883x1096-webp"
+    },
+    {
+      "title": "Hommage du Ministère des ITPR à MR. ALEXANDRE K. DOSSOU",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/yB4ujKUxgf18uA1mN6Q8.webp",
+      "sanityAssetId": "image-64506225d4487bdabd5bc7747b70385ed5215d38-883x662-webp"
+    },
+    {
+      "title": "Réception définitive du nouveau système d’éclairage public",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/LDTtKA3cqrZCZjc2gWPz.webp",
+      "sanityAssetId": "image-cd3958f5dea25206abe2f393e54bac7d67d92cca-883x590-webp"
+    },
+    {
+      "title": "Signature d’un contrat d’assistance technique avec l’UNFPA",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/FVpYkTXDbTB6McnsuG7l.webp",
+      "sanityAssetId": "image-2ce72d0ab26b49d71eb4d9bdad3a9cfddf58192e-883x589-webp"
+    },
+    {
+      "title": "Signature de deux Contrats de travaux avec Arab Contractors",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/QwmBnZ7oWGQpmvDGT3zS.webp",
+      "sanityAssetId": "image-4ce51ced39d3364c8289355155e0d49d6bedb76f-883x662-webp"
+    },
+    {
+      "title": "Signature des contrats de travaux et d’équipement",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/6uxIRzsJzvaevRY4MeOg.webp",
+      "sanityAssetId": "image-a73e3d0cc1ddb87b5902830b6df6aa68e4645f4e-883x662-webp"
+    },
+    {
+      "title": "Réception définitive des travaux de la chaussée principale",
+      "imageUrl": "https://celluleinfra.org/storage/articles/May2022/90xoH7Fs0V9EBZ7uLu6x.webp",
+      "sanityAssetId": "image-de893268aade362037da8221e8a04d295e06f1f8-883x659-webp"
+    }
+  ]
+}

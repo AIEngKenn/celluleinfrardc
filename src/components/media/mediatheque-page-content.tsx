@@ -111,7 +111,7 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
 
   return (
     <div className="min-h-screen bg-[#f9fafb]">
-      <TricolourStripe />
+      {/* <TricolourStripe /> */}
 
       <header className="bg-[#17418a] py-14 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -141,7 +141,9 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow">
               {t('statsEyebrow')}
             </span>
-            <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">{t('title')}</h1>
+            <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
+              {t('title')}
+            </h1>
             <p className="mt-4 text-sm leading-7 text-blue-100 sm:text-base">{t('description')}</p>
           </motion.div>
 

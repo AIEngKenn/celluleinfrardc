@@ -82,25 +82,30 @@ function missionItemXml(slug: string, title: string, description: string) {
 }
 
 export async function GET() {
-  const data = await sanityFetch<FeedData>({
+  const raw = await sanityFetch<FeedData | null>({
     query: seoFeedQuery,
     tags: ['aboutPage', 'news', 'publication', 'procurement'],
   });
 
-  const missionSlugs = mergeMissionSlugs(data.missions?.map((mission) => mission.slug));
+  const newsItems = raw?.news ?? [];
+  const publicationItems = raw?.publications ?? [];
+  const procurementItems = raw?.procurement ?? [];
+  const missionItems = raw?.missions ?? [];
 
-  const missionItems = missionSlugs.map((slug) => {
-    const cmsMission = data.missions?.find((mission) => mission.slug === slug);
+  const missionSlugs = mergeMissionSlugs(missionItems.map((mission) => mission.slug));
+
+  const missionFeedItems = missionSlugs.map((slug) => {
+    const cmsMission = missionItems.find((mission) => mission.slug === slug);
     const title = cmsMission?.titleFr || cmsMission?.titleEn || slug;
     const description = cleanMigratedText(cmsMission?.descriptionFr || cmsMission?.descriptionEn || '');
     return missionItemXml(slug, title, description);
   });
 
   const items = [
-    ...data.news.map((item) => itemXml(item, 'actualites')),
-    ...data.publications.map((item) => itemXml(item, 'publications')),
-    ...data.procurement.map((item) => itemXml(item, 'appels-offres')),
-    ...missionItems,
+    ...newsItems.map((item) => itemXml(item, 'actualites')),
+    ...publicationItems.map((item) => itemXml(item, 'publications')),
+    ...procurementItems.map((item) => itemXml(item, 'appels-offres')),
+    ...missionFeedItems,
   ].join('');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

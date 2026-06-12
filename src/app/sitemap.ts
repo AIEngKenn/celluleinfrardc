@@ -52,12 +52,17 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await sanityFetch<SitemapData>({
+  const raw = await sanityFetch<SitemapData | null>({
     query: seoSitemapQuery,
     tags: ['aboutPage', 'project', 'news', 'publication', 'procurement', 'media'],
   });
 
-  const missionSlugs = mergeMissionSlugs(data.missionSlugs);
+  const projects = raw?.projects ?? [];
+  const news = raw?.news ?? [];
+  const publications = raw?.publications ?? [];
+  const procurement = raw?.procurement ?? [];
+  const mediaAlbums = raw?.mediaAlbums ?? [];
+  const missionSlugs = mergeMissionSlugs(raw?.missionSlugs);
   const routes: MetadataRoute.Sitemap = [];
 
   for (const locale of ['fr', 'en']) {
@@ -69,19 +74,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       routes.push(entry(locale, missionRoutePath(slug), 0.72, 'monthly'));
     });
 
-    data.projects.forEach((doc) => {
+    projects.forEach((doc) => {
       routes.push(entry(locale, `/projets/${doc.slug}`, 0.75, 'monthly', doc));
     });
-    data.news.forEach((doc) => {
+    news.forEach((doc) => {
       routes.push(entry(locale, `/actualites/${doc.slug}`, 0.8, 'weekly', doc));
     });
-    data.publications.forEach((doc) => {
+    publications.forEach((doc) => {
       routes.push(entry(locale, `/publications/${doc.slug}`, 0.7, 'monthly', doc));
     });
-    data.procurement.forEach((doc) => {
+    procurement.forEach((doc) => {
       routes.push(entry(locale, `/appels-offres/${doc.slug}`, 0.75, 'daily', doc));
     });
-    data.mediaAlbums.forEach((doc) => {
+    mediaAlbums.forEach((doc) => {
       routes.push(entry(locale, `/mediatheque/${doc.slug}`, 0.65, 'monthly', doc));
     });
   }

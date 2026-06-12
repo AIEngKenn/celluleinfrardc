@@ -23,9 +23,9 @@ export const STATIC_SITE_ROUTES: StaticSiteRoute[] = [
 
 export const MISSION_PAGE_SLUGS = FALLBACK_MISSIONS.map((mission) => mission.slug);
 
-export function mergeMissionSlugs(cmsSlugs: Array<string | null | undefined> = []) {
+export function mergeMissionSlugs(cmsSlugs?: Array<string | null | undefined> | null) {
   const slugs = new Set<string>(MISSION_PAGE_SLUGS);
-  cmsSlugs.forEach((slug) => {
+  (cmsSlugs ?? []).forEach((slug) => {
     if (slug) slugs.add(slug);
   });
   return Array.from(slugs);

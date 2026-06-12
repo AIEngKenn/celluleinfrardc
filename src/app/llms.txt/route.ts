@@ -36,12 +36,17 @@ function lineItem(label: string, url: string, description?: string) {
 }
 
 export async function GET() {
-  const data = await sanityFetch<LlmData>({
+  const raw = await sanityFetch<LlmData | null>({
     query: seoFeedQuery,
     tags: ['aboutPage', 'news', 'publication', 'procurement'],
   });
 
-  const news = data.news
+  const newsItems = raw?.news ?? [];
+  const publicationItems = raw?.publications ?? [];
+  const procurementItems = raw?.procurement ?? [];
+  const missionItems = raw?.missions ?? [];
+
+  const news = newsItems
     .slice(0, 10)
     .map((item) =>
       lineItem(
@@ -52,7 +57,7 @@ export async function GET() {
     )
     .join('\n');
 
-  const publications = data.publications
+  const publications = publicationItems
     .slice(0, 10)
     .map((item) =>
       lineItem(
@@ -63,7 +68,7 @@ export async function GET() {
     )
     .join('\n');
 
-  const procurement = data.procurement
+  const procurement = procurementItems
     .slice(0, 8)
     .map((item) =>
       lineItem(
@@ -74,10 +79,10 @@ export async function GET() {
     )
     .join('\n');
 
-  const missionSlugs = mergeMissionSlugs(data.missions?.map((mission) => mission.slug));
+  const missionSlugs = mergeMissionSlugs(missionItems.map((mission) => mission.slug));
   const missions = missionSlugs
     .map((slug) => {
-      const cmsMission = data.missions?.find((mission) => mission.slug === slug);
+      const cmsMission = missionItems.find((mission) => mission.slug === slug);
       return lineItem(
         truncateText(cmsMission?.titleFr || cmsMission?.titleEn || slug, 120),
         absoluteUrl(`/fr${missionRoutePath(slug)}`),

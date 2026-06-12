@@ -113,10 +113,10 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
     <div className="min-h-screen bg-[#f9fafb]">
       {/* <TricolourStripe /> */}
 
-      <header className="bg-[#17418a] py-14 sm:py-16">
+      <header className="bg-[#17418a] py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.nav
-            className="mb-8 flex items-center gap-1.5 text-sm text-white/70"
+            className="mb-4 flex items-center gap-1.5 text-sm text-white/70"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease }}
@@ -132,53 +132,45 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
             <span className="text-white">{t('title')}</span>
           </motion.nav>
 
-          <motion.div
-            className="mb-10 max-w-3xl text-left [&_p]:mx-0"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease, delay: 0.05 }}
-          >
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow">
-              {t('statsEyebrow')}
-            </span>
-            <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
-              {t('title')}
-            </h1>
-            <p className="mt-4 text-sm leading-7 text-blue-100 sm:text-base">{t('description')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease, delay: 0.1 }}
-          >
-            <div className="mb-8 max-w-xl text-left">
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow/90">
-                {isFr ? 'Chiffres clés' : 'Key figures'}
-              </span>
-              <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{t('statsTitle')}</h2>
-            </div>
-
-            <div
-              className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3"
-              aria-label={t('statsTitle')}
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-end lg:gap-8">
+            <motion.div
+              className="max-w-2xl text-left [&_p]:mx-0"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease, delay: 0.05 }}
             >
-              {mediaStats.map((stat, index) => (
-                <motion.div
-                  key={stat.id}
-                  className="bg-[#17418a] px-5 py-7 sm:px-8 sm:py-9"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease, delay: 0.14 + index * 0.06 }}
-                >
-                  <div className="text-3xl font-bold tabular-nums text-white sm:text-4xl">
-                    <CountUp end={stat.value} duration={1.6} decimals={0} />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow">
+                {t('statsEyebrow')}
+              </span>
+              <h1 className="mt-1.5 text-2xl font-bold text-white sm:text-3xl">{t('title')}</h1>
+              <p className="mt-2 line-clamp-2 text-sm leading-6 text-blue-100 sm:line-clamp-none sm:text-base sm:leading-7">
+                {t('description')}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease, delay: 0.1 }}
+            >
+              <div
+                className="grid grid-cols-3 gap-px overflow-hidden rounded-xl bg-white/10 sm:rounded-2xl"
+                aria-label={t('statsTitle')}
+              >
+                {mediaStats.map((stat) => (
+                  <div
+                    key={stat.id}
+                    className="bg-[#17418a] px-3 py-4 text-center sm:px-4 sm:py-5 sm:text-left"
+                  >
+                    <div className="text-2xl font-bold tabular-nums text-white sm:text-3xl">
+                      <CountUp end={stat.value} duration={1.4} decimals={0} />
+                    </div>
+                    <p className="mt-1 text-[11px] text-blue-100 sm:text-xs">{stat.label}</p>
                   </div>
-                  <p className="mt-2 text-sm text-blue-100">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </header>
 

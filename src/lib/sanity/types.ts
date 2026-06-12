@@ -290,6 +290,11 @@ export interface HomeSettings {
   partnersTitleEn?: string;
   partnersDescriptionFr?: string;
   partnersDescriptionEn?: string;
+  socialLinks?: SocialLink[];
+  facebookUrl?: string;
+  xUrl?: string;
+  youtubeUrl?: string;
+  linkedinUrl?: string;
   mediaTitleFr?: string;
   mediaTitleEn?: string;
   mediaDescriptionFr?: string;

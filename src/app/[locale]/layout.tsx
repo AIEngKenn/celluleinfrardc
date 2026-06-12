@@ -7,8 +7,9 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { GovernmentBand } from '@/components/ui/government-band';
 import { sanityFetch } from '@/lib/sanity/client';
-import { siteSettingsQuery } from '@/lib/sanity/queries';
-import type { SiteSettings } from '@/lib/sanity/types';
+import { globalSettingsQuery } from '@/lib/sanity/queries';
+import type { GlobalSettingsPayload } from '@/lib/layout/resolve-social-links';
+import { resolveSiteSettings } from '@/lib/layout/resolve-social-links';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -33,13 +34,17 @@ export default async function LocaleLayout({
 
   // Providing all messages to the client
   // side is the easiest way to get started
-  const [messages, siteSettings] = await Promise.all([
+  const [messages, globalSettings] = await Promise.all([
     getMessages(),
-    sanityFetch<SiteSettings | null>({
-      query: siteSettingsQuery,
-      tags: ['siteSettings'],
+    sanityFetch<GlobalSettingsPayload>({
+      query: globalSettingsQuery,
+      tags: ['siteSettings', 'homeSettings'],
     }),
   ]);
+
+  const siteSettings = resolveSiteSettings(
+    globalSettings ?? { site: null, home: null }
+  );
 
   return (
     <NextIntlClientProvider messages={messages}>
@@ -54,7 +59,10 @@ export default async function LocaleLayout({
           <span className="flex-1 bg-[#CE1021]" />
         </div> */}
       </main>
-      <Footer settings={siteSettings || undefined} />
+      <Footer
+        settings={siteSettings}
+        globalSettings={globalSettings ?? { site: null, home: null }}
+      />
     </NextIntlClientProvider>
   );
 }

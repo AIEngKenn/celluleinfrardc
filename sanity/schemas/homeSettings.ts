@@ -1,9 +1,14 @@
 import { defineField, defineType } from "sanity";
+import { legacySocialUrlFields, socialLinksField } from "./fields/socialLinks";
 
 export default defineType({
   name: "homeSettings",
   title: "Accueil - Contenu éditable",
   type: "document",
+  groups: [
+    { name: "content", title: "Contenu", default: true },
+    { name: "social", title: "Réseaux sociaux" },
+  ],
   fields: [
     defineField({
       name: "title",
@@ -121,5 +126,12 @@ export default defineType({
       title: "Media homepage description (English)",
       type: "text",
     }),
+    socialLinksField({
+      group: "social",
+      title: "Réseaux sociaux (footer)",
+      description:
+        "Alternative aux Paramètres du site — utilisé si aucun lien n'est défini dans Paramètres du site.",
+    }),
+    ...legacySocialUrlFields,
   ],
 });

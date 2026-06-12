@@ -7,18 +7,19 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import type { SiteSettings } from '@/lib/sanity/types';
 import {
   getSocialLinkLabel,
-  resolveSocialLinks,
+  resolveFooterSocialLinks,
+  type GlobalSettingsPayload,
 } from '@/lib/layout/resolve-social-links';
 import { SocialIcon } from '@/components/layout/social-icon';
 
 interface FooterSocialLinksProps {
-  settings?: SiteSettings;
+  globalSettings: GlobalSettingsPayload;
   locale: string;
 }
 
-function FooterSocialLinks({ settings, locale }: FooterSocialLinksProps) {
+function FooterSocialLinks({ globalSettings, locale }: FooterSocialLinksProps) {
   const isFr = locale === 'fr';
-  const socialLinks = resolveSocialLinks(settings);
+  const socialLinks = resolveFooterSocialLinks(globalSettings);
 
   if (socialLinks.length === 0) {
     return null;
@@ -48,7 +49,13 @@ function FooterSocialLinks({ settings, locale }: FooterSocialLinksProps) {
   );
 }
 
-export function Footer({ settings }: { settings?: SiteSettings }) {
+export function Footer({
+  settings,
+  globalSettings,
+}: {
+  settings?: SiteSettings;
+  globalSettings: GlobalSettingsPayload;
+}) {
   const locale = useLocale();
   const isFr = locale === 'fr';
   const year = new Date().getFullYear();
@@ -123,7 +130,7 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
               </p>
               <p className="ci-footer-desc">{footerDescription}</p>
             </div>
-            <FooterSocialLinks settings={settings} locale={locale} />
+            <FooterSocialLinks globalSettings={globalSettings} locale={locale} />
           </div>
 
           {sections.map((section) => (

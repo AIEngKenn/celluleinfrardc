@@ -727,6 +727,40 @@ export const siteSettingsQuery = groq`
   }
 `;
 
+export const globalSettingsQuery = groq`
+  {
+    "site": *[_type == "siteSettings"][0] {
+      title,
+      email,
+      phone,
+      addressFr,
+      addressEn,
+      socialLinks[]{
+        platform,
+        url,
+        label
+      },
+      facebookUrl,
+      xUrl,
+      youtubeUrl,
+      linkedinUrl,
+      footerDescriptionFr,
+      footerDescriptionEn
+    },
+    "home": *[_type == "homeSettings"][0] {
+      socialLinks[]{
+        platform,
+        url,
+        label
+      },
+      facebookUrl,
+      xUrl,
+      youtubeUrl,
+      linkedinUrl
+    }
+  }
+`;
+
 export const aboutPageQuery = groq`
   {
     "about": *[_type == "aboutPage"][0] {

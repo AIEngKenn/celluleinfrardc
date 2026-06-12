@@ -84,7 +84,7 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
         <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           {/* Featured */}
           <motion.div
-            className="lg:col-span-7"
+            className="transition-transform duration-500 ease-out hover:-translate-y-1 lg:col-span-7"
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
@@ -92,16 +92,20 @@ export function FeaturedProjects({ projects }: { projects?: Project[] }) {
           >
             <Link
               href={`/${locale}/projets/${featured.slug}`}
-              className="group block overflow-hidden rounded-3xl bg-white shadow-[0_16px_50px_rgba(10,37,64,0.12)] ring-1 ring-gray-200/80 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(10,37,64,0.18)]"
+              className="group block overflow-hidden rounded-3xl bg-white shadow-[0_16px_50px_rgba(10,37,64,0.12)] ring-1 ring-gray-200/80 transition-[box-shadow] duration-500 hover:shadow-[0_24px_60px_rgba(10,37,64,0.18)]"
             >
               <TricolourStripe />
-              <div className="relative min-h-[320px] overflow-hidden sm:min-h-[420px] lg:min-h-[480px]">
-                <img
-                  src={featuredImage}
-                  alt={featured.mainImage?.alt || featuredTitle}
-                  loading="eager"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
-                />
+              <div className="relative isolate min-h-[320px] overflow-hidden rounded-b-3xl sm:min-h-[420px] lg:min-h-[480px]">
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="h-full w-full origin-center transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.05]">
+                    <img
+                      src={featuredImage}
+                      alt={featured.mainImage?.alt || featuredTitle}
+                      loading="eager"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/45 to-gray-900/15" />
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900/50 via-transparent to-transparent" />
 

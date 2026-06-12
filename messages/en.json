@@ -335,20 +335,41 @@
   },
   "media": {
     "title": "Media Center",
-    "description": "Photo and video gallery of infrastructure projects",
+    "description": "Explore our immersive photo and video gallery of major infrastructure projects across the DRC.",
+    "meta": {
+      "title": "Media Center — DRC Infrastructure Unit",
+      "description": "Photos, videos and albums from construction sites and deliveries by the Infrastructure Unit."
+    },
     "photos": "Photos",
     "videos": "Videos",
     "albums": "Albums",
     "gallery": "Gallery",
     "viewGallery": "View Gallery",
+    "spotlight": "Spotlight",
     "allMedia": "All Media",
     "byType": "By Type",
     "byProject": "By Project",
+    "photoGalleryTitle": "Photo gallery",
+    "photoGalleryDescription": "Browse images from construction sites, inaugurations and field missions. Tap any photo to open it fullscreen.",
+    "videoTheaterTitle": "Video theater",
+    "videoTheaterDescription": "Watch reports and video capsules in a single player — without cluttering the page with dozens of embeds.",
+    "videoReel": "Video selection",
+    "watchOnYoutube": "Watch on YouTube",
+    "closePlayer": "Close player",
+    "albumsTitle": "Thematic albums",
+    "albumsDescription": "Visual stories grouped by project, mission or partnership — like a digital photo album.",
+    "openAlbum": "Open album",
+    "backToMediatheque": "Back to media center",
+    "viewMode": "View mode",
+    "slideshow": "Slideshow",
+    "gridView": "Grid",
+    "demoNotice": "Demo content — your photos and videos will automatically replace these items once published in the CMS.",
     "lightbox": {
       "previous": "Previous",
       "next": "Next",
       "close": "Close",
-      "of": "of"
+      "of": "of",
+      "download": "Download"
     }
   },
   "geomatics": {

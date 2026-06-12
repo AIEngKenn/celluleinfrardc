@@ -410,6 +410,7 @@ export interface MediaItem {
   thumbnail?: SanityImage;
   videoUrl?: string;
   date?: string;
+  featured?: boolean;
   project?: ProjectPreview;
   album?: {
     _id: string;

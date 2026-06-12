@@ -820,6 +820,7 @@ export const mediaGalleryQuery = groq`
     },
     videoUrl,
     date,
+    featured,
     project->{
       _id,
       titleFr,
@@ -905,7 +906,8 @@ export const albumBySlugQuery = groq`
         alt
       },
       videoUrl,
-      date
+      date,
+      featured
     }
   }
 `;

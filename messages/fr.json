@@ -232,12 +232,42 @@
   },
   "media": {
     "title": "Médiathèque",
-    "description": "Explorez notre galerie de photos et vidéos des projets d'infrastructures",
+    "description": "Explorez notre galerie immersive de photos et vidéos des grands projets d'infrastructures de la RDC.",
+    "meta": {
+      "title": "Médiathèque — Cellule Infrastructures RDC",
+      "description": "Photos, vidéos et albums des chantiers et réalisations de la Cellule Infrastructures."
+    },
     "photos": "Photos",
     "videos": "Vidéos",
     "albums": "Albums",
     "gallery": "Galerie",
-    "viewGallery": "Voir la Galerie"
+    "viewGallery": "Voir la galerie",
+    "spotlight": "À la une",
+    "allMedia": "Tous les médias",
+    "byType": "Par type",
+    "byProject": "Par projet",
+    "photoGalleryTitle": "Galerie photographique",
+    "photoGalleryDescription": "Parcourez les images des chantiers, inaugurations et missions terrain. Touchez une photo pour l'ouvrir en plein écran.",
+    "videoTheaterTitle": "Espace vidéo",
+    "videoTheaterDescription": "Regardez les reportages et capsules vidéo dans un lecteur unique — sans multiplier les fenêtres intégrées.",
+    "videoReel": "Sélection vidéo",
+    "watchOnYoutube": "Voir sur YouTube",
+    "closePlayer": "Fermer le lecteur",
+    "albumsTitle": "Albums thématiques",
+    "albumsDescription": "Des récits visuels regroupés par chantier, mission ou partenariat — comme un album photo numérique.",
+    "openAlbum": "Ouvrir l'album",
+    "backToMediatheque": "Retour à la médiathèque",
+    "viewMode": "Mode d'affichage",
+    "slideshow": "Diaporama",
+    "gridView": "Grille",
+    "demoNotice": "Contenu de démonstration — vos photos et vidéos remplaceront automatiquement ces éléments une fois publiés dans le CMS.",
+    "lightbox": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "close": "Fermer",
+      "of": "sur",
+      "download": "Télécharger"
+    }
   },
   "geomatics": {
     "meta": {

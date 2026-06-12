@@ -522,7 +522,6 @@
    HEADER (now fully Tailwind — see src/components/layout/header.tsx)
 ───────────────────────────────────────────────────────────────────────────── */
 @layer components {
-
   /* ─────────────────────────────────────────────────────────
      FOOTER
   ───────────────────────────────────────────────────────── */
@@ -1392,4 +1391,259 @@
 }
 .ci-stat-item:hover {
   background: rgba(0, 127, 255, 0.03);
+}
+
+/* ── Médiathèque ── */
+.ci-media-section-nav {
+  position: sticky;
+  top: 44px;
+  z-index: 40;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(249, 250, 251, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+.ci-media-section-nav__inner {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-inline: 1rem;
+  padding-bottom: 0.125rem;
+  -webkit-overflow-scrolling: touch;
+}
+.ci-media-section-nav__inner::-webkit-scrollbar {
+  display: none;
+}
+.ci-media-section-nav__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.625rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #475569;
+  background: white;
+  border: 1px solid #e2e8f0;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.ci-media-section-nav__btn:hover {
+  border-color: rgba(0, 127, 255, 0.35);
+  color: var(--ci-blue);
+}
+.ci-media-section-nav__btn--active {
+  background: var(--ci-blue);
+  border-color: var(--ci-blue);
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 127, 255, 0.22);
+}
+.ci-media-section-nav__count {
+  display: inline-flex;
+  min-width: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0 0.35rem;
+  font-size: 0.6875rem;
+  background: rgba(255, 255, 255, 0.18);
+}
+.ci-media-section-nav__btn:not(.ci-media-section-nav__btn--active) .ci-media-section-nav__count {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.ci-media-bento {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .ci-media-bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+.ci-media-bento-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: #e2e8f0;
+  text-align: left;
+  min-height: 11rem;
+}
+@media (min-width: 768px) {
+  .ci-media-bento-item--hero {
+    grid-column: span 7;
+    grid-row: span 2;
+    min-height: 24rem;
+  }
+  .ci-media-bento-item--tall {
+    grid-column: span 5;
+    grid-row: span 2;
+    min-height: 18rem;
+  }
+  .ci-media-bento-item--wide {
+    grid-column: span 7;
+    min-height: 14rem;
+  }
+  .ci-media-bento-item--square {
+    grid-column: span 5;
+    min-height: 14rem;
+  }
+}
+.ci-media-carousel-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.25rem 0.25rem 0.75rem;
+}
+.ci-media-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+.ci-media-carousel-track:focus-visible {
+  outline: 2px solid var(--ci-blue);
+  outline-offset: 4px;
+  border-radius: 0.75rem;
+}
+.ci-media-video-card {
+  flex: 0 0 min(78%, 280px);
+  scroll-snap-align: center;
+  border-radius: 1rem;
+  padding: 0.125rem;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
+}
+@media (min-width: 640px) {
+  .ci-media-video-card {
+    flex-basis: min(42%, 300px);
+  }
+}
+.ci-media-video-card--active {
+  box-shadow: 0 0 0 2px var(--ci-blue);
+  transform: translateY(-2px);
+}
+.ci-media-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.ci-media-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+.ci-media-icon-btn:focus-visible {
+  outline: 2px solid var(--ci-blue);
+  outline-offset: 2px;
+}
+.ci-media-icon-btn--on-dark {
+  backdrop-filter: blur(8px);
+}
+.ci-media-lightbox-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background 0.2s;
+}
+.ci-media-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.ci-media-lightbox-nav:focus-visible {
+  outline: 2px solid var(--ci-blue);
+  outline-offset: 2px;
+}
+.ci-media-lightbox-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  background: black;
+}
+.ci-media-lightbox-thumb {
+  flex: 0 0 auto;
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 2px solid transparent;
+  opacity: 0.65;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.ci-media-lightbox-thumb:hover,
+.ci-media-lightbox-thumb--active {
+  opacity: 1;
+  border-color: var(--ci-yellow);
+  transform: translateY(-2px);
+}
+.ci-media-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: white;
+}
+.ci-media-album-thumb {
+  flex: 0 0 auto;
+  width: 5.5rem;
+  height: 4rem;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  scroll-snap-align: center;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.ci-media-album-thumb--active {
+  opacity: 1;
+  border-color: var(--ci-blue);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ci-media-bento-item .group-hover\:scale-\[1\.05\],
+  .ci-media-video-card,
+  .ci-media-video-card--active {
+    transform: none;
+    transition: none;
+  }
 }

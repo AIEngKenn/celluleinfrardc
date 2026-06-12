@@ -7,6 +7,8 @@ import province from "./province";
 import homeSettings from "./homeSettings";
 import siteSettings from "./siteSettings";
 import aboutPage from "./aboutPage";
+import media from "./media";
+import mediaAlbum from "./mediaAlbum";
 
 export const schemaTypes = [
   // Main content
@@ -14,6 +16,8 @@ export const schemaTypes = [
   news,
   procurement,
   publication,
+  media,
+  mediaAlbum,
 
   // Taxonomies
   province,

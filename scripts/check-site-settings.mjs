@@ -34,5 +34,7 @@ const draftData = await client.fetch(
 
 console.log("drafts:", JSON.stringify(draftData, null, 2));
 
-const allTypes = await client.fetch(`array::unique(*[]._type) | order(@ asc)`);
-console.log("types:", allTypes.filter((t) => t.includes("site") || t.includes("Settings") || t.includes("home")));
+const home = await client.fetch(
+  `*[_type == "homeSettings"][0]{ _id, title, partners }`
+);
+console.log("homeSettings:", JSON.stringify(home, null, 2));

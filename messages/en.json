@@ -346,6 +346,8 @@
     "gallery": "Gallery",
     "viewGallery": "View Gallery",
     "spotlight": "Spotlight",
+    "statsEyebrow": "Infrastructure Unit · DRC",
+    "statsTitle": "Our collection",
     "allMedia": "All Media",
     "byType": "By Type",
     "byProject": "By Project",
@@ -364,6 +366,8 @@
     "slideshow": "Slideshow",
     "gridView": "Grid",
     "demoNotice": "Demo content — your photos and videos will automatically replace these items once published in the CMS.",
+    "loadingMore": "Loading more…",
+    "allContentLoaded": "Showing all {loaded} of {total} items",
     "lightbox": {
       "previous": "Previous",
       "next": "Next",

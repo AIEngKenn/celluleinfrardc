@@ -11,6 +11,8 @@ import {
   getMediaTitle,
 } from "@/lib/media/resolve-media";
 import { youtubeEmbedUrl } from "@/lib/media/youtube";
+import { preloadMediaImage } from "@/lib/media/image-url";
+import { MediaProgressiveImage } from "@/components/media/media-progressive-image";
 
 interface MediaHeroShowcaseProps {
   locale: string;
@@ -46,6 +48,13 @@ export function MediaHeroShowcase({
   useEffect(() => {
     setPlayingVideo(false);
   }, [activeIndex]);
+
+  useEffect(() => {
+    const nextItem = showcaseItems[(activeIndex + 1) % showcaseItems.length];
+    if (nextItem && nextItem.type === "image") {
+      preloadMediaImage(nextItem.imageUrl, 1400);
+    }
+  }, [activeIndex, showcaseItems]);
 
   useEffect(() => {
     if (showcaseItems.length <= 1 || isPaused || prefersReducedMotion) {
@@ -106,11 +115,17 @@ export function MediaHeroShowcase({
                 allowFullScreen
               />
             ) : (
-              <>
-                <img src={current.imageUrl} alt={current.imageAlt || title} className="h-full w-full object-cover" />
+              <div className="absolute inset-0">
+                <MediaProgressiveImage
+                  src={current.imageUrl}
+                  alt={current.imageAlt || title}
+                  width={1400}
+                  quality={75}
+                  priority
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/45 to-gray-900/20" />
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900/60 via-transparent to-transparent" />
-              </>
+              </div>
             )}
           </motion.div>
         </AnimatePresence>

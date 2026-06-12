@@ -243,6 +243,8 @@
     "gallery": "Galerie",
     "viewGallery": "Voir la galerie",
     "spotlight": "À la une",
+    "statsEyebrow": "Cellule Infrastructures · RDC",
+    "statsTitle": "Notre collection",
     "allMedia": "Tous les médias",
     "byType": "Par type",
     "byProject": "Par projet",
@@ -261,6 +263,8 @@
     "slideshow": "Diaporama",
     "gridView": "Grille",
     "demoNotice": "Contenu de démonstration — vos photos et vidéos remplaceront automatiquement ces éléments une fois publiés dans le CMS.",
+    "loadingMore": "Chargement…",
+    "allContentLoaded": "{loaded} sur {total} éléments affichés",
     "lightbox": {
       "previous": "Précédent",
       "next": "Suivant",

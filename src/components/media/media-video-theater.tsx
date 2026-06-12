@@ -10,6 +10,9 @@ import {
   getMediaTitle,
 } from "@/lib/media/resolve-media";
 import { youtubeEmbedUrl, youtubeWatchUrl } from "@/lib/media/youtube";
+import { MediaProgressiveImage } from "@/components/media/media-progressive-image";
+import { MediaInfiniteSentinel } from "@/components/media/media-infinite-sentinel";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 interface MediaVideoTheaterProps {
   locale: string;
@@ -18,10 +21,12 @@ interface MediaVideoTheaterProps {
     watchOnYoutube: string;
     closePlayer: string;
     reelLabel: string;
+    loadingLabel: string;
   };
 }
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const VIDEO_REEL_PAGE_SIZE = 4;
 
 export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterProps) {
   const isFr = locale === "fr";
@@ -30,6 +35,12 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
   const [isPlaying, setIsPlaying] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const { visibleItems: visibleReelVideos, sentinelRef, hasMore, isLoadingMore, loadedCount, totalCount } =
+    useInfiniteScroll(videos, {
+      pageSize: VIDEO_REEL_PAGE_SIZE,
+      resetKey: "videos-reel",
+      rootMargin: "120px 0px",
+    });
 
   const updateScrollState = useCallback(() => {
     const track = trackRef.current;
@@ -111,10 +122,12 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
               className="group relative block h-full w-full"
               aria-label={`${isFr ? "Lire" : "Play"}: ${activeTitle}`}
             >
-              <img
+              <MediaProgressiveImage
                 src={activeVideo.thumbnailUrl || activeVideo.imageUrl}
-                alt=""
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                alt={activeTitle}
+                width={1280}
+                quality={75}
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a2540]/90 via-[#0a2540]/30 to-[#0a2540]/10" />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -185,7 +198,7 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
           aria-label={labels.reelLabel}
           tabIndex={0}
         >
-          {videos.map((video) => {
+          {visibleReelVideos.map((video) => {
             const title = getMediaTitle(video, locale);
             const isActive = activeVideo.id === video.id;
             return (
@@ -198,11 +211,11 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
                 className={`ci-media-video-card group ${isActive ? "ci-media-video-card--active" : ""}`}
               >
                 <div className="relative aspect-video overflow-hidden rounded-2xl bg-gray-900">
-                  <img
+                  <MediaProgressiveImage
                     src={video.thumbnailUrl || video.imageUrl}
-                    alt=""
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
+                    alt={title}
+                    width={480}
+                    quality={70}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <span className="absolute bottom-3 left-3 right-3 line-clamp-2 text-left text-sm font-semibold text-white">
@@ -218,6 +231,15 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
             );
           })}
         </div>
+
+        <MediaInfiniteSentinel
+          sentinelRef={sentinelRef}
+          hasMore={hasMore}
+          isLoadingMore={isLoadingMore}
+          loadingLabel={labels.loadingLabel}
+          loadedCount={loadedCount}
+          totalCount={totalCount}
+        />
       </div>
     </div>
   );

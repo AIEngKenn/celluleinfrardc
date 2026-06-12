@@ -3,8 +3,9 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Home, ChevronRight, ImageIcon, Film, FolderOpen, Sparkles } from 'lucide-react';
+import { Home, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import CountUp from '@/components/ui/count-up';
 import type { ResolvedMediaGallery, ResolvedMediaItem } from '@/lib/media/types';
 import { MediaHeroShowcase } from '@/components/media/media-hero-showcase';
 import { MediaPhotoGrid } from '@/components/media/media-photo-grid';
@@ -102,15 +103,20 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
     { id: 'albums' as const, label: t('albums'), count: gallery.albums.length },
   ];
 
+  const mediaStats = [
+    { id: 'photos', value: uniquePhotos.length, label: t('photos') },
+    { id: 'videos', value: gallery.videos.length, label: t('videos') },
+    { id: 'albums', value: gallery.albums.length, label: t('albums') },
+  ];
+
   return (
     <div className="min-h-screen bg-[#f9fafb]">
-      {/* <TricolourStripe /> */}
+      <TricolourStripe />
 
-      <header className="relative overflow-hidden bg-[#0a2540]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,127,255,0.18),transparent_55%)]" />
-        <div className="relative mx-auto max-w-[1360px] px-4 pb-6 pt-8 sm:px-6 lg:px-8">
+      <header className="bg-[#17418a] py-14 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.nav
-            className="mb-8 flex items-center gap-1.5 text-sm text-white/65"
+            className="mb-8 flex items-center gap-1.5 text-sm text-white/70"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease }}
@@ -123,52 +129,52 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
               <Home className="h-4 w-4" />
             </Link>
             <ChevronRight className="h-4 w-4 opacity-50" aria-hidden="true" />
-            <span className="font-medium text-white">{t('title')}</span>
+            <span className="text-white">{t('title')}</span>
           </motion.nav>
 
           <motion.div
-            className="max-w-3xl text-left"
-            initial={{ opacity: 0, y: 18 }}
+            className="mb-10 max-w-3xl text-left [&_p]:mx-0"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease, delay: 0.05 }}
+            transition={{ duration: 0.45, ease, delay: 0.05 }}
           >
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow">
-              {isFr ? 'République Démocratique du Congo' : 'Democratic Republic of Congo'}
+              {t('statsEyebrow')}
             </span>
-            <h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-              {t('title')}
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
-              {t('description')}
-            </p>
+            <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">{t('title')}</h1>
+            <p className="mt-4 text-sm leading-7 text-blue-100 sm:text-base">{t('description')}</p>
           </motion.div>
 
           <motion.div
-            className="mt-8 grid grid-cols-3 gap-3 sm:max-w-xl"
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease, delay: 0.12 }}
+            transition={{ duration: 0.45, ease, delay: 0.1 }}
           >
-            <div className="bg-white/8 rounded-2xl px-4 py-3 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-rdc-yellow">
-                <ImageIcon className="h-4 w-4" />
-                <span className="text-lg font-bold text-white">{uniquePhotos.length}</span>
-              </div>
-              <p className="mt-1 text-xs text-white/60">{t('photos')}</p>
+            <div className="mb-8 max-w-xl text-left">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-rdc-yellow/90">
+                {isFr ? 'Chiffres clés' : 'Key figures'}
+              </span>
+              <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{t('statsTitle')}</h2>
             </div>
-            <div className="bg-white/8 rounded-2xl px-4 py-3 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-rdc-blue">
-                <Film className="h-4 w-4" />
-                <span className="text-lg font-bold text-white">{gallery.videos.length}</span>
-              </div>
-              <p className="mt-1 text-xs text-white/60">{t('videos')}</p>
-            </div>
-            <div className="bg-white/8 rounded-2xl px-4 py-3 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-rdc-red">
-                <FolderOpen className="h-4 w-4" />
-                <span className="text-lg font-bold text-white">{gallery.albums.length}</span>
-              </div>
-              <p className="mt-1 text-xs text-white/60">{t('albums')}</p>
+
+            <div
+              className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3"
+              aria-label={t('statsTitle')}
+            >
+              {mediaStats.map((stat, index) => (
+                <motion.div
+                  key={stat.id}
+                  className="bg-[#17418a] px-5 py-7 sm:px-8 sm:py-9"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease, delay: 0.14 + index * 0.06 }}
+                >
+                  <div className="text-3xl font-bold tabular-nums text-white sm:text-4xl">
+                    <CountUp end={stat.value} duration={1.6} decimals={0} />
+                  </div>
+                  <p className="mt-2 text-sm text-blue-100">{stat.label}</p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -225,6 +231,8 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
             photos={filteredPhotos}
             onOpenPhoto={openLightboxAt}
             layoutLabel={t('photoGalleryTitle')}
+            resetKey={photoFilter}
+            loadingLabel={t('loadingMore')}
           />
         </section>
 
@@ -241,6 +249,7 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
               watchOnYoutube: t('watchOnYoutube'),
               closePlayer: t('closePlayer'),
               reelLabel: t('videoReel'),
+              loadingLabel: t('loadingMore'),
             }}
           />
         </section>
@@ -256,6 +265,7 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
             albums={gallery.albums}
             photosLabel={t('photos')}
             openAlbumLabel={t('openAlbum')}
+            loadingLabel={t('loadingMore')}
           />
         </section>
       </div>

@@ -72,7 +72,7 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
                 className="h-10 w-auto object-contain sm:h-12"
               />
               <Image
-                src="/gouv-logo.png"
+                src="/gouv-logo-white.png"
                 alt={isFr ? 'Gouvernement de la RDC' : 'Government of the DRC'}
                 width={56}
                 height={56}
@@ -91,11 +91,13 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
                 { href: settings?.xUrl, icon: Twitter, label: 'Twitter / X' },
                 { href: settings?.youtubeUrl, icon: Youtube, label: 'YouTube' },
                 { href: settings?.linkedinUrl, icon: Linkedin, label: 'LinkedIn' },
-              ].filter((item) => item.href).map(({ href, icon: Icon, label }) => (
-                <a key={label} href={href} aria-label={label} className="ci-footer-social-link">
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+              ]
+                .filter((item) => item.href)
+                .map(({ href, icon: Icon, label }) => (
+                  <a key={label} href={href} aria-label={label} className="ci-footer-social-link">
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
             </div>
           </div>
 

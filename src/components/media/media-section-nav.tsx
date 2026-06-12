@@ -53,24 +53,26 @@ export function MediaSectionNav({ locale, sections }: MediaSectionNavProps) {
       className="ci-media-section-nav"
       aria-label={isFr ? "Sections de la médiathèque" : "Media center sections"}
     >
-      <div className="ci-media-section-nav__inner">
-        {sections.map((section) => {
-          const isActive = activeSection === section.id;
-          return (
-            <button
-              key={section.id}
-              type="button"
-              aria-current={isActive ? "true" : undefined}
-              onClick={() => scrollToSection(section.id)}
-              className={`ci-media-section-nav__btn ${isActive ? "ci-media-section-nav__btn--active" : ""}`}
-            >
-              {section.label}
-              {typeof section.count === "number" ? (
-                <span className="ci-media-section-nav__count">{section.count}</span>
-              ) : null}
-            </button>
-          );
-        })}
+      <div className="ci-media-section-nav__scroll">
+        <div className="ci-media-section-nav__inner">
+          {sections.map((section) => {
+            const isActive = activeSection === section.id;
+            return (
+              <button
+                key={section.id}
+                type="button"
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => scrollToSection(section.id)}
+                className={`ci-media-section-nav__btn ${isActive ? "ci-media-section-nav__btn--active" : ""}`}
+              >
+                {section.label}
+                {typeof section.count === "number" ? (
+                  <span className="ci-media-section-nav__count">{section.count}</span>
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

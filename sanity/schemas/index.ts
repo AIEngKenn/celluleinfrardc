@@ -9,6 +9,7 @@ import siteSettings from "./siteSettings";
 import aboutPage from "./aboutPage";
 import media from "./media";
 import mediaAlbum from "./mediaAlbum";
+import partner from "./partner";
 
 export const schemaTypes = [
   // Main content
@@ -18,6 +19,7 @@ export const schemaTypes = [
   publication,
   media,
   mediaAlbum,
+  partner,
 
   // Taxonomies
   province,

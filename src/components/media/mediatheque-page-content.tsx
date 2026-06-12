@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -34,6 +35,10 @@ function TricolourStripe() {
 export function MediathequePageContent({ locale, gallery }: MediathequePageContentProps) {
   const t = useTranslations('media');
   const isFr = locale === 'fr';
+  const searchParams = useSearchParams();
+  const initialVideoId = searchParams.get('video');
+  const initialPhotoId = searchParams.get('photo');
+  const [hashSection, setHashSection] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [photoFilter, setPhotoFilter] = useState<string>('all');
@@ -95,6 +100,57 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
       videosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  useEffect(() => {
+    const readHashSection = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash.startsWith('media-section-')) {
+        setHashSection(hash.replace('media-section-', ''));
+      } else {
+        setHashSection(null);
+      }
+    };
+
+    const scrollToHashSection = () => {
+      readHashSection();
+      const hash = window.location.hash.replace('#', '');
+      if (!hash.startsWith('media-section-')) {
+        return;
+      }
+      const element = document.getElementById(hash);
+      if (!element) {
+        return;
+      }
+      window.setTimeout(() => {
+        const offset = 96;
+        const top = element.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }, 120);
+    };
+
+    scrollToHashSection();
+    window.addEventListener('hashchange', scrollToHashSection);
+    return () => window.removeEventListener('hashchange', scrollToHashSection);
+  }, []);
+
+  const heroInitialItemId =
+    hashSection === 'spotlight' ? initialPhotoId ?? initialVideoId : null;
+  const theaterInitialVideoId =
+    initialVideoId && hashSection !== 'spotlight' ? initialVideoId : null;
+
+  useEffect(() => {
+    if (!initialPhotoId) {
+      return;
+    }
+    const index = filteredPhotos.findIndex((photo) => photo.id === initialPhotoId);
+    if (index < 0) {
+      return;
+    }
+    window.setTimeout(() => {
+      setLightboxIndex(index);
+      setLightboxOpen(true);
+    }, 350);
+  }, [initialPhotoId, filteredPhotos]);
 
   const sections = [
     { id: 'spotlight' as const, label: t('spotlight'), count: gallery.featured.length },
@@ -189,6 +245,7 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
         <MediaHeroShowcase
           locale={locale}
           items={gallery.featured}
+          initialItemId={heroInitialItemId}
           onOpenPhoto={handleHeroOpenPhoto}
           onSelectVideo={handleSelectVideo}
         />
@@ -239,6 +296,7 @@ export function MediathequePageContent({ locale, gallery }: MediathequePageConte
           <MediaVideoTheater
             locale={locale}
             videos={gallery.videos}
+            initialVideoId={theaterInitialVideoId}
             labels={{
               watchOnYoutube: t('watchOnYoutube'),
               closePlayer: t('closePlayer'),

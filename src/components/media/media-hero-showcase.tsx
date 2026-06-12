@@ -17,6 +17,7 @@ import { MediaProgressiveImage } from "@/components/media/media-progressive-imag
 interface MediaHeroShowcaseProps {
   locale: string;
   items: ResolvedMediaItem[];
+  initialItemId?: string | null;
   onOpenPhoto: (index: number) => void;
   onSelectVideo: (item: ResolvedMediaItem) => void;
 }
@@ -26,6 +27,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function MediaHeroShowcase({
   locale,
   items,
+  initialItemId,
   onOpenPhoto,
   onSelectVideo,
 }: MediaHeroShowcaseProps) {
@@ -48,6 +50,21 @@ export function MediaHeroShowcase({
   useEffect(() => {
     setPlayingVideo(false);
   }, [activeIndex]);
+
+  useEffect(() => {
+    if (!initialItemId) {
+      return;
+    }
+    const index = showcaseItems.findIndex((item) => item.id === initialItemId);
+    if (index < 0) {
+      return;
+    }
+    setActiveIndex(index);
+    const item = showcaseItems[index];
+    if (item?.type === "video") {
+      setPlayingVideo(true);
+    }
+  }, [initialItemId, showcaseItems]);
 
   useEffect(() => {
     const nextItem = showcaseItems[(activeIndex + 1) % showcaseItems.length];

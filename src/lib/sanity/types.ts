@@ -269,15 +269,27 @@ export interface HomeHeroSlide {
 }
 
 export interface HomePartner {
+  _id?: string;
   name: string;
   url?: string;
   logo?: SanityImage;
+  category?: PartnerCategory;
+  order?: number;
+  featured?: boolean;
 }
+
+export type PartnerCategory = "financial" | "technical" | "international" | "national";
 
 export interface HomeSettings {
   title?: string;
   heroSlides?: HomeHeroSlide[];
   partners?: HomePartner[];
+  partnersEyebrowFr?: string;
+  partnersEyebrowEn?: string;
+  partnersTitleFr?: string;
+  partnersTitleEn?: string;
+  partnersDescriptionFr?: string;
+  partnersDescriptionEn?: string;
   mediaTitleFr?: string;
   mediaTitleEn?: string;
   mediaDescriptionFr?: string;
@@ -286,6 +298,7 @@ export interface HomeSettings {
 
 export interface HomePageData {
   settings?: HomeSettings;
+  cmsPartners?: HomePartner[];
   stats: SiteStatistics;
   heroProjects: Project[];
   heroNews: News[];
@@ -297,6 +310,7 @@ export interface HomePageData {
   procurementBackfill?: Procurement[];
   publications: Publication[];
   media: MediaItem[];
+  mediaAlbums?: MediaAlbum[];
 }
 
 export interface SiteSettings {

@@ -81,6 +81,19 @@
       "publications": "Recent Publications",
       "media": "Media Gallery",
       "partners": "Our Partners"
+    },
+    "partners": {
+      "eyebrow": "Institutional network",
+      "title": "Our partners",
+      "description": "Technical and financial partners supporting the delivery of structural infrastructure across the DRC.",
+      "countLabel": "Active partners",
+      "visitSite": "Visit {name} website",
+      "categories": {
+        "financial": "Financial",
+        "technical": "Technical",
+        "international": "International",
+        "national": "National"
+      }
     }
   },
   "projects": {

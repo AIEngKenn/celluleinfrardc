@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { sanityFetch } from "@/lib/sanity/client";
@@ -46,5 +47,9 @@ export default async function MediaCenterPage({ params }: { params: Promise<{ lo
 
   const gallery = resolveMediaGallery(media, albums);
 
-  return <MediathequePageContent locale={locale} gallery={gallery} />;
+  return (
+    <Suspense fallback={null}>
+      <MediathequePageContent locale={locale} gallery={gallery} />
+    </Suspense>
+  );
 }

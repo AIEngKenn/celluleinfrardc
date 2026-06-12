@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { sanityFetch } from "@/lib/sanity/client";
@@ -66,5 +67,9 @@ export default async function AlbumDetailPage({ params }: Props) {
     notFound();
   }
 
-  return <AlbumDetailContent locale={locale} album={album} />;
+  return (
+    <Suspense fallback={null}>
+      <AlbumDetailContent locale={locale} album={album} />
+    </Suspense>
+  );
 }

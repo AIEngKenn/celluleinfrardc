@@ -12,6 +12,7 @@ import {
   LayoutGrid,
   ChevronRight as ChevronRightIcon,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ResolvedMediaAlbum, ResolvedMediaItem } from "@/lib/media/types";
 import {
@@ -43,6 +44,8 @@ function TricolourStripe() {
 
 export function AlbumDetailContent({ locale, album }: AlbumDetailContentProps) {
   const t = useTranslations("media");
+  const searchParams = useSearchParams();
+  const initialPhotoId = searchParams.get("photo");
   const isFr = locale === "fr";
   const photos = album.items.filter((item) => item.type === "image");
   const [viewMode, setViewMode] = useState<"slideshow" | "grid">("slideshow");
@@ -103,6 +106,20 @@ export function AlbumDetailContent({ locale, album }: AlbumDetailContentProps) {
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
+
+  useEffect(() => {
+    if (!initialPhotoId) {
+      return;
+    }
+    const index = photos.findIndex((photo) => photo.id === initialPhotoId);
+    if (index < 0) {
+      return;
+    }
+    setSlideIndex(index);
+    window.setTimeout(() => {
+      openLightbox(index);
+    }, 250);
+  }, [initialPhotoId, photos]);
 
   return (
     <div className="min-h-screen bg-[#f9fafb]">

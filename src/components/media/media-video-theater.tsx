@@ -17,6 +17,7 @@ import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 interface MediaVideoTheaterProps {
   locale: string;
   videos: ResolvedMediaItem[];
+  initialVideoId?: string | null;
   labels: {
     watchOnYoutube: string;
     closePlayer: string;
@@ -28,11 +29,19 @@ interface MediaVideoTheaterProps {
 const ease = [0.22, 1, 0.36, 1] as const;
 const VIDEO_REEL_PAGE_SIZE = 4;
 
-export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterProps) {
+export function MediaVideoTheater({ locale, videos, initialVideoId, labels }: MediaVideoTheaterProps) {
   const isFr = locale === "fr";
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeVideo, setActiveVideo] = useState<ResolvedMediaItem | null>(videos[0] ?? null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeVideo, setActiveVideo] = useState<ResolvedMediaItem | null>(() => {
+    if (initialVideoId) {
+      const match = videos.find((video) => video.id === initialVideoId);
+      if (match) {
+        return match;
+      }
+    }
+    return videos[0] ?? null;
+  });
+  const [isPlaying, setIsPlaying] = useState(Boolean(initialVideoId));
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const { visibleItems: visibleReelVideos, sentinelRef, hasMore, isLoadingMore, loadedCount, totalCount } =
@@ -77,8 +86,14 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
   }, [updateScrollState, videos.length]);
 
   useEffect(() => {
-    setIsPlaying(false);
-  }, [activeVideo?.id]);
+    if (initialVideoId) {
+      const match = videos.find((video) => video.id === initialVideoId);
+      if (match) {
+        setActiveVideo(match);
+        setIsPlaying(true);
+      }
+    }
+  }, [initialVideoId, videos]);
 
   if (!videos.length || !activeVideo) {
     return null;
@@ -207,7 +222,10 @@ export function MediaVideoTheater({ locale, videos, labels }: MediaVideoTheaterP
                 type="button"
                 data-video-card
                 aria-current={isActive ? "true" : undefined}
-                onClick={() => setActiveVideo(video)}
+                onClick={() => {
+                  setActiveVideo(video);
+                  setIsPlaying(false);
+                }}
                 className={`ci-media-video-card group ${isActive ? "ci-media-video-card--active" : ""}`}
               >
                 <div className="relative aspect-video overflow-hidden rounded-2xl bg-gray-900">

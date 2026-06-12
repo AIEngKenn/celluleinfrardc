@@ -11,6 +11,8 @@ import { LatestNews } from '@/components/home/latest-news';
 import { CurrentProcurement } from '@/components/home/current-procurement';
 import { RecentPublications } from '@/components/home/recent-publications';
 import { MediaPreview } from '@/components/home/media-preview';
+import { resolveHomeMediaPreview } from '@/lib/media/resolve-home-media-preview';
+import { resolveHomePartners } from '@/lib/home/resolve-home-partners';
 import { PartnersSection } from '@/components/home/partners-section';
 import { resolveHomeProcurement } from '@/lib/home/resolve-procurement';
 
@@ -122,10 +124,12 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale);
   const homeData = await sanityFetch<HomePageData>({
     query: homePageQuery,
-    tags: ['homeSettings', 'project', 'news', 'procurement', 'publication', 'media'],
+    tags: ['homeSettings', 'partner', 'project', 'news', 'procurement', 'publication', 'media'],
   });
   const heroSlides = buildContentHeroSlides(homeData);
   const procurement = resolveHomeProcurement(homeData.procurement, homeData.procurementBackfill);
+  const mediaPreview = resolveHomeMediaPreview(homeData.media, homeData.mediaAlbums);
+  const partners = resolveHomePartners(homeData.cmsPartners, homeData.settings?.partners);
 
   return (
     <>
@@ -149,7 +153,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* Media Preview */}
       <MediaPreview
-        mediaItems={homeData.media}
+        preview={mediaPreview}
         titleFr={homeData.settings?.mediaTitleFr}
         titleEn={homeData.settings?.mediaTitleEn}
         descriptionFr={homeData.settings?.mediaDescriptionFr}
@@ -157,7 +161,15 @@ export default async function HomePage({ params }: Props) {
       />
 
       {/* Partners */}
-      <PartnersSection partners={homeData.settings?.partners} />
+      <PartnersSection
+        partners={partners}
+        eyebrowFr={homeData.settings?.partnersEyebrowFr}
+        eyebrowEn={homeData.settings?.partnersEyebrowEn}
+        titleFr={homeData.settings?.partnersTitleFr}
+        titleEn={homeData.settings?.partnersTitleEn}
+        descriptionFr={homeData.settings?.partnersDescriptionFr}
+        descriptionEn={homeData.settings?.partnersDescriptionEn}
+      />
     </>
   );
 }

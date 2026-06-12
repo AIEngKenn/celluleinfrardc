@@ -628,10 +628,25 @@ export const homePageQuery = groq`
         url,
         logo{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt }
       },
+      partnersEyebrowFr,
+      partnersEyebrowEn,
+      partnersTitleFr,
+      partnersTitleEn,
+      partnersDescriptionFr,
+      partnersDescriptionEn,
       mediaTitleFr,
       mediaTitleEn,
       mediaDescriptionFr,
       mediaDescriptionEn
+    },
+    "cmsPartners": *[_type == "partner" && coalesce(featured, true) == true] | order(order asc, name asc) {
+      _id,
+      name,
+      url,
+      category,
+      order,
+      featured,
+      logo{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt }
     },
     "stats": {
       "totalProjects": count(*[_type == "project"]),
@@ -668,7 +683,7 @@ export const homePageQuery = groq`
     "publications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...4] {
       ${publicationFields}
     },
-    "media": *[_type == "media"] | order(date desc, _createdAt desc) [0...6] {
+    "media": *[_type == "media"] | order(date desc, _createdAt desc) [0...8] {
       _id,
       type,
       title,
@@ -676,7 +691,17 @@ export const homePageQuery = groq`
       image{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
       thumbnail{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
       videoUrl,
-      date
+      date,
+      featured
+    },
+    "mediaAlbums": *[_type == "mediaAlbum"] | order(date desc, _createdAt desc) [0...4] {
+      _id,
+      title,
+      description,
+      "slug": slug.current,
+      coverImage{ asset->{ _id, url, metadata{ lqip, dimensions } }, alt },
+      date,
+      "itemCount": count(*[_type == "media" && references(^._id)])
     }
   }
 `;

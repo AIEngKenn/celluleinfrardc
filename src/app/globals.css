@@ -1353,17 +1353,16 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-50% - 0.75rem));
+    transform: translateX(calc(-50% - 0.625rem));
   }
 }
 
 .ci-partners-marquee {
   width: 100%;
-  padding: 2.5rem 0;
 }
 
 .ci-partners-track {
-  animation: ci-partners-marquee 34s linear infinite;
+  animation: ci-partners-marquee var(--marquee-duration, 36s) linear infinite;
   will-change: transform;
 }
 
@@ -1372,11 +1371,17 @@
   animation-play-state: paused;
 }
 
+.ci-partners-static {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ci-partners-track {
-    animation: none;
-    flex-wrap: wrap;
-    justify-content: center;
+  .ci-partners-marquee {
+    display: none;
+  }
+
+  .ci-partners-static {
+    display: flex;
   }
 }
 
@@ -1729,5 +1734,48 @@
   40% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* Homepage médiathèque teaser mosaic */
+.ci-home-media-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(120px, auto);
+  gap: 0.75rem;
+}
+.ci-home-media-mosaic__hero {
+  grid-column: span 2;
+  min-height: 220px;
+}
+.ci-home-media-mosaic__tile {
+  min-height: 140px;
+}
+@media (min-width: 640px) {
+  .ci-home-media-mosaic {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .ci-home-media-mosaic__hero {
+    grid-column: span 7;
+    grid-row: span 2;
+    min-height: 280px;
+  }
+  .ci-home-media-mosaic__tile {
+    grid-column: span 5;
+    min-height: 132px;
+  }
+  .ci-home-media-mosaic__tile--tall {
+    grid-row: span 2;
+    min-height: 200px;
+  }
+  .ci-home-media-mosaic__tile:nth-child(3) {
+    grid-column: span 5;
+  }
+  .ci-home-media-mosaic__tile:nth-child(4) {
+    grid-column: span 5;
+  }
+  .ci-home-media-mosaic__tile:nth-child(5) {
+    grid-column: span 5;
   }
 }

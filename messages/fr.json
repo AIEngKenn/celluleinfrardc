@@ -71,6 +71,19 @@
       "publications": "Publications Récentes",
       "media": "Galerie Média",
       "partners": "Nos Partenaires"
+    },
+    "partners": {
+      "eyebrow": "Réseau institutionnel",
+      "title": "Nos partenaires",
+      "description": "Partenaires techniques et financiers qui accompagnent la mise en œuvre des infrastructures structurantes en RDC.",
+      "countLabel": "Partenaires actifs",
+      "visitSite": "Visiter le site de {name}",
+      "categories": {
+        "financial": "Financiers",
+        "technical": "Techniques",
+        "international": "Internationaux",
+        "national": "Nationaux"
+      }
     }
   },
   "projects": {

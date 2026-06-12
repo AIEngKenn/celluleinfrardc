@@ -52,8 +52,40 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "partnersEyebrowFr",
+      title: "Surtitre partenaires (Français)",
+      type: "string",
+    }),
+    defineField({
+      name: "partnersEyebrowEn",
+      title: "Partners eyebrow (English)",
+      type: "string",
+    }),
+    defineField({
+      name: "partnersTitleFr",
+      title: "Titre partenaires (Français)",
+      type: "string",
+    }),
+    defineField({
+      name: "partnersTitleEn",
+      title: "Partners title (English)",
+      type: "string",
+    }),
+    defineField({
+      name: "partnersDescriptionFr",
+      title: "Description partenaires (Français)",
+      type: "text",
+    }),
+    defineField({
+      name: "partnersDescriptionEn",
+      title: "Partners description (English)",
+      type: "text",
+    }),
+    defineField({
       name: "partners",
-      title: "Partenaires",
+      title: "Partenaires (liste intégrée — legacy)",
+      description:
+        "Préférez le type « Partenaire » dans le menu principal. Cette liste reste prise en charge pour compatibilité.",
       type: "array",
       of: [
         {

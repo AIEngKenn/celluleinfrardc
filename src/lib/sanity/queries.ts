@@ -662,6 +662,9 @@ export const homePageQuery = groq`
     "procurement": *[_type == "procurement" && closingDate > now()] | order(closingDate asc) [0...5] {
       ${procurementFields}
     },
+    "procurementBackfill": *[_type == "procurement" && closingDate <= now()] | order(closingDate desc) [0...6] {
+      ${procurementFields}
+    },
     "publications": *[_type == "publication"] | order(publishedAt desc, _createdAt desc) [0...4] {
       ${publicationFields}
     },
@@ -941,7 +944,8 @@ export const seoSitemapQuery = groq`
       _updatedAt,
       date,
       "slug": slug.current
-    }
+    },
+    "missionSlugs": *[_type == "aboutPage"][0].missions[].slug.current
   }
 `;
 
@@ -967,6 +971,24 @@ export const seoFeedQuery = groq`
       publishedAt,
       _updatedAt,
       "slug": slug.current
+    },
+    "procurement": *[_type == "procurement" && defined(slug.current) && closingDate > now()] | order(closingDate asc) [0...12] {
+      _id,
+      titleFr,
+      titleEn,
+      descriptionFr,
+      descriptionEn,
+      openingDate,
+      closingDate,
+      _updatedAt,
+      "slug": slug.current
+    },
+    "missions": *[_type == "aboutPage"][0].missions[]{
+      "slug": slug.current,
+      titleFr,
+      titleEn,
+      descriptionFr,
+      descriptionEn
     }
   }
 `;

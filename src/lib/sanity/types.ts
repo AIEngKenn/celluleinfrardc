@@ -294,6 +294,7 @@ export interface HomePageData {
   projects: Project[];
   news: News[];
   procurement: Procurement[];
+  procurementBackfill?: Procurement[];
   publications: Publication[];
   media: MediaItem[];
 }

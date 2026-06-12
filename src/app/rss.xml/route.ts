@@ -1,6 +1,7 @@
 import { sanityFetch } from '@/lib/sanity/client';
 import { seoFeedQuery } from '@/lib/sanity/queries';
 import { SITE_NAME, SITE_URL, absoluteUrl } from '@/lib/seo';
+import { mergeMissionSlugs, missionRoutePath } from '@/lib/seo/site-routes';
 import { cleanMigratedText, truncateText } from '@/lib/content-cleanup';
 
 interface FeedItem {
@@ -12,13 +13,25 @@ interface FeedItem {
   descriptionFr?: string;
   descriptionEn?: string;
   publishedAt?: string;
+  openingDate?: string;
+  closingDate?: string;
   _updatedAt?: string;
   slug: string;
+}
+
+interface MissionFeedItem {
+  slug?: string;
+  titleFr?: string;
+  titleEn?: string;
+  descriptionFr?: string;
+  descriptionEn?: string;
 }
 
 interface FeedData {
   news: FeedItem[];
   publications: FeedItem[];
+  procurement: FeedItem[];
+  missions?: MissionFeedItem[];
 }
 
 function escapeXml(value = '') {
@@ -30,11 +43,21 @@ function escapeXml(value = '') {
     .replace(/'/g, '&apos;');
 }
 
-function itemXml(item: FeedItem, type: 'actualites' | 'publications') {
-  const title = item.titleFr || item.titleEn;
-  const description = cleanMigratedText(item.excerptFr || item.descriptionFr || item.excerptEn || '');
-  const link = absoluteUrl(`/fr/${type}/${item.slug}`);
-  const date = new Date(item.publishedAt || item._updatedAt || Date.now()).toUTCString();
+function itemXml(
+  item: FeedItem,
+  type: 'actualites' | 'publications' | 'appels-offres',
+  locale: 'fr' | 'en' = 'fr'
+) {
+  const title = locale === 'fr' ? item.titleFr || item.titleEn : item.titleEn || item.titleFr;
+  const description = cleanMigratedText(
+    locale === 'fr'
+      ? item.excerptFr || item.descriptionFr || item.excerptEn || ''
+      : item.excerptEn || item.descriptionEn || item.excerptFr || ''
+  );
+  const link = absoluteUrl(`/${locale}/${type}/${item.slug}`);
+  const date = new Date(
+    item.publishedAt || item.openingDate || item.closingDate || item._updatedAt || Date.now()
+  ).toUTCString();
 
   return `
     <item>
@@ -42,19 +65,42 @@ function itemXml(item: FeedItem, type: 'actualites' | 'publications') {
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
       <pubDate>${escapeXml(date)}</pubDate>
-      <description>${escapeXml(description)}</description>
+      <description>${escapeXml(truncateText(description, 280))}</description>
+    </item>`;
+}
+
+function missionItemXml(slug: string, title: string, description: string) {
+  const link = absoluteUrl(`/fr${missionRoutePath(slug)}`);
+  return `
+    <item>
+      <title>${escapeXml(truncateText(title, 160))}</title>
+      <link>${escapeXml(link)}</link>
+      <guid isPermaLink="true">${escapeXml(link)}</guid>
+      <pubDate>${escapeXml(new Date().toUTCString())}</pubDate>
+      <description>${escapeXml(truncateText(description, 280))}</description>
     </item>`;
 }
 
 export async function GET() {
   const data = await sanityFetch<FeedData>({
     query: seoFeedQuery,
-    tags: ['news', 'publication'],
+    tags: ['aboutPage', 'news', 'publication', 'procurement'],
+  });
+
+  const missionSlugs = mergeMissionSlugs(data.missions?.map((mission) => mission.slug));
+
+  const missionItems = missionSlugs.map((slug) => {
+    const cmsMission = data.missions?.find((mission) => mission.slug === slug);
+    const title = cmsMission?.titleFr || cmsMission?.titleEn || slug;
+    const description = cleanMigratedText(cmsMission?.descriptionFr || cmsMission?.descriptionEn || '');
+    return missionItemXml(slug, title, description);
   });
 
   const items = [
     ...data.news.map((item) => itemXml(item, 'actualites')),
     ...data.publications.map((item) => itemXml(item, 'publications')),
+    ...data.procurement.map((item) => itemXml(item, 'appels-offres')),
+    ...missionItems,
   ].join('');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -63,7 +109,7 @@ export async function GET() {
     <title>${escapeXml(SITE_NAME)}</title>
     <link>${escapeXml(SITE_URL)}</link>
     <description>${escapeXml(
-      "Actualités, appels d'offres, projets et publications de la Cellule Infrastructures RDC."
+      "Actualités, appels d'offres, missions, projets et publications de la Cellule Infrastructures RDC."
     )}</description>
     <language>fr-CD</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

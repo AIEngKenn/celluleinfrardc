@@ -12,6 +12,7 @@ import { CurrentProcurement } from '@/components/home/current-procurement';
 import { RecentPublications } from '@/components/home/recent-publications';
 import { MediaPreview } from '@/components/home/media-preview';
 import { PartnersSection } from '@/components/home/partners-section';
+import { resolveHomeProcurement } from '@/lib/home/resolve-procurement';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -124,6 +125,7 @@ export default async function HomePage({ params }: Props) {
     tags: ['homeSettings', 'project', 'news', 'procurement', 'publication', 'media'],
   });
   const heroSlides = buildContentHeroSlides(homeData);
+  const procurement = resolveHomeProcurement(homeData.procurement, homeData.procurementBackfill);
 
   return (
     <>
@@ -140,7 +142,7 @@ export default async function HomePage({ params }: Props) {
       <LatestNews news={homeData.news} />
 
       {/* Current Procurement */}
-      <CurrentProcurement opportunities={homeData.procurement} />
+      <CurrentProcurement opportunities={procurement} />
 
       {/* Recent Publications */}
       <RecentPublications publications={homeData.publications} />

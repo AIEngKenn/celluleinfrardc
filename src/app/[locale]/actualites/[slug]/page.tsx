@@ -118,11 +118,11 @@ export default async function NewsDetailPage({ params }: Props) {
       <main className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[1fr_20rem]">
         {/* ARTICLE */}
         <article className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          {excerpt && (
+          {/* {excerpt && (
             <p className="mb-10 border-l-4 border-rdc-blue bg-rdc-blue/5 px-6 py-5 text-lg font-medium leading-relaxed text-slate-800">
               {excerpt}
             </p>
-          )}
+          )} */}
 
           <div className="prose prose-slate max-w-none">
             {content && <PortableText value={content} components={articleComponents} />}

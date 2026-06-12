@@ -3,8 +3,50 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
-import { Facebook, Twitter, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import type { SiteSettings } from '@/lib/sanity/types';
+import {
+  getSocialLinkLabel,
+  resolveSocialLinks,
+} from '@/lib/layout/resolve-social-links';
+import { SocialIcon } from '@/components/layout/social-icon';
+
+interface FooterSocialLinksProps {
+  settings?: SiteSettings;
+  locale: string;
+}
+
+function FooterSocialLinks({ settings, locale }: FooterSocialLinksProps) {
+  const isFr = locale === 'fr';
+  const socialLinks = resolveSocialLinks(settings);
+
+  if (socialLinks.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="ci-footer-social-block">
+      <p className="ci-footer-social-heading">
+        {isFr ? 'Suivez-nous' : 'Follow us'}
+      </p>
+      <div className="ci-footer-social" role="list">
+        {socialLinks.map((link, index) => (
+          <a
+            key={`${link.platform}-${link.url}-${index}`}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ci-footer-social-link"
+            aria-label={getSocialLinkLabel(link, locale)}
+            role="listitem"
+          >
+            <SocialIcon platform={link.platform} className="h-[1.125rem] w-[1.125rem] sm:h-5 sm:w-5" />
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Footer({ settings }: { settings?: SiteSettings }) {
   const locale = useLocale();
@@ -49,8 +91,6 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
         },
         { label: isFr ? "Conditions d'utilisation" : 'Terms of Use', href: '/conditions' },
         { label: isFr ? 'Accessibilité' : 'Accessibility', href: '/accessibilite' },
-        // { label: 'LLMs.txt', href: '/llms.txt', root: true },
-        // { label: 'Robots.txt', href: '/robots.txt', root: true },
         { label: 'Contact', href: '/contact' },
       ],
     },
@@ -58,10 +98,8 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
 
   return (
     <footer className="ci-footer" role="contentinfo">
-      {/* Main footer */}
       <div className="ci-footer-main">
         <div className="ci-footer-grid">
-          {/* Brand column */}
           <div className="ci-footer-brand">
             <Link href={`/${locale}`} className="ci-footer-logo">
               <Image
@@ -85,23 +123,9 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
               </p>
               <p className="ci-footer-desc">{footerDescription}</p>
             </div>
-            <div className="ci-footer-social">
-              {[
-                { href: settings?.facebookUrl, icon: Facebook, label: 'Facebook' },
-                { href: settings?.xUrl, icon: Twitter, label: 'Twitter / X' },
-                { href: settings?.youtubeUrl, icon: Youtube, label: 'YouTube' },
-                { href: settings?.linkedinUrl, icon: Linkedin, label: 'LinkedIn' },
-              ]
-                .filter((item) => item.href)
-                .map(({ href, icon: Icon, label }) => (
-                  <a key={label} href={href} aria-label={label} className="ci-footer-social-link">
-                    <Icon className="h-4 w-4" />
-                  </a>
-                ))}
-            </div>
+            <FooterSocialLinks settings={settings} locale={locale} />
           </div>
 
-          {/* Link columns */}
           {sections.map((section) => (
             <div key={section.heading} className="ci-footer-col">
               <h3 className="ci-footer-col-heading">{section.heading}</h3>
@@ -123,7 +147,6 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
             </div>
           ))}
 
-          {/* Contact column */}
           <div className="ci-footer-col">
             <h3 className="ci-footer-col-heading">Contact</h3>
             <ul className="ci-footer-contact-list">
@@ -146,7 +169,6 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="ci-footer-bottom">
         <div className="ci-footer-bottom-inner">
           <p>

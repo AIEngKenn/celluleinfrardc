@@ -313,12 +313,28 @@ export interface HomePageData {
   mediaAlbums?: MediaAlbum[];
 }
 
+export type SocialPlatform =
+  | "facebook"
+  | "x"
+  | "youtube"
+  | "linkedin"
+  | "instagram"
+  | "tiktok"
+  | "other";
+
+export interface SocialLink {
+  platform: SocialPlatform;
+  url: string;
+  label?: string;
+}
+
 export interface SiteSettings {
   title?: string;
   email?: string;
   phone?: string;
   addressFr?: string;
   addressEn?: string;
+  socialLinks?: SocialLink[];
   facebookUrl?: string;
   xUrl?: string;
   youtubeUrl?: string;

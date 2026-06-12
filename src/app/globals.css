@@ -702,32 +702,68 @@
     line-height: 1.7;
     color: #dbeafe;
     max-width: none;
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.25rem;
     text-align: left;
+  }
+  .ci-footer-social-block {
+    margin-top: 0.25rem;
+  }
+  .ci-footer-social-block--compact {
+    margin-top: 1.25rem;
+  }
+  .ci-footer-social-heading {
+    margin: 0 0 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #cbd5e1;
   }
   .ci-footer-social {
     display: flex;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.625rem;
   }
   .ci-footer-social-link {
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.1);
     color: #dbeafe;
     text-decoration: none;
     transition:
       background 0.2s,
       color 0.2s,
-      transform 0.2s;
+      transform 0.2s,
+      border-color 0.2s;
   }
   .ci-footer-social-link:hover {
     background: var(--ci-blue);
+    border-color: rgba(255, 255, 255, 0.25);
     color: white;
     text-decoration: none;
     transform: translateY(-2px);
+  }
+  .ci-footer-social-link:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+  .ci-footer-social-block--compact .ci-footer-social-heading {
+    margin-bottom: 0.625rem;
+  }
+  .ci-footer-bottom p {
+    font-size: 0.75rem;
+    color: #bfdbfe;
+    max-width: none;
+  }
+  .ci-footer-bottom-right {
+    font-size: 0.7rem;
+    color: #93c5fd;
+    font-style: italic;
   }
 
   .ci-footer-col-heading {
@@ -798,16 +834,6 @@
       align-items: center;
       justify-content: space-between;
     }
-  }
-  .ci-footer-bottom p {
-    font-size: 0.75rem;
-    color: #bfdbfe;
-    max-width: none;
-  }
-  .ci-footer-bottom-right {
-    font-size: 0.7rem;
-    color: #93c5fd;
-    font-style: italic;
   }
 
   /* ─────────────────────────────────────────────────────────

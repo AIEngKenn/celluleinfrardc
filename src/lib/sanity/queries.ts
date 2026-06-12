@@ -713,6 +713,11 @@ export const siteSettingsQuery = groq`
     phone,
     addressFr,
     addressEn,
+    socialLinks[]{
+      platform,
+      url,
+      label
+    },
     facebookUrl,
     xUrl,
     youtubeUrl,
